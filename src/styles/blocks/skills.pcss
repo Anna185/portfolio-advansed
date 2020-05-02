@@ -1,0 +1,69 @@
+.circle__icon {
+  stroke-width: 10px;
+ 
+}
+
+.circle__icon--above {
+  stroke-dasharray: 252;
+  stroke-dashoffset: 10%;
+}
+
+.skills__list {
+  list-style: none;
+  display: flex;
+  
+   
+}
+ 
+.skills__item {
+  margin-right: 30px;
+  position: relative;
+}
+
+.skill.title  {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.values-section__title {
+  padding-top: 8%;
+}
+
+.values-section {
+  min-height: 650px;
+  &:after {
+  content: '';
+  width: 712px;
+  height: 627px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-image: url(../images/content/bag.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  }
+}
+  
+.values-section__content {
+  display: flex;
+  justify-content: flex-end;
+  width: 80%;
+}
+
+.longtitle__desc {
+  opacity: 0.5;
+  color: #464d62;
+  font-family: "Open Sans - Semibold";
+  font-weight: 400;
+  width: 32%;
+  font-size: 16px;
+  margin: 0 auto;
+  text-align: left;
+  padding-top: 3%;
+}
+
+.longtitle__text {
+  text-align: center;
+}
