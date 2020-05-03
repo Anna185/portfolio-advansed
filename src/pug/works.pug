@@ -1,16 +1,50 @@
 section.works
   .container.container--works
-    h2.works__title.section-title Мои работы
-      .works__content
-        .works__col.works__col-left
-          .works__slider
-            +image("content/slider-image.png", "slider__img")
-          .works__control
-            - var images = ['content/slider-one.png','content/slider-two.png', 'content/slider-three.png'];
-            ul.works__pagination
-              each item in images
-                li.works__pagination-items
-                  +image(item, "slider__img")
+    .works__title.section-title
+      h2 Мои работы
+    .works__content
+      .works__col-left
+        .works__slider
+          +image("content/slider-image.png", "slider__img")
+        .works__control
+          - var images = ['content/slider-one.png','content/slider-two.png', 'content/slider-three.png'];
+          ul.works__pagination
+            each item in images
+              li.works__pagination-items
+                +image(item, "slider__img")
+        .works__arrows
+          button.works__arrows.works__arrows--up
+            +icon('arrow-down', 'works__arrows-icon')
+          button.works__arrows.works__arrows--down
+            +icon('arrow-down', 'works__arrows-icon')
+      .works__col-right
+        .works__right-number
+          p 1
+        .works__right-row
+          ul.works__tags-list
+            - var tags = ["HTML","CSS", "Javascript"];
+              each item in tags
+                li.works__tags-item=item
+          .works__right-content
+            h3 Сайт школы образования
+            p Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!
+          a.works__right-link Посмотреть сайт
+
+                
+               
+             
+          
+           
+                        
+                
+          
+            
+        
+
+        
+             
+               
+              
    
                   
             
