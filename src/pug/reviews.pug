@@ -9,21 +9,47 @@
             button(type="button").reviews-arrows__btn.reviews-arrows__btn--prew
             button(type="button").reviews-arrows__btn.reviews-arrows__btn--next
         .reviews-slider
-          - 
-            var reviews = [{name: "Ковальчук Дмитрий",position: "Основатель Loftschool",text: "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!",avatar: "content/user.jpg"},{name: "Владимир Сабанцев",position: "Преподаватель",text: "Этот код выдержит любые испытания. Только пожалуйста, не загружайте сайт на слишком старых браузерах",avatar: "content/user.jpg"}];
           ul.reviews-slider__list
-          each item in reviews
-            li.reviews-slider__item
-              .reviews-slider__quote
-                +icon("quote", "quote-icon")
-              .reviews-slider__content.reviews
-                p.reviews__text #{item.text}
-                .reviews__desc
-                  .reviews-avatar
-                    +image(`${item.avatar}`, "reviews__avatar-icon")
-                  .reviews-info
-                    h3.reviews__avatar-name  #{item.name}
-                    p.reviews__avatar-position  #{item.position}
+            - 
+              var reviews = [{name: "Ковальчук Дмитрий",position: "Основатель Loftschool",text: "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!",avatar: "content/user.jpg"},{name: "Владимир Сабанцев",position: "Преподаватель",text: "Этот код выдержит любые испытания.Только,пожалуйста, не загружайте сайт на слишком старых браузерах",avatar: "content/user.jpg"}];
+          
+            each item in reviews
+              li.reviews-slider__item
+                //-.reviews-slider__quote
+                  +icon("quote", "quote-icon")
+                .reviews-slider__content.reviews
+                  p.reviews__text #{item.text}
+                  .reviews__desc
+                    .reviews-avatar
+                      +image(`${item.avatar}`, "reviews__avatar-icon")
+                    .reviews-info
+                      h3.reviews__avatar-name  #{item.name}
+                      p.reviews__avatar-position  #{item.position}
+
+  section.section-feedback
+    .container
+     .feedback
+      .feedback__title.section__title
+        h2 Связаться со мной
+      form.feedback
+        .feedback-row
+          label.feedback__block
+            span.feedback__title Введите ваше имя
+            input.feedback__input.feedback__input--bg--name(type="text" placeholder="Ковальчук Дмитрий" name="name")
+          label.feedback__block
+            span.feedback__title Введите ваш e-mail
+            input.feedback__input.feedback__input--bg--mail(type="text" placeholder="loftschool@study.com" name="name")
+        
+        .feedback-row
+          label.feedback__block.feedback__block--width
+            span.feedback__title Сообщение к письму
+            textarea(name="comment", cols="30", rows="1" placeholder="Требуется ваша помощь в создании сайта. Интересуют сроки и цена вопроса").feedback__input.feedback__input--textarea.feedback__input--bg--comm
+        button.feedback__btn(type="submit") Отправить
+
+              
+            
+
+    
 
                   
 
