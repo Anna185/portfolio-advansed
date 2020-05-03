@@ -1,0 +1,47 @@
+section.works
+  .container.container--works
+    h2.works__title.section-title Мои работы
+      .works__content
+        .works__col.works__col-left
+          .works__slider
+            +image("content/slider-image.png", "slider__img")
+          .works__control
+            - var images = ['content/slider-one.png','content/slider-two.png', 'content/slider-three.png'];
+            ul.works__pagination
+              each item in images
+                li.works__pagination-items
+                  +image(item, "slider__img")
+   
+                  
+            
+
+            
+            
+             
+                   
+                         
+              
+         
+              
+            
+                  
+                  
+
+                
+
+
+
+            
+
+                
+            
+
+              
+              
+
+
+              
+  
+  
+
+
