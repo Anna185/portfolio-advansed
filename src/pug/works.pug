@@ -6,12 +6,12 @@ section.works
       .works__col-left
         .works__slider
           +image("content/slider-image.png", "slider__img")
-        .works__control
-          - var images = ['content/slider-one.png','content/slider-two.png', 'content/slider-three.png'];
-          ul.works__pagination
-            each item in images
-              li.works__pagination-items
-                +image(item, "slider__img")
+          .works__control
+            - var images = ['content/slider-one.png','content/slider-two.png', 'content/slider-three.png'];
+            ul.works__pagination
+             each item in images
+                li.works__pagination-items
+                  +image(item, "slider__img")
         .works__arrows
           button.works__arrows.works__arrows--up
             +icon('arrow-down', 'works__arrows-icon')
