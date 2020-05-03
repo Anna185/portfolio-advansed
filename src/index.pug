@@ -34,7 +34,10 @@ html(lang="en")
               .user-data
                 .user-data__desc Личный сайт веб разработчика
                 .user-data__name Анна Венедиктова
-            a(href="#").hero__bottom-btn.scroll-down-btns Скролл
+            a(href="#about-section").hero__bottom-btn
+              span.hero__bottom-text Скролл
+              span.hero__bottom-wrap
+                +icon('scroll', 'hero__bottom-icon')
 				    
         section.about-section
           .container.about__container
