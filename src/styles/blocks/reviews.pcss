@@ -1,10 +1,70 @@
 
-.reviews-slider__quote {
-  width: 69px;
-  height: 59px;
-  background-color: #464d62;
-  opacity: 0.05;
+.desc-section {
+  background: #e0e8f2;
 }
+
+.triangles__item-reviews {
+  transform: rotate(-180deg);
+}
+.reviews__triangles {
+  background-color: #e0e8f2;
+}
+
+.reviews-block {
+  padding-top: 5%;
+}
+
+.reviews-header {
+  margin-bottom: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.reviews__title {
+  margin-right: 30px;
+}
+
+.reviews__title h2 {
+  color: #464d62;
+  font-family: "Open Sans";
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.reviews-arrow__list {
+  display: flex;
+  list-style: none;
+}
+
+.reviews-arrow__item {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #353e4e;
+  margin-right: 30px;
+  &:last-child {
+    margin-right: 30px;
+  }
+}
+
+
+.reviews-arrows__btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: svg-load(
+      "arrow-down.svg",
+      fill=#464d62,
+      width=10px,
+      height=10px
+    )
+    center center no-repeat;
+  &--prew {
+    transform: rotate(-180deg);
+  }
+}
+
 
 .reviews-slider__list {
   display: flex;
@@ -22,6 +82,7 @@
   border-radius: 50%;
   width: 75px;
   flex-shrink: 0;
+  margin-right: 20px;
 }
 
 .reviews-slider {
@@ -30,8 +91,12 @@
   overflow: hidden;
 }
 
+.reviews-slider__item, .reviews-slider__list {
+  display: flex;
+}
+
 .reviews-slider__item {
-  width: 58%;
+  width: 40%;
   flex-shrink: 0;
 
   &:nth-child(2n+1) {
@@ -40,25 +105,44 @@
 	}
 } 
 
+.reviews-slider__quote {
+  margin-right: 20px;
+}
+
 .reviews__desc {
   display: flex;
   
 }
 
 
-.reviews__text {
+.reviews__text  {
+  opacity: 0.5;
+  color: #464d62;
+  font-family: "Open Sans - Semibold";
+  font-size: 16px;
+  font-weight: 400;
   margin-bottom: 30px;
- 
-&:before {
-  content: '';
-  width: 60px;
-  height: 60px;
-  display: block;
-  margin-right: 30px;
-  background-color: #fff;
-  flex-shrink: 0;
-  background: svg-load('quote.svg', fill=#464d62, width=100%, height=100%);
-  
-}
 }
 
+.quote-icon {
+  opacity: 0.05;
+  fill: #464d62;
+  width: 69px;
+  height: 59px;
+}
+h3.reviews__avatar-name {
+  color: #464d62;
+  font-family: "Open Sans";
+  font-size: 18px;
+  font-weight: 700;
+  padding-top: 4%;
+}
+
+p.reviews__avatar-position {
+  opacity: 0.3;
+  color: #464d62;
+  font-family: "Open Sans - Semibold";
+  font-size: 16px;
+  font-weight: 400;
+  padding-top: 4%;
+}
