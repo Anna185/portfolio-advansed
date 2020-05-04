@@ -1,11 +1,23 @@
 .circle__icon {
   stroke-width: 10px;
+  fill: transparent;
+  
  
 }
 
 .circle__icon--above {
   stroke-dasharray: 252;
   stroke-dashoffset: 10%;
+  stroke: url(#gradient);
+  stroke-width: 20px;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 10%
+}
+
+
+.circle__icon--under {
+  stroke:#e6e6e6;
+  stroke-width: 10px;
 }
 
 .skills__list {
@@ -69,4 +81,18 @@
 
 .longtitle__text {
   text-align: center;
+}
+
+
+.skills-row__title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+.skills-row__item {
+  position: relative;
+  margin-right: 40px;
+  &:last-child {
+    margin-right: 0;
+  }
 }

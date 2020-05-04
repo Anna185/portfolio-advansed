@@ -1,0 +1,38 @@
+.values-section__title
+  .values-section__title-content
+    .longtitle
+      h2.longtitle__text Чем я могу быть вам полезна
+        .longtitle__desc
+          p Этот сайт я сделала в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
+.values-section__content
+  ul.skills__list
+    - 
+      var skills = [
+       ["Front-end", ["HTML5", "CSS3", "javascript", "jquery и Vue.js"]],
+        ["Workflow", ["GIT", "Terminal", "Gulp", "Webpack"]]
+        ];
+  
+  each row in skills
+    li.skills__item.skills-row
+      .skills-row__title #{row[0]}
+      ul.skills-row__list
+        each cell in row[1]
+          li.skills-row__item
+            .skill
+              .skill__title=cell
+              svg.skill__circle.circle(width="160px" height="160px" xmlns="http://www.w3.org/2000/svg")
+                circle(cx="50%" cy="50%" r="66").circle__icon.circle__icon--under
+                circle(cx="50%" cy="50%" r="66").circle__icon.circle__icon--above
+              svg(width="130px" height="130px")
+                linearGradient(id="gradient" x1="0" y1="100%" x2="100%" y2="0")
+                  stop(offset="0%" stop-color="#9300e7")
+                  stop(offset="100%" stop-color="#4900ed")
+                
+                  
+
+
+
+
+
+
+          
