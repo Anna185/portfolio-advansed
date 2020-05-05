@@ -13,10 +13,13 @@ section.works
                 li.works__pagination-items
                   +image(item, "slider__img")
           .works__arrows
-            button.works__arrows.works__arrows--up
-              +icon('arrow-down', 'works__arrows-icon')
-            button.works__arrows.works__arrows--down
-              +icon('arrow-down', 'works__arrows-icon')
+            ul.works__arrows-list
+              li.works__arrows-item
+                button.works__arrows.works__arrows--up
+                  +icon('arrow-down', 'works__arrows-icon')
+              li.works__arrows-item
+                button.works__arrows.works__arrows--down.works__arrows--active
+                  +icon('arrow-down', 'works__arrows-icon')
       .works__col-right
         .works__right-number
           p 1

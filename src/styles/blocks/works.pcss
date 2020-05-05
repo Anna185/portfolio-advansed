@@ -114,6 +114,14 @@
 }
 
 
+.works__arrows-list {
+  display: flex;
+  justify-content: flex-end;
+}
+.works__arrows-item {
+  background-color: #353e4e;
+}
+
 .works__arrows {
  //- position: absolute;
   right:0 ;
@@ -131,18 +139,29 @@
 
 .works__arrows--up {
   transform: rotate(-90deg);
-  fill: #ffff;
+  fill: #464d62;
 }
 
 .works__arrows--down {
   transform: rotate(90deg);
-  fill: #ffff;
+  fill: #464d62;
 
 }
+
+.works__arrows--active {
+  fill:#ffff;
+}
+
 .works__arrows.works__arrows--up {
-  background:#353e4e;
+  background-color: transparent;
+  &:hover {
+  background:#5500f2;
+}
 }
 
 .works__arrows.works__arrows--down {
-  background:#353e4e;
+  background-color: transparent;
+  &:hover {
+    background:#5500f2;
+}
 }
