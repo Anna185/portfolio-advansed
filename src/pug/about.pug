@@ -1,0 +1,36 @@
+section.about-section
+  .container.about__container
+    .about
+      .about__user-data
+        .user-info
+          .user-info__avatar
+            .avatar
+              +image("content/user.jpg", "avatar__img")
+          .user-info__content
+            -
+              var items = [
+                ['Проживаю:', 'Санкт-Петербург'],
+                ['Возраст:', '33 года'],
+                ['Родилась:', '19 декабря 1986'],
+              ];
+            table.user-info__data
+              tbody.user-info__data-body
+                each item in items
+                   tr
+                    td #{item[0]}
+                    td #{item[1]}
+      .about__content
+        .about__disclamer Привет, меня зовут
+        h2.about__title Анна Венедиктова
+        .about__desk
+          p Я занимаюсь разработкой современных сайтов и приложений.
+          p Мне нравится делать интересные и современные проекты.
+        .about__ps
+          p Этот сайт я сделала в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
+
+            
+
+
+
+
+
