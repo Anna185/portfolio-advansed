@@ -1,8 +1,8 @@
 const parallax = document.querySelector(".parallax");
-const parallaxFeedback = document.querySelector(".parallax--feedback");
+const parallaxOpinion = document.querySelector(".parallax--feedback");
 const layers = parallax.children;
-const layersFeedback = parallaxFeedback.children;
-const parallaxFeedbackOffset = parallaxFeedback.getBoundingClientRect().top;
+const layersOpinion = parallaxOpinion.children;
+const parallaxOpinionOffset = parallaxOpinion.getBoundingClientRect().top;
 
 function moveLayers (layers ,scrollOffset, topOffset = null) {
   Array.from(layers).forEach(layer => {
@@ -19,5 +19,5 @@ function moveLayers (layers ,scrollOffset, topOffset = null) {
 window.addEventListener("scroll", e => {
   const scrollOffset = window.pageYOffset;
   moveLayers(layers, scrollOffset);
-  moveLayers(layersFeedback, scrollOffset, parallaxFeedbackOffset);
+  moveLayers(layersOpinion, scrollOffset, parallaxOpinionOffset);
 })
