@@ -10,13 +10,16 @@ html(lang="en")
   body
     .wrapper
       .welcome-section
-        +paralax('mountain')
+        +paralax('mountain',7)
         include ./pug/hero
         include ./pug/about
+      include ./pug/triangles-values
+      .features
         include ./pug/values  
         include ./pug/works
       include ./pug/triangles
-        +paralax('budda', 'parallax--feedback')
+      .feedback-reviews
+        +paralax('budda',6, 'parallax--feedback')
         include ./pug/reviews 
         include ./pug/form
       include ./pug/footer

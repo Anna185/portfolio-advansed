@@ -6,6 +6,12 @@ mixin icon(name, className)
 mixin image(path, className)
   img(src=require(`images/${path}`) class=className)
 
+mixin paralax(image)
+  .paralax
+    .paralax__container
+      .paralax__image
+        +image(`bg/${image}.jpg`, 'paralax__image-pic')
+
 
 mixin paralax(image, layers, className)
   .parallax(class=className)
