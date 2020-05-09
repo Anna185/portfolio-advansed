@@ -2,101 +2,45 @@ import Vue from "vue";
 
 const skill = {
   template: "#skill",
-  props: {
-    title: String,
-    percent: Number
-  },
-
-  mounted() {
-    this.coloringCircle();
-  },
-
+  props: ["skill"],
   methods: {
-    coloringCircle() {
+    drawColoredCircle() {
       const circle = this.$refs["skill-percents"];
       const dashArray = parseInt(
         getComputedStyle(circle).getPropertyValue("stroke-dasharray")
       );
-      const percent = (dashArray / 100) * (100 - this.percent);
+      const percent = (dashArray / 100) * (100 - this.skill.percent);
 
       circle.style.strokeDashoffset = percent;
-    }
-  }
+
+    },
+  },
+  mounted() {
+    this.drawColoredCircle();
+  },
 };
 
 const skillsRow = {
   template: "#skills-row",
   components: {
-    skill
+    skill,
   },
-  props: {
-    skillGroup: Object
-  }
+  props: ["category"],
 };
 
 new Vue({
   el: "#skills-component",
   template: "#skills-list",
   components: {
-    skillsRow
+    skillsRow,
   },
-  
   data() {
     return {
-      skillGroups: [
-        {
-          "id": 1,
-          "title": "Frontend",
-          "skills": [
-            {
-              "id": 1,
-              "title": "HTML5",
-              "percent": 30
-            },
-            {
-              "id": 2,
-              "title": "CSS3",
-              "percent": 50
-            },
-            {
-              "id": 3,
-              "title": "JavaScript",
-              "percent": 25
-            },
-            {
-              "id": 4,
-              "title": "jquery и Vue.js",
-              "percent": 30
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "title": "Workflow",
-          "skills": [
-            {
-              "id": 1,
-              "title": "GIT",
-              "percent": 30
-            },
-            {
-              "id": 2,
-              "title": "Terminal",
-              "percent": 60
-            },
-            {
-              "id": 3,
-              "title": "Gulp",
-              "percent": 30
-            },
-            {
-              "id": 4,
-              "title": "Webpack",
-              "percent": 30
-            }
-          ]
-        }
-      ]
-    }
-  }
-})
+      skills: [],
+    };
+  },
+  created() {
+    const data = require("../data/skills.json");
+    this.skills = data;
+  },
+});
