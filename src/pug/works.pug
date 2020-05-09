@@ -10,8 +10,8 @@ section.works
             - var images = ['content/slider-one.png','content/slider-two.png', 'content/slider-three.png'];
             ul.works__pagination
              each item in images
-                li.works__pagination-items
-                  +image(item, "slider__img")
+                li.works__pagination-items(class=`${index}`== 1 ? 'active': '')
+                   +image(item, "slider__img")
           .works__arrows
             ul.works__arrows-list
               li.works__arrows-item
