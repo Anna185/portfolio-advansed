@@ -9,16 +9,16 @@ section.values-section
     +image("content/bag.png", "values-section__image-img")  
     .values-section__content
       #skills-component
-script(type="text/x-template")#skills-list
-  .skills__values-container
-    ul.skills__list
-      li.skills__item(
-        v-for="skillGroup in skillGroups"
-        :key="skillGroup.id"
-      )
-script(type="text/x-template")#skills-row
-  .skills-row
-    h3.skills-row__title {{skillGroup.title}}
+  script(type="text/x-template")#skills-list
+    .skills__values-container
+      ul.skills__list
+        li.skills__item(
+          v-for="skillGroup in skillGroups"
+          :key="skillGroup.id"
+          )
+  script(type="text/x-template")#skills-row
+    .skills-row
+      h3.skills-row__title {{skillGroup.title}}
     ul.skills-row__list
       li.skills-row__item(
         v-for="skill in skillGroup.skills"
@@ -28,21 +28,21 @@ script(type="text/x-template")#skills-row
           :title="skill.title"
           :percent="skill.percent"
         )
-script(type="text/x-template")#skill
-  .skill
-    svg(viewBox="0 0 100 100").skill__shape
-      circle(
-        cx="50"
-        cy="50"
-        r="40"
-      ).skill__circle.skill__circle--under
-      circle(
-        cx="50"
-        cy="50"
-        r="40"
-        ref="skill-percents"
-        stroke="url(#gradient)"
-      ).skill__circle.skill__circle--above
+  script(type="text/x-template")#skill
+    .skill
+      svg(viewBox="0 0 100 100").skill__shape
+        circle(
+          cx="50"
+          cy="50"
+          r="40"
+      ).circle__icon.circle__iconc--under
+        circle(
+         cx="50"
+          cy="50"
+          r="40"
+          ref="skill-percents"
+          stroke="url(#gradient)"
+      ).circle__icon.circle__icon--above
     .skill__title {{title}}
     
     
