@@ -5,7 +5,7 @@ const skill = {
   props: ["skill"],
   methods: {
     drawColoredCircle() {
-      const circle = this.$refs["skill-percents"];
+      const circle = this.$refs["circle"];
       const dashArray = parseInt(
         getComputedStyle(circle).getPropertyValue("stroke-dasharray")
       );
