@@ -4,7 +4,8 @@ const rewSlide = {
 	template: "#rew-slide",
 	data() {
 		return {
-			dataUrl: ""
+			dataUrl: "https://github.com/Anna185/portfolio-advansed/tree/week1/src/images/content"
+			
 		}
 	},
 	props: {
@@ -44,7 +45,7 @@ new Vue({
 	},
 
 	created() {
-		fetch("")
+		fetch("https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/data/reviews.json")
 			.then(resp => resp.json())
 			.then(resp => {
 

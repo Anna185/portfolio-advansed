@@ -5,7 +5,7 @@
 }
 
 .reviews-section {
-  margin-bottom: 100px;
+  
   position: relative;
 }
 
@@ -40,6 +40,10 @@
   font-weight: 700;
 }
 
+.reviews-arrows {
+  display: flex;
+}
+
 .reviews-arrow__list {
   display: flex;
   list-style: none;
@@ -60,23 +64,39 @@
 
 .reviews-arrows__btn {
   display: block;
-  width: 100%;
-  height: 100%;
-  background: svg-load(
-      "arrow-down.svg",
-      fill=#464d62,
-      width=10px,
-      height=10px
-    )
-    center center no-repeat;
-  &--prew {
-    transform: rotate(-180deg);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #353e4e;
+  margin-right: 30px;
+  &:last-child {
+    margin-right: 30px;
+  }
+  &:hover {
+    color:#5500f2;
+    border: 1px solid #5500f2;
   }
 }
+
+  //width: 100%;
+  //height: 100%;
+ //- background: svg-load(
+    //  "arrow-down.svg",
+     // fill=#464d62,
+     // width=10px,
+     // height=10px
+   // )
+   // center center no-repeat;
+  //&--prew {
+   // transform: rotate(-180deg);
+  //
+
 
 
 .reviews-slider__list {
   display: flex;
+  justify-content: space-between;
+  
 }
 
 .reviews__avatar-icon {
@@ -88,14 +108,15 @@
 
 .reviews-avatar {
   overflow:hidden;
-  border-radius: 50%;
-  width: 75px;
+  display: flex;
+  //border-radius: 50%;
+  //width: 75px;
   flex-shrink: 0;
-  margin-right: 20px;
+ // margin-right: 20px;
 }
 
 .reviews-slider {
-  width: 80%;
+  width: 60%;
   overflow: hidden;
 }
 
@@ -104,7 +125,7 @@
 }
 
 .reviews-slider__item {
-  width: 40%;
+  width: 48%;
   flex-shrink: 0;
 
   &:nth-child(2n+1) {
@@ -118,7 +139,8 @@
 }
 
 .reviews__desc {
-  display: flex;
+  justify-content: space-around;
+   display: flex;
   
 }
 
@@ -130,6 +152,19 @@
   font-size: 16px;
   font-weight: 400;
   margin-bottom: 30px;
+  display: flex;
+
+  &:before {
+    content: '';
+    opacity: 0.5;
+		width: 60px;
+		height: 60px;
+		display: block;
+		margin-right: 30px;
+		background-color: #fff;
+		flex-shrink: 0;
+		background: svg-load('quote.svg', fill=#464d62, width=100%, height=100%);
+	}
 }
 
 .quote-icon {
@@ -153,4 +188,17 @@ p.reviews__avatar-position {
   font-size: 16px;
   font-weight: 400;
   padding-top: 4%;
+}
+
+.reviews-avatar-wrap {
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+	overflow: hidden;
+  margin-right: 15px;
+	flex-shrink: 0;
+}
+
+.reviews__avatar-position {
+  padding-top: 3%;
 }

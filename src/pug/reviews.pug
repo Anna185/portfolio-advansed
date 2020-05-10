@@ -9,7 +9,7 @@ script(type="text/x-template")#rew-main
     .reviews-header
       .reviews__title.section-title
         h2 Что обо мне говорят
-        btnsComp(@slide="checkBtn")
+      btnsComp(@slide="checkBtn")
 
     .reviews-slider(ref="sliderBlock")
       rewSlider(:slidesInfo="slidesInfo" @slide="checkBtn")
