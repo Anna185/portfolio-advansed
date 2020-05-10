@@ -31,13 +31,16 @@ script(type="text/x-template")#skills-row
             )
 script(type="text/x-template")#skill
       .skill
-        svg(viewBox="0 0 100 100").skill__circle-shape
-          circle(cx="50" cy="50" r="40").circle__icon.circle__icon--under
-          circle(cx="50" cy="50" r="40" ref="circle" stroke="url(#gradient)" transform='rotate(180 50 50)').circle__icon.circle__icon--above
-          linearGradient(id="gradient" x1="0%" y1="0%" x2="100%" y2="0")
+      
+        svg.skill__circle.circle(width="160px" height="160px" xmlns="http://www.w3.org/2000/svg")
+          circle(cx="50%" cy="50%" r="66").circle__icon.circle__icon--under
+          circle(cx="50%" cy="50%" r="66" ref="circle" stroke="url(#gradient)").circle__icon.circle__icon--above
+        svg(width="0" height="0")
+          linearGradient(id="gradient" x1="0%" y1="100%" x2="100%" y2="0")
             stop(offset="0%" stop-color="#5500f2")
             stop(offset="100%" stop-color="#8f00ef")
-        .skill__title {{skill.title}}
+        h4.skill__title {{skill.title}}
+        
       
     
     
