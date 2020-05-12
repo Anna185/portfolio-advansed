@@ -4,7 +4,7 @@ const rewSlide = {
 	template: "#rew-slide",
 	data() {
 		return {
-			dataUrl: "https://github.com/Anna185/portfolio-advansed/tree/week1/src/images/content"
+			dataUrl: "https://github.com/Anna185/portfolio-advansed/tree/week1/src/images/content/"
 			
 		}
 	},
