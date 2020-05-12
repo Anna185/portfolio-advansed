@@ -2,6 +2,10 @@
 
 .feedback {
   width: 80%;
+
+  @include tablets {
+    width: 100%;
+  }
 }
 
 .section-feedback__title h2 {
@@ -29,6 +33,10 @@
 }
 .feedback-row {
   display: flex;
+
+  @include tablets {
+    justify-content: center;
+  }
 }
 .feedback__input {
   border: none;
@@ -112,6 +120,7 @@
   font-family: "Open Sans";
   font-weight: 600;
   opacity: 0.3;
+
 }
 
 textarea {
@@ -137,4 +146,13 @@ textarea {
 
 .section-feedback { 
   margin-top: 10%;
+}
+
+
+.section-feedback__title {
+
+@include tablets {
+  text-align: center;
+}
+
 }

@@ -1,19 +1,35 @@
 .about {
   display: flex;
   padding-top: 9%;
-	padding-bottom: 10%;
+  padding-bottom: 10%;
+  max-width: 1008px;
+  justify-content: space-around;
+
+  @media screen and (max-width:550px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .about__user-data {
   //-flex: 1;
   width: 40%;
+
+  @media screen and (max-width:550px) {
+   // margin: 0 auto;
+  }
 }
 
 .about__content {
-  flex: 4;
+  //-flex: 4;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 54%;
+
+  @media screen and (max-width:550px) {
+    text-align: center;
+  }
 }
 
 
@@ -27,6 +43,14 @@
   display: flex;
   justify-content: space-between;
   width: 50%;
+  
+  @include tablets {
+  width: 95%;
+  }
+
+  @media screen and (max-width:550px) {
+    margin: 0 auto;
+  }
 }
 
 .about__user-data {

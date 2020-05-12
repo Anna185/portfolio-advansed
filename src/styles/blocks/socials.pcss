@@ -1,6 +1,10 @@
 .socials {
   display: flex;
   align-items: center;
+
+  @include phones {
+    display: none;
+  }
 }
 
 .socials__item {
@@ -25,4 +29,10 @@
   &:hover {
   fill:#5500f2;
 }
+}
+
+.socials--footer {
+  @include phones {
+    display: flex;
+  }
 }

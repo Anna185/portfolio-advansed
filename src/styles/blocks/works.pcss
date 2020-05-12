@@ -1,5 +1,9 @@
 .works {
   margin-top: 19%;
+
+  @include tablets {
+    margin-top: 45%;
+  }
 }
 
 
@@ -31,6 +35,10 @@
 
 .works__content {
   display: flex;
+
+  @include tablets {
+    flex-direction: column;
+  }
 } 
 
 .works__right-number {
@@ -39,6 +47,10 @@
   font-family: "Open Sans - Extrabold";
   font-size: 300px;
   font-weight: 400;
+
+  @include tablets {
+    display: none;
+  }
   
 }
 .works__control {
@@ -51,6 +63,10 @@
 .works__col-left {  
   width: 60%;
   flex-shrink: 0;
+
+  @include tablets {
+    width: 100%;
+  }
 }
 
 .works__tags-item {
@@ -63,20 +79,38 @@
   padding: 1.25rem;
   border-radius: 25px;
   background-color: #859fc2;
+
+  @include tablets {
+    margin-right: 2%;
+  }
 }
 
 .works__tags-list {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20%;
+
+  @include tablets {
+    justify-content: center;
+    margin-bottom: 6%;
+    padding-top: 5%;
+  }
 }
 
 .works__col-right {
   display: flex;
+
+  @include tablets {
+  text-align: center;
+  }
 }
 
 .works__right-content {
   margin-bottom: 10%;
+
+  @include tablets {
+    text-align: center;
+  }
 }
 
 .works__right-content h3 {
@@ -92,6 +126,10 @@
   font-family: "Open Sans - Semibold";
   font-size: 16px;
   font-weight: 400;
+
+  @include tablets {
+    padding: 0 112px;
+  }
 }
 
 .works__right-link  {
