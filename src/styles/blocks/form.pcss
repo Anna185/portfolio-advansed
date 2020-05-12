@@ -6,6 +6,16 @@
   @include tablets {
     width: 100%;
   }
+
+  @media screen and (max-width:570px) {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  @media screen and (max-width:650px) {
+   //- margin-left: 7%;
+  }
 }
 
 .section-feedback__title h2 {
@@ -13,6 +23,10 @@
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 80px;
+
+  @media screen and (max-width:450px) {
+    font-size: 20px;
+  }
 
 }
 .feedback__block {
@@ -30,6 +44,10 @@
   &:focus {
     border-color: #5500f2;
 }
+
+@media screen and (max-width:570px) {
+  margin-right: 0;
+}
 }
 .feedback-row {
   display: flex;
@@ -37,6 +55,16 @@
   @include tablets {
     justify-content: center;
   }
+  @media screen and (max-width:570px) {
+    flex-direction: column;
+  }
+}
+
+.feedback-row--button {
+  @media screen and (max-width:570px) {
+    flex-direction: initial;
+  }
+
 }
 .feedback__input {
   border: none;
@@ -141,8 +169,17 @@ textarea {
   &:hover {
     background: linear-gradient(to right, #bb00ff 0%, #5900ff 100%);
   }
+
+  @media screen and (max-width:570px) {
+    margin: 20px 88px 20px 88px;
+  }
   
 }
+
+
+
+  
+
 
 .section-feedback { 
   margin-top: 10%;

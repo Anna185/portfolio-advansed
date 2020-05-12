@@ -1,8 +1,8 @@
 .works {
-  margin-top: 19%;
+  margin-top: 6%;
 
   @include tablets {
-    margin-top: 45%;
+    //margin-top: 45%;
   }
 }
 
@@ -51,13 +51,23 @@
   @include tablets {
     display: none;
   }
+
+  @media screen and (max-width:1100px) {
+    display: none;
+  }
   
 }
 .works__control {
   position: absolute;
   bottom: 5%;
   right: 0;
-  
+
+  @media screen and (max-width:552px) {
+    display: none;
+  }
+  @media screen and (max-width:960px) {
+    width: 25%;
+  }
 }
 
 .works__col-left {  
@@ -67,6 +77,10 @@
   @include tablets {
     width: 100%;
   }
+
+  @media screen and (max-width:960px) {
+    //-width: 50%;
+}
 }
 
 .works__tags-item {
@@ -81,7 +95,7 @@
   background-color: #859fc2;
 
   @include tablets {
-    margin-right: 2%;
+    margin-right: 0;
   }
 }
 
@@ -92,8 +106,21 @@
 
   @include tablets {
     justify-content: center;
-    margin-bottom: 6%;
-    padding-top: 5%;
+    //margin-bottom: 6%;
+    //padding-top: 5%;
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 6%;
+  }
+  @media screen and (max-width:552px) {
+    margin-bottom: 10%;
+    width: 70%;
+    justify-content: space-between;
+  }
+
+  @media screen and (max-width:1100px) {
+    justify-content: space-around;
+    margin-bottom: 16%;
   }
 }
 
@@ -103,6 +130,9 @@
   @include tablets {
   text-align: center;
   }
+  @media screen and (max-width:960px) {
+    margin-right: 5%;
+  }
 }
 
 .works__right-content {
@@ -111,6 +141,7 @@
   @include tablets {
     text-align: center;
   }
+
 }
 
 .works__right-content h3 {
@@ -118,6 +149,10 @@
   color: #414c63;
   font-weight: 700;
   margin-bottom: 30px;
+
+  @media screen and (max-width:1100px) {
+    text-align: center;
+  }
 }
 
 .works__right-content p {
@@ -130,6 +165,10 @@
   @include tablets {
     padding: 0 112px;
   }
+
+  @media screen and (max-width:552px) {
+    padding: 0 64px;
+  }
 }
 
 .works__right-link  {
@@ -138,6 +177,14 @@
   font-size: 18px;
   font-weight: 700;
   position: relative;
+
+  @media screen and (max-width:1100px) {
+    margin-left: 28%;
+  }
+
+  @include tablets {
+    margin-left: 0;
+  }
 
   &:before {
   position: absolute;

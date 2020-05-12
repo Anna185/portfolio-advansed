@@ -27,10 +27,18 @@
   margin-bottom: 64px;
   display: flex;
   align-items: center;
+
+  @media screen and (max-width:570px) {
+    flex-direction: column;
+  }
 }
 
 .reviews__title {
   margin-right: 30px;
+
+  @media screen and (max-width:570px) {
+    padding-bottom: 5%;
+  }
 }
 
 .reviews__title h2 {
@@ -38,6 +46,10 @@
   font-family: "Open Sans";
   font-size: 36px;
   font-weight: 700;
+
+  @media screen and (max-width:450px) {
+  font-size: 20px;
+}
 }
 
 .reviews-arrows {
@@ -96,7 +108,10 @@
 .reviews-slider__list {
   display: flex;
   justify-content: space-between;
-  
+
+  @media screen and (max-width:570px) {
+    //-overflow: hidden;
+  }
 }
 
 .reviews__avatar-icon {
@@ -116,11 +131,15 @@
 }
 
 .reviews-slider {
-  width: 60%;
+  width: 80%;
   overflow: hidden;
 
   @include tablets {
     width: 100%;
+  }
+
+  @media screen and (max-width:570px) {
+    //width: 480px;
   }
 }
 
@@ -136,8 +155,14 @@
     margin-right: 4%;
 
   }
-} 
 
+  @media screen and (max-width:570px) {
+    width: 100%;
+    &:nth-child(2n+1) {
+      margin-right: 0;
+  }
+} 
+}
 .reviews-slider__quote {
   margin-right: 20px;
 }
@@ -167,8 +192,13 @@
 		margin-right: 30px;
 		background-color: #fff;
 		flex-shrink: 0;
-		background: svg-load('quote.svg', fill=#464d62, width=100%, height=100%);
-	}
+    background: svg-load('quote.svg', fill=#464d62, width=100%, height=100%)no-repeat;
+    
+    @media screen and (max-width:650px) {
+      width: 28px;
+      height: 28px
+    }
+  }
 }
 
 .quote-icon {
