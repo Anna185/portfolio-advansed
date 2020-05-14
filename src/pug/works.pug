@@ -1,38 +1,78 @@
 section.works
   .container.container--works
-    .works__title.section-title
-      h2 Мои работы
-    .works__content
-      .works__col-left
-        .works__slider
-          +image("content/slider-image.png", "slider__img")
-          .works__control
-            - var images = ['content/slider-one.png','content/slider-two.png', 'content/slider-three.png'];
-            ul.works__pagination
-             each item in images
-                li.works__pagination-items(class=`${index}`== 1 ? 'active': '')
-                   +image(item, "slider__img")
-          .works__arrows
-            ul.works__arrows-list
-              li.works__arrows-item
-                button.works__arrows.works__arrows--up
-                  +icon('arrow-down', 'works__arrows-icon')
-              li.works__arrows-item
-                button.works__arrows.works__arrows--down.works__arrows--active
-                  +icon('arrow-down', 'works__arrows-icon')
-      .works__col-right
-        .works__right-number
-          p 1
-        .works__right-row
-          ul.works__tags-list
-            - var tags = ["HTML","CSS", "Javascript"];
-              each item in tags
-                li.works__tags-item=item
-          .works__right-content
-            h3 Сайт школы образования
-            p Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!
-          a.works__right-link Посмотреть сайт
-.reviews__triangles.triangles
+    h2.works__title.section-title Мои работы
+      #works-block
+
+script(type="text-/x-template")#works-content
+  .works__content
+    display(
+      :currentProject="currentProject"
+      :projects="projects"
+      :currentIndex="currentIndex"
+      @slide="handleSlide"
+      )    
+    info(
+      :currentProject="currentProject"
+    )
+
+script(type="text-/x-template")#slider-display   
+  .works__col-left(:data-slide="currentIndex + 1")
+    .works__slider
+      img(:src="currentProject.photo").slider__img
+    thumbs(
+      :projects="reversedProjects" 
+      :currentProject="currentProject"
+    )
+    btns(
+      @slide="$emit('slide', $event)"
+      :projects="reversedProjects" 
+      :currentProject="currentProject"
+    )
+script(type="text-/x-template")#slider-thumbs
+  .works__control
+    ul.works__pagination
+      li.works__pagination-items(
+        v-for="project in projects" 
+        :key="project.id"
+        :class="{pointsActive: currentProject.id === project.id}"
+      )
+        
+        img(:src="project.photo").slider__img
+
+script(type="text-/x-template")#slider-btns
+  .works__arrows
+    ul.works__arrows-list
+      li.works__arrows-item
+        button(type="button" @click.prevent="$emit('slide','next')" :class="currentProject.id<projects.length? 'arrowActive': 'arrowPassive'").works__arrows.works__arrows--up
+          +icon('arrow-down', 'works__arrows-icon')
+      li.works__arrows-item
+        button(type="button" @click.prevent="$emit('slide','prev')" :class="currentProject.id>1? 'arrowActive' : 'arrowPassive'").works__arrows.works__arrows--down
+          +icon('arrow-down', 'works__arrows-icon')  
+            
+script(type="text-/x-template")#slider-info          
+  .works__col-right
+    tags(
+		:tags="tagsArray"
+	)
+  .works__right-content
+    h3 {{currentInfo.title}}
+    p {{currentInfo.desc}}
+    a.works__right-link(:href="currentInfo.link") Посмотреть сайт 
+
+script(type="text-/x-template")#slider-tags
+  .works__right-row
+    ul.works__tags-list
+      li.works__tags-item(v-for="tag in tags" :key="tag")
+        .tag {{tag}}
+
+
+
+
+      
+
+
+
+//-.reviews__triangles.triangles
   svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item.triangles__item-reviews.triangle
     polygon(points="0,0 0,100 1000,100")
   svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item.triangles__item-reviews.triangle
