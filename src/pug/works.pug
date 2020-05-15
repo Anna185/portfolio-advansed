@@ -1,6 +1,7 @@
 section.works
   .container.container--works
-    h2.works__title.section-title Мои работы
+    .works__title.section-title
+      h2  Мои работы
       #works-block
 
 script(type="text-/x-template")#works-content
@@ -15,7 +16,8 @@ script(type="text-/x-template")#works-content
       :currentProject="currentProject"
     )
 
-script(type="text-/x-template")#slider-display   
+  
+script(type="text-/x-template")#slider-display 
   .works__col-left(:data-slide="currentIndex + 1")
     .works__slider
       img(:src="currentProject.photo").slider__img
@@ -28,6 +30,7 @@ script(type="text-/x-template")#slider-display
       :projects="reversedProjects" 
       :currentProject="currentProject"
     )
+
 script(type="text-/x-template")#slider-thumbs
   .works__control
     ul.works__pagination
@@ -35,9 +38,9 @@ script(type="text-/x-template")#slider-thumbs
         v-for="project in projects" 
         :key="project.id"
         :class="{pointsActive: currentProject.id === project.id}"
-      )
+        )
         
-        img(:src="project.photo").slider__img
+          img(:src="project.photo").slider__img
 
 script(type="text-/x-template")#slider-btns
   .works__arrows
@@ -52,18 +55,20 @@ script(type="text-/x-template")#slider-btns
 script(type="text-/x-template")#slider-info          
   .works__col-right
     tags(
-		:tags="tagsArray"
-	)
+    :tags="tagsArray"
+  )
   .works__right-content
     h3 {{currentInfo.title}}
     p {{currentInfo.desc}}
     a.works__right-link(:href="currentInfo.link") Посмотреть сайт 
+
 
 script(type="text-/x-template")#slider-tags
   .works__right-row
     ul.works__tags-list
       li.works__tags-item(v-for="tag in tags" :key="tag")
         .tag {{tag}}
+       
 
 
 
@@ -72,7 +77,7 @@ script(type="text-/x-template")#slider-tags
 
 
 
-//-.reviews__triangles.triangles
+.reviews__triangles.triangles
   svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item.triangles__item-reviews.triangle
     polygon(points="0,0 0,100 1000,100")
   svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item.triangles__item-reviews.triangle

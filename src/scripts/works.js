@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-const thumbs = {
+  const thumbs = {
   template: "#slider-thumbs",
   props: ["projects", "currentProject"],
 };

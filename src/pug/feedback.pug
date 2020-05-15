@@ -2,18 +2,18 @@ section.section-feedback
     .container
       .section-feedback__title.section__title
         h2 Связаться со мной
-      form.feedback
+      form(id="orderForm").feedback 
         .feedback-row
           label.feedback__block
             span.feedback__title Введите ваше имя
-            input.feedback__input.feedback__input--bg--name(type="text" placeholder="Ковальчук Дмитрий" name="name")
+            input.feedback__input.feedback__input--bg--name(type="text" placeholder="Ковальчук Дмитрий" name="name" required)
           label.feedback__block
             span.feedback__title Введите ваш e-mail
-            input.feedback__input.feedback__input--bg--mail(type="text" placeholder="loftschool@study.com" name="name")
+            input.feedback__input.feedback__input--bg--mail(type="text" placeholder="loftschool@study.com" name="email" required)
         
         .feedback-row
           label.feedback__block.feedback__block--width
             span.feedback__title Сообщение к письму
-            textarea(name="comment", cols="30", rows="1" placeholder="Требуется ваша помощь в создании сайта. Интересуют сроки и цена вопроса").feedback__input.feedback__input--textarea.feedback__input--bg--comm
+            textarea(name="comment", cols="30", rows="1" placeholder="Требуется ваша помощь в создании сайта. Интересуют сроки и цена вопроса" required).feedback__input.feedback__input--textarea.feedback__input--bg--comm
         .feedback-row.feedback-row--button
           button.feedback__btn(type="submit") Отправить 
