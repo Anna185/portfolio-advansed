@@ -1,0 +1,35 @@
+.error {
+  position: absolute;
+  top: 0;
+  left: -23%;
+  display: inline-flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color:#fff;
+  font-family: "Open Sans";
+  font-weight: 400;
+  position: relative;
+  &--active {
+    width: 155px;
+    height: 50px;
+    background-color:#cd1515;
+    &:before {
+      content: "";
+      position: absolute;
+      background-color: #cd1515;
+      display: block;
+      width: 20px;
+      height: 20px;
+      top: -9%;
+      left: 50%;
+      transform: translateX(-50%) rotate(138deg);
+    
+    }
+  }
+}
+
+.feedback__input-error {
+  border-bottom: 2px solid #cd1515;
+}
