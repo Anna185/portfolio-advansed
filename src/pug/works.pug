@@ -33,15 +33,15 @@ script(type="text-/x-template")#slider-display
 
 script(type="text-/x-template")#slider-thumbs
 
-  .works__control
-    ul.works__pagination
-      li.works__pagination-items(
-        v-for="project in projects" 
-        :key="project.id"
-        :class="{pointsActive: currentProject.id === project.id}"
-        )
+      .works__control
+        ul.works__pagination
+          li.works__pagination-items(
+            v-for="project in projects" 
+            :key="project.id"
+            :class="{pointsActive: currentProject.id === project.id}"
+          )
         
-          img(:src="project.photo").slider__img
+            img(:src="project.photo").slider__img
 
 script(type="text-/x-template")#slider-btns
   .works__arrows
@@ -54,11 +54,12 @@ script(type="text-/x-template")#slider-btns
           +icon('arrow-down', 'works__arrows-icon')  
             
 script(type="text-/x-template")#slider-info 
-.works__content         
+.works__right-root         
   .works__col-right
     tags(
     :tags="tagsArray"
   )
+  
   .works__right-content
     h3 {{currentProject.title}}
     p {{currentProject.desc}}
@@ -66,10 +67,10 @@ script(type="text-/x-template")#slider-info
 
 
 script(type="text-/x-template")#slider-tags
-  .works__right-row
-    ul.works__tags-list
-      li.works__tags-item(v-for="tag in tags" :key="tag")
-        .tag {{tag}}
+    .works__right-row
+      ul.works__tags-list
+        li.works__tags-item(v-for="tag in tags" :key="tag")
+         .tag {{tag}}
        
 
 
