@@ -1,9 +1,20 @@
-{
-  "text-color": "#414c63",
-  "links-color": "#4b6fd7",
+{ 
+  
+  "phones-lg": "576px",
   "bp-desktop-hd": "1800px",
   "bp-desktop": "1200px",
   "bp-tablets": "768px",
   "bp-phones": "480px",
-  "linear-gradient": "linear-gradient(90deg, #9300e7 0%, #4900ed 100% )"
+  "linear-gradient": "linear-gradient(90deg, #9300e7 0%, #4900ed 100% )",
+  "text-color": "#464d62",
+  "links-color": "#383bcf",
+  "main": "#5500f2",
+  "font": "#464d62",
+  "footer": "#252830",
+  "href": "#586ed3",
+  "white": "#fff",
+  "tag": "#859ec2",
+  "admin-font": "#414c63",
+  "errors-color": "#cd1515"
 }
+

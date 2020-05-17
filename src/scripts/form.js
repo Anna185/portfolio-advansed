@@ -9,12 +9,12 @@
     if (orderForm.checkValidity()) {
       const data = new FormData();
       data.append("name", orderForm.elements.name.value);
-      data.append("email", orderForm.elements.email.value);
+      data.append("phone", orderForm.elements.email.value);
       data.append("comment", orderForm.elements.comment.value);
       data.append("to", "9213998099@mail.ru");
 
 
-      fetch('http://project.amv-spb.site/#', {
+      fetch('https://webdev-api.loftschool.com/sendmail', {
         method: 'POST',
         body: data
       })

@@ -32,6 +32,7 @@ script(type="text-/x-template")#slider-display
     )
 
 script(type="text-/x-template")#slider-thumbs
+
   .works__control
     ul.works__pagination
       li.works__pagination-items(
@@ -52,14 +53,15 @@ script(type="text-/x-template")#slider-btns
         button(type="button" @click.prevent="$emit('slide','prev')" :class="currentProject.id>1? 'arrowActive' : 'arrowPassive'").works__arrows.works__arrows--down
           +icon('arrow-down', 'works__arrows-icon')  
             
-script(type="text-/x-template")#slider-info          
+script(type="text-/x-template")#slider-info 
+.works__content         
   .works__col-right
     tags(
     :tags="tagsArray"
   )
   .works__right-content
-    h3 {{currentInfo.title}}
-    p {{currentInfo.desc}}
+    h3 {{currentProject.title}}
+    p {{currentProject.desc}}
     a.works__right-link(:href="currentInfo.link") Посмотреть сайт 
 
 

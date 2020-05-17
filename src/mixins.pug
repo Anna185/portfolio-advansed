@@ -29,3 +29,28 @@ mixin paralax(image, layers, className)
             img(srcset=require(`images/bg/${image}.jpg`)).parallax__image
           else 
             img(srcset="").parallax__image
+
+mixin menu(className)
+  nav.nav(class=className)
+    - 
+      var menu = [
+        ['Главная', 'hero'],
+        ['Обо мне', 'about'],
+        ['Навыки', 'skills'],
+        ['Работы', 'works'],
+        ['Отзывы', 'reviews'],
+        ['Связаться', 'contacts']
+      ];
+    ul.nav__list
+      each item in menu
+        li.nav__item
+          a(href=`#${item[1]}`).nav__link #{item[0]}
+
+mixin socials(modifyClass)
+  - var icons = ['inst', 'vk', 'github'];
+    .social(class=modifyClass)
+      ul.social__list
+        each item in icons
+          li.social__item
+            a(href="#" target="_blank").social__link
+              +icon(item, 'social__icon')
