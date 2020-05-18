@@ -109,8 +109,9 @@ new Vue({
 					currentIndex = 0
 				}
 				
-				console.log(currentIndex)
+			console.log(currentIndex)
 				numberToMove = 100 * currentIndex + '%';
+				
 				
 			}
 

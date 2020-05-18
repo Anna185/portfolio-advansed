@@ -41,7 +41,7 @@ export default {
           "id": 1,
           "title": "Сайт школы образования",
           "skills": "Html, Css, JavaScript",
-          "image": "slider-one.png",
+          "image": "slider-one.jpg",
           "link": "//google.com",
           "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
         },
@@ -49,7 +49,7 @@ export default {
           "id": 2,
           "title": "Сайт школы образованияа",
           "skills": "Html, Css, JavaScript",
-          "image": "slider-two.png",
+          "image": "slider-two.jpg",
           "link": "//yandex.ru",
           "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
         },
@@ -57,7 +57,7 @@ export default {
           "id": 3,
           "title": "Сайт школы образования",
           "skills": "Html, Css, JavaScript",
-          "image": "slider-three.png",
+          "image": "slider-three.jpg",
           "link": "//rambler.ru",
           "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
         }
