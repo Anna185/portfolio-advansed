@@ -1,89 +1,149 @@
 import Vue from "vue";
 
-  const thumbs = {
-  template: "#slider-thumbs",
-  props: ["projects", "currentProject"],
-};
-const btns = {
-  template: "#slider-btns",
-  props: ["currentProject", "projects"],
-};
 
-
-
-const display = {
-  template: "#slider-display",
-  components: { thumbs, btns },
-  props: ["currentProject", "projects", "currentIndex"],
-  computed: {
-    reversedProjects() {
-      const projects = [...this.projects];
-      return projects.reverse();
-    },
-  },
-};
 const tags = {
-  template: "#slider-tags",
-  props: ["tags"], 
-};
-const info = {
-  template: "#slider-info",
-  components: { tags },
-  props: ["currentProject"],
-  computed: {
-    tagsArray() {
-      return this.currentProject.skills.split(",");
-    },
-  },
-};
+	template: '#works__tags',
+	props: {
+		tags: Array
+	}
+
+
+}
+
+const arrows = {
+	template: '#works__arrows',
+	props: {
+		dataPags: Array,
+		currentslide: Object
+	}
+
+}
+
+const pagination = {
+	template: '#works__pagination',
+	props: {
+		dataPags: Array,
+		currentslide: Object
+	},
+	data() {
+		return {
+			dataUrl: 'https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/images/content/works/',
+
+		}
+	}
+
+
+}
+
+const bigImg = {
+	template: '#works__image',
+	props: {
+		currentImg: String
+	},
+	data() {
+		return {
+			dataUrl: 'https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/images/content/works/',
+		}
+	}
+}
+
+const sideLeft = {
+	template: '#works__left',
+	props: {
+		dataWorks: Array,
+		currentImg: String,
+		currentslide: {}
+
+	},
+	components: {
+		bigImg,
+		pagination,
+		arrows
+	}
+
+}
+const sideRight = {
+	template: '#works__right',
+	components: {
+		tags
+	},
+	props: {
+		currentInfo: Object
+	},
+
+
+	computed: {
+
+		tagsArray() {
+			return this.currentInfo.skills.split(',');
+		}
+
+
+
+	}
+}
+
 
 new Vue({
-  el: "#works-block",
-  template: "#works-content",
-  components: { display, info },
-  data() {
-    return {
-      projects: [],
-      currentIndex: 0,
-    };
-  },
-  computed: {
-    currentProject() {
-      return this.projects[this.currentIndex];
-    },
-  },
-  watch: {
-    currentIndex(value) {
-      this.makeInfiniteLoopForIndex(value);
-    },
-  },
+	el: '#works-block',
+	template: '#works__content',
+	components: {
+		sideLeft,
+		sideRight
+	},
+	data() {
+		return {
+			dataWorks: [],
+			currentItem: 0,
+			currentslide: {}
+		}
+	},
+	created() {
+		fetch('https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/data/works.json')
+			.then(resp => resp.json())
+			.then(resp => {
 
-  methods: {
-    makeInfiniteLoopForIndex(value) {
-      const projectsAmountFromZero = this.projects.lehgth - 1;
-      if (value > projectsAmountFromZero) this.currentIndex = 0;
-      if (value < 0) this.currentIndex = projectsAmountFromZero;
-    },
-    handleSlide(direction) {
-      switch (direction) {
-        case "next":
-          this.currentIndex++;
-          break;
-        case "prev":
-          this.currentIndex--;
-          break;
-      }
-    },
-    makeArrWithRequireImages(array) {
-      return array.map((item) => {
-        const requirePic = require(`../images/content/works/${item.photo}`);
-        item.photo = requirePic;
-        return item;
-      });
-    },
-  },
-  created() {
-    const data = require("../data/works.json");
-    this.projects = this.makeArrWithRequireImages(data);
-  },
-});
+				this.dataWorks = resp;
+
+				this.currentslide = this.dataWorks[this.currentItem]
+
+			})
+
+	},
+	computed: {
+		watchCurItem() {
+
+			return this.currentslide = this.dataWorks[this.currentItem];
+
+		}
+
+
+	},
+	methods: {
+
+		btnSlide(direction) {
+			direction == 'next' ? this.currentItem++ : this.currentItem--
+			this.currentItem < 0 ? this.currentItem = 0 : this.currentItem;
+
+			this.currentItem > this.dataWorks.length - 1 ? this.currentItem = this.dataWorks.length - 1 : this.currentItem;
+
+
+
+			this.watchCurItem;
+
+
+			const items = this.$children[0].$children[1].$refs.pagItem;
+			
+			
+
+			if (direction == 'next' && this.currentItem != this.dataWorks.length - 1) {
+				items.appendChild(items.firstElementChild);
+			} else if (direction == 'prev' && this.currentItem != 0) {
+				items.insertBefore(items.lastElementChild, items.firstElementChild);
+			}
+		}
+
+
+
+	}
+})

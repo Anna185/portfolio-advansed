@@ -4,80 +4,75 @@ section.works
       h2  Мои работы
     #works-block
 
-script(type="text-/x-template")#works-content
+script(type="text/x-template")#works__content 
   .works__content
-    display(
-      :currentProject="currentProject"
-      :projects="projects"
-      :currentIndex="currentIndex"
-      @slide="handleSlide"
-      )    
-    info(
-      :currentProject="currentProject"
-    )
+    side-left(
+		  :dataWorks="dataWorks"
+			:currentImg="currentslide.photo"
+			:currentslide="currentslide"
+			@slide="btnSlide"
+		)
+    side-right(
+			:currentInfo="currentslide"
+		)
 
-  
-script(type="text-/x-template")#slider-display 
-  .works__col-left(:data-slide="currentIndex + 1")
+script(type="text/x-template")#works__left
+  .works__col-left
     .works__slider
-      img(:src="currentProject.photo").slider__img
-    thumbs(
-      :projects="reversedProjects" 
-      :currentProject="currentProject"
-    )
-    btns(
-      @slide="$emit('slide', $event)"
-      :projects="reversedProjects" 
-      :currentProject="currentProject"
-    )
-
-script(type="text-/x-template")#slider-thumbs
-
+      big-img(
+			  :currentImg="currentImg"
+      )
       .works__control
-        ul.works__pagination
-          li.works__pagination-items(
-            v-for="project in projects" 
-            :key="project.id"
-            :class="{pointsActive: currentProject.id === project.id}"
-          )
-        
-            img(:src="project.photo").slider__img
+        pagination(
+				  dataPags="dataWorks"
+					:currentslide="currentslide"
+	      )
+        arrows( 
+				  @slide="direction => $emit('slide', direction)"
+				  :dataPags="dataWorks"
+				  :currentslide="currentslide"
+				)
 
-script(type="text-/x-template")#slider-btns
+script(type="text/x-template")#works__right
+  .works__col-right
+    .works__right-number {{currentInfo.id}}
+    .works__right-row
+      tags(
+			  :tags="tagsArray"
+			)
+      .works__right-content
+        h3 {{currentInfo.title}}
+        p {{currentInfo.desc}}
+        a.works__right-link(:href="currentInfo.link") Посмотреть сайт
+
+script(type="text/x-template")#works__image
+  img(:src="dataUrl+currentImg").slider__img
+
+script(type="text/x-template")#works__pagination
+  
+    ul.works__pagination(ref="pagItem")
+      li.works__pagination-items(
+        v-for="dataPag in dataPags" 
+			  :class="{active: dataPag.id  === currentslide.id}"
+			
+		  )
+      img(:src="dataUrl+dataPag.photo").slider__img 
+
+script(type="text/x-template")#works__arrows
   .works__arrows
     ul.works__arrows-list
       li.works__arrows-item
-        button(type="button" @click.prevent="$emit('slide','next')" :class="currentProject.id<projects.length? 'arrowActive': 'arrowPassive'").works__arrows.works__arrows--up
-          +icon('arrow-down', 'works__arrows-icon')
+        button(type='button' v-on:click.prevent="$emit('slide', 'next')" :class="{active:  currentslide.id < dataPags.length}").works__arrows.works__arrows--up &gt;
       li.works__arrows-item
-        button(type="button" @click.prevent="$emit('slide','prev')" :class="currentProject.id>1? 'arrowActive' : 'arrowPassive'").works__arrows.works__arrows--down
-          +icon('arrow-down', 'works__arrows-icon')  
-            
-script(type="text-/x-template")#slider-info 
-  .works__col-right
-    tags(
-    :tags="tagsArray"
-  )
-    .works__right-number
-      p 1
- 
-  .works__right-content
-    h3 Сайт школы образования
-    p Этот парень проходил обучение веб-разработке не где-то,а в Loftschool!2 месяца только самых тяжелых испытаний и бессонных ночей!
-    a.works__right-link(:href="currentInfo.link") Посмотреть сайт 
+        button(type='button' v-on:click.prevent="$emit('slide', 'prev')" :class="{active:  currentslide.id > 1}").works__arrows.works__arrows--down &lt;
 
-
-script(type="text-/x-template")#slider-tags
-    .works__right-row
-      ul.works__tags-list
-        li.works__tags-item(v-for="tag in tags" :key="tag")
-         .tag {{tag}}
-       
+script(type="text/x-template")#works__tags 
+  ul.works__tags-list
+    li.works__tags-item(v-for="tag in tags") {{tag}}  
 
 
 
 
-      
 
 
 
@@ -86,6 +81,18 @@ script(type="text-/x-template")#slider-tags
     polygon(points="0,0 0,100 1000,100")
   svg(viewBox="0 0 1000 100" preserveAspectRatio="none").triangles__item.triangles__item-reviews.triangle
     polygon(points="1000,0 1000,100 0,100")
+          
+
+  
+
+  
+
+
+     
+
+
+
+
 
                 
                
