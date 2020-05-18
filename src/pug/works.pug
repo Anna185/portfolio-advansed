@@ -2,7 +2,7 @@ section.works
   .container.container--works
     .works__title.section-title
       h2  Мои работы
-      #works-block
+    #works-block
 
 script(type="text-/x-template")#works-content
   .works__content
@@ -54,15 +54,16 @@ script(type="text-/x-template")#slider-btns
           +icon('arrow-down', 'works__arrows-icon')  
             
 script(type="text-/x-template")#slider-info 
-.works__right-root         
   .works__col-right
     tags(
     :tags="tagsArray"
   )
-  
+    .works__right-number
+      p 1
+ 
   .works__right-content
-    h3 {{currentProject.title}}
-    p {{currentProject.desc}}
+    h3 Сайт школы образования
+    p Этот парень проходил обучение веб-разработке не где-то,а в Loftschool!2 месяца только самых тяжелых испытаний и бессонных ночей!
     a.works__right-link(:href="currentInfo.link") Посмотреть сайт 
 
 

@@ -9,6 +9,8 @@ const btns = {
   props: ["currentProject", "projects"],
 };
 
+
+
 const display = {
   template: "#slider-display",
   components: { thumbs, btns },
