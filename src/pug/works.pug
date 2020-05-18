@@ -49,13 +49,12 @@ script(type="text/x-template")#works__image
   img(:src="dataUrl+currentImg").slider__img
 
 script(type="text/x-template")#works__pagination
-  
-    ul.works__pagination(ref="pagItem")
-      li.works__pagination-items(
-        v-for="dataPag in dataPags" 
-			  :class="{active: dataPag.id  === currentslide.id}"
+  ul.works__pagination(ref="pagItem")
+    li.works__pagination-items(
+      v-for="dataPag in dataPags" 
+			:class="{active: dataPag.id  === currentslide.id}"
 			
-		  )
+		)
       img(:src="dataUrl+dataPag.photo").slider__img 
 
 script(type="text/x-template")#works__arrows
