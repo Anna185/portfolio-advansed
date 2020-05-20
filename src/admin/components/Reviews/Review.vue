@@ -5,8 +5,8 @@
         .author__avatar
             img(:src="value.photo").author__avatar-img
         .author__data
-          .author__name {{value.author}}
-          .author__desc {{value.occ}}
+          h3.author__name {{value.author}}
+          h4.author__desc {{value.occ}}
       hr.divider
     .review__content
       .review__text

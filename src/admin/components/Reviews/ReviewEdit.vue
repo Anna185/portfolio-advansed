@@ -2,7 +2,9 @@
   .review-edit.card
     form
       .form__container
-        .form__header {{formTitle}}
+        h3.form__header {{formTitle}}
+         
+        
         hr.divider
         .form__content
           .form__content-wrap
@@ -36,7 +38,7 @@
                     field-type="textarea"
                   )
         .form__btns
-          button.form__btn.form__btn--plain Отмена          
+          button(type="reset").form__btn.form__btn--plain Отмена          
           button.form__btn.form__btn--big Загрузить          
 </template>
 <script>

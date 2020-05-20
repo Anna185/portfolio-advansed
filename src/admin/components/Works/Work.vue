@@ -11,7 +11,7 @@
           )
             .tag {{tag}}
     .work__info
-      .work__title {{value.title}}
+      h3.work__title {{value.title}}
       .work__decs
         p {{value.desc}}
       a(:href="value.link").work__link http:{{value.link}}

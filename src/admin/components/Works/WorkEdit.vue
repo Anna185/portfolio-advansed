@@ -2,7 +2,7 @@
   .work-edit.card
     form
       .form__container
-        .form__header {{formTitle}}
+        h3.form__header {{formTitle}}
         hr.divider
         .form__content
           .form__content-wrap
@@ -12,6 +12,7 @@
                 .form__image-btn-wrap
                   button(@click="showInputFile").form__image-btn Изменить превью
               .form__load-area(v-else)
+          
                 .form__load-text Перетащите либо загрузите изображение
                 .form__load-btn
                   button(@click="showInputFile").form__btn Загрузить
@@ -20,8 +21,9 @@
                 @change="appendFileAndRenderPhoto"
               )#upload-pic.form__load-file    
             .form__col
-              .form__block
+              .form__block 
                 CustomInput(title="Название")
+                 
               .form__block
                 CustomInput(title="Ссылка")
               .form__block
@@ -43,7 +45,7 @@
                         className="tag__remove-icon"
                       )
         .form__btns
-          button.form__btn.form__btn--plain Отмена          
+          button(type="reset").form__btn.form__btn--plain Отмена          
           button.form__btn.form__btn--big Загрузить          
 </template>
 <script>

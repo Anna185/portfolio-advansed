@@ -24,10 +24,10 @@ script(type="text/x-template")#works__left
       )
       .works__control
         pagination(
-				  dataPags="dataWorks"
+				  :dataPags="dataWorks"
 					:currentslide="currentslide"
 	      )
-        arrows( 
+      arrows( 
 				  @slide="direction => $emit('slide', direction)"
 				  :dataPags="dataWorks"
 				  :currentslide="currentslide"
@@ -55,7 +55,7 @@ script(type="text/x-template")#works__pagination
 			:class="{active: dataPag.id  === currentslide.id}"
 			
 		)
-      img(:src="dataUrl+dataPag.photo").slider__img 
+      img(:src="dataUrl+dataPag.photo").works__pagination-img 
 
 script(type="text/x-template")#works__arrows
   .works__arrows
