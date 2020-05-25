@@ -22,7 +22,6 @@ export default {
       default: ''
     }
   },
-
   computed: {
     smallClass () {
        return this.type ? 'add-new-btn--small' : "";
@@ -32,7 +31,6 @@ export default {
 </script>
 <style lang="postcss" scoped>
   @import "../../styles/mixins.pcss";
-
   .add-new-btn {
     display: flex;
     align-items: center;
@@ -43,11 +41,9 @@ export default {
     padding: 0;
     border: none;
     font-size: 16px;
-
     @include tablets {
       font-size: 14px;
     }
-
     &:before {
       content: "";
       display: block;
@@ -61,7 +57,6 @@ export default {
       font-size: 30px;
       line-height: 40px;
     } 
-
     &--small {
       &:before {
         content: "";
@@ -74,26 +69,21 @@ export default {
         line-height: 1;
       }
     }
-
     &--plain {
       flex: 1;
       background-image: linear-gradient(to right, #006aed 0%, #3f35cb 100%);
-
     }
-
       &:before {
         display: none;
       }
     
   }
-
   .add-new-btn__text {
     color: $white;
     font-size: 18px;
     font-weight: 700;
     line-height: 25px;
     white-space: break-spaces;
-
     @include phones {
       font-size: 16px;
     }
@@ -110,9 +100,7 @@ export default {
       border-radius: 50%;
       border: 2px solid currentColor;
       margin-bottom: 30px;
-
     
-
     }
   }
 </style>

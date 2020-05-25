@@ -1,37 +1,79 @@
 <template lang="pug">
-  .login
+.login
     .login__content
-      button(type="button").login__close
+      button(type="button" @click.prevent="activeForm = false").login__close
         Icon(
           iconName="cross"
           className="login__close-icon"
         )
-      form.login__form
+      form.login__form(@submit.prevent="toLogin")
         .login__form-title Авторизация
         .login__row
           CustomInput(
+            type="text" v-model="user.name" required
             title="Логин"
-            icon="user-empty"
+            icon="user"
           )
         .login__row
           CustomInput(
             title="Пароль"
             icon="key"
-            type="password"
+            type="password" v-model="user.password"
           )
         .login__btn
           button(
             type="submit"
           ).login__send-data Отправить
+    .login__btn-root(v-if="activeForm")
+      button(type="button" @click="activeForm = true").login__btn.login__send-data Авторизоваться
 </template>
 <script>
 import Icon from "./Icon"
 import CustomInput from "./CustomInput"
+import {mapActions, mapGetters} from "vuex";
+import $axios from "../requests"
+
 export default {
   components: {
     Icon,
     CustomInput
+  },
+  data() {
+    return 
+     // activeForm: true,
+     // user: {
+     //   name: '',
+     ///   password: ''
+     // }
+    //}
+
+
+  },
+  methods: {
+  ...mapActions(["loginUser"]),
+      async toLogin() {
+        if (this.validForm()) {
+          try {
+            const {data: {token}} = await this.loginUser(this.user);
+            localStorage.setItem("token", token);
+            this.$router.replace("/About");
+          }
+          catch (error) {
+            console.log(error.message)
+          }
+
+        }
+      },
+      validForm() {
+        if (!this.user.name || !this.user.password) {
+          return false
+        } 
+        else {
+          return true
+        }
+      }
   }
+
 }
 </script>
 <style lang="postcss" scoped>
@@ -140,5 +182,9 @@ export default {
     width: 20px;
     height: 20px;
     fill: $font;
+  }
+
+  .login__btn.login__send-data {
+    position: relative;
   }
 </style>
