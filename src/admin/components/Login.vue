@@ -1,6 +1,6 @@
 <template lang="pug">
 .login
-    .login__content
+    .login__content(v-if="activeForm")
       button(type="button" @click.prevent="activeForm = false").login__close
         Icon(
           iconName="cross"
@@ -18,13 +18,13 @@
           CustomInput(
             title="Пароль"
             icon="key"
-            type="password" v-model="user.password"
+            type="password" v-model="user.password" required
           )
         .login__btn
           button(
             type="submit"
           ).login__send-data Отправить
-    .login__btn-root(v-if="activeForm")
+    .login__btn-root
       button(type="button" @click="activeForm = true").login__btn.login__send-data Авторизоваться
 </template>
 <script>
@@ -39,13 +39,13 @@ export default {
     CustomInput
   },
   data() {
-    return 
-     // activeForm: true,
-     // user: {
-     //   name: '',
-     ///   password: ''
-     // }
-    //}
+    return {
+     activeForm: true,
+     user: {
+     name: '',
+      password: ''
+    }
+  }
 
 
   },
@@ -89,6 +89,8 @@ export default {
     align-items: center;
     justify-content: center;
     background: url("../../images/bg/bg-admin.jpg") center center /cover no-repeat;
+    display: flex;
+    justify-content: space-evenly;
 
     &:before {
       content: "";

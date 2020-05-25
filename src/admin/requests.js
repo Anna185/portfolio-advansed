@@ -1,34 +1,31 @@
-import axios from "axios";
+import axios from 'axios'
 
-const token = localStorage.getItem("token");
+axios.defaults.baseURL = 'https://webdev-api.loftschool.com/'
+const token = localStorage.getItem('user-token')
+if (token) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+}
 
-if (!token) console.warn("Отсутствует токен");
-
-const requests = axios.create({
-  baseURL: "http://localhost:8080/",
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-});
-
-requests.interceptors.response.use(
-  response => response,
-  async error => {
-    const originalRequest = error.config;
+axios.interceptors.response.use(
+  response => (response),
+  error => {
+    const originRequest = error.config
 
     if (error.response.status === 401) {
-      const response = await requests.post("/refreshToken");
-      const token = response.data.token;
+      return axios.post("/refreshToken")
+        .then(response => {
+          const token = response.data.token
 
-      localStorage.setItem("token", token);
-      requests.defaults.headers["Authorization"] = `Bearer ${token}`;
-      originalRequest.headers["Authorization"] = `Bearer ${token}`;
+          localStorage.setItem('user-token', token)
+          axios.defaults.headers["Authorization"] = `Bearer ${token}`
+          originRequest.headers["Authorization"] = `Bearer ${token}`
 
-      return axios(originalRequest);
+          return axios(originRequest)
+        })
     }
 
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
-export default requests;
+export default axios
