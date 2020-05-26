@@ -5,24 +5,34 @@
         h1.page-title.reviews__title Блок «Отзывы»
     .reviews__content
       .container.reviews__container
-        ReviewEdit()
+        ReviewEdit(
+          v-if="showAddReview"
+          :review="review"
+          @hide="hideAddReview"
+
+        )
 
         ul.reviews__list
           li.reviews__item
             AddBtn(
               text="Добавить отзыв"
-              type="plain")
+              size="plain"
+              @click="showAddReview = true"
+            )
           li.reviews__item(
-            v-for="review in reviews"
+            v-for="review in modifiedReviews"
             :key="review.id"
           )
             review(
-            :value="review")
+            :review="review"
+            @edit="editReview"
+          )
 </template>
 <script>
 import Review from "./Review"
 import AddBtn from "../AddBtn"
 import ReviewEdit from "./ReviewEdit"
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     AddBtn,
@@ -30,48 +40,49 @@ export default {
     ReviewEdit
   },
 
-  created() {
-    this.reviews = this.makeArrWithRequireImages(this.reviews)
-  },
-
   data () {
     return {
-      reviews: [
-        {
-          id: 1,
-          text: "Анна проходила обучение веб-разработке не где-то, а в Loftschool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!",
-          author: "Ковальчук Дмитрий",
-          occ: "Основатель Loftschool",
-          photo: "kovalshuk.png"
-        },
-        {
-          id: 2,
-          text: "Этот код выдержит любые испытания. Только пожалуйста, не загружайте сайт на слишком старых браузерах",
-          author: "Владимир Сабанцев",
-          occ: "Преподаватель",
-          "photo": "sabantcew.png"
-        },
-        {
-          id: 3,
-          text: "Анна проходила обучение веб-разработке не где-то, а в Loftschool! 4,5 месяца только самых тяжелых испытаний и бессонных ночей!",
-          author: "Ковалев Илья",
-          occ: "Заказчик",
-          photo: "user.jpg"
-        }
-      ]
+      review: {
+        author: '',
+        occ: '',
+        text: '',
+        photo: null
+      },
+      showAddReview: false
     }
+  },
+
+    computed: {
+    ...mapGetters('reviews', ['modifiedReviews']),
+    ...mapState('auth', ['user'])
+  },
+  
+  beforeRouteLeave (to, from, next) {
+    this.showAddReview = false
+    next()
+  },
+
+  created() {
+    this.loadReviews(this.user.id)
   },
 
    methods: {
-    makeArrWithRequireImages(array) {
-      return array.map((item) => {
-        const requirePic = require(`../../../images/content/${item.photo}`);
-        item.photo = requirePic;
-        return item;
-      });
+    ...mapActions('reviews', ['loadReviews']),
+    
+    hideAddReview () {
+      this.showAddReview = false
+      this.review = {
+        author: '',
+        occ: '',
+        text: '',
+        photo: null
+      }
+    },
+    editReview (review) {
+      Object.assign(this.review, review)
+      this.showAddReview = true
     }
   }
-  
 }
 </script>
 <style lang="postcss" scoped>  

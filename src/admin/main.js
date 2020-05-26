@@ -3,7 +3,8 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import {store} from './store';
 import router from './routes.js';
-import $axios from "./requests"
+import $axios from "./requests";
+import Vuelidate from 'vuelidate'
 
 store.$axios = $axios;
  

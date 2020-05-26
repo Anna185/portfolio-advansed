@@ -1,6 +1,10 @@
 <template lang="pug">
   .review-edit.card
-    form
+    form(
+      @submit.prevent="submit"
+      @reset.prevent="hide"
+    )
+
       .form__container
         h3.form__header {{formTitle}}
          
@@ -8,7 +12,7 @@
         hr.divider
         .form__content
           .form__content-wrap
-            .form__avatar
+            .form__avatar(:class="photoError")
               label.form__avatar-upload
                 input(
                   type="file"
@@ -16,34 +20,58 @@
                 ).form__avatar-file
                 .form__avatar-wrap
                   img(
-                    v-if="photo"
-                    :src="photo"
+                    v-if="tmpReview.photo"
+                    :src="image"
                   ).form__avatar-img
                   Icon(
                     v-else
                     iconName="user"
                     className="form__avatar-empty-icon"
                   )
-                .form__load-text {{`${photo ? 'Изменить' : 'Добавить'} фото`}}
+                .form__load-text {{`${tmpReview.photo ? 'Изменить' : 'Добавить'} фото`}}
+                .form__error-tooltip
+                  InputTooltip(
+                    :errorText="validationMessage('photo')"
+                  )
             .form__review
               .form__row
                 .form__block
-                  CustomInput(title="Имя автора")
+                  CustomInput(
+                    title="Имя автора"
+                    v-model="tmpReview.author"
+                    :errorText="validationMessage('author')" 
+                  )
                 .form__block  
-                  CustomInput(title="Титул автора")
+                  CustomInput(
+                    title="Титул автора"
+                    v-model="tmpReview.occ"
+                    :errorText="validationMessage('occ')"
+
+                  )
               .form__row    
                 .form__block
                   CustomInput(
                     title="Отзыв"
                     field-type="textarea"
+                    v-model="tmpReview.text"
+                    :errorText="validationMessage('text')"
                   )
-        .form__btns
-          button(type="reset").form__btn.form__btn--plain Отмена          
-          button.form__btn.form__btn--big Загрузить          
+        .form__btns(:class="{ 'blocked': isBlocked }")
+          button(
+            type="reset"
+            :disabled="isBlocked"
+          ).form__btn.form__btn--plain Отмена          
+          button(
+            type="submit"
+            :disabled="isBlocked"
+            ).form__btn.form__btn--big Загрузить          
 </template>
 <script>
+import { mapActions, mapMutations } from 'vuex'
 import Icon from "../Icon"
 import CustomInput from "../CustomInput"
+import InputTooltip  from "../InputTooltip"
+import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   props: {
     review: {
@@ -56,12 +84,40 @@ export default {
 
   components: {
     Icon,
-    CustomInput
+    CustomInput,
+    InputTooltip
   },
 
   data () {
     return {
-      photo: ''
+      image: null,
+      tmpReview: {
+        author: "",
+        occ: "",
+        photo: "",
+        text: ""
+      },
+      isBlocked: false
+    }
+  },
+
+  validations: {
+    tmpReview:{
+      author: {
+        required,
+        minLength: minLength(4)
+      },
+      occ: {
+        required,
+        minLength: minLength(6)
+      },
+      photo: {
+        required
+      },
+      text: {
+        required,
+        minLength: minLength(6)
+      }
     }
   },
   
@@ -72,27 +128,76 @@ export default {
 
     btnTitle() {
       return this.review.id ? 'Сохранить' : 'Загрузить'
+    },
+
+    photoError() {
+      return !this.tmpReview.photo && this.validationMessage('photo') ? 'error' : ''
+    }
+  },
+
+    created () {
+    Object.assign(this.tmpReview, this.review)
+    if (this.tmpReview.photo) {
+      this.image = this.tmpReview.photo
     }
   },
 
   methods: {
+    ...mapActions('reviews', ['saveReview', 'updateReview']),
+    ...mapMutations('toast', ['showToast']),
     appendFileAndRenderPhoto (e) {
-
-     const test = e.target.files[0];
+     this.tmpReview.photo = e.target.files[0]
       const reader = new FileReader();
-
       try {
-        reader.readAsDataURL(test);
+        reader.readAsDataURL(this.tmpReview.photo)
         reader.onload = () => {
-          this.photo = reader.result;
-        };
+          this.image = reader.result
+        }
       } catch (error) {
-        console.log(error)
+        this.showToast(
+          {
+            type: 'error',
+            message: 'Ошибка при чтении файла'
+          }
+        )
+      }
+    },
+    hide () {
+      this.$emit('hide')
+    },
+    async submit () {
+      this.$v.$touch()
+      if (!this.$v.$error) {
+        try {
+          this.isBlocked = true
+          const isReviewChanged = Object.keys(this.tmpReview).some((key, value) => this.review[key] !== value)
+          if (isReviewChanged) {
+            this.tmpReview.id
+              ? await this.updateReview(this.tmpReview)
+              : await this.saveReview(this.tmpReview)
+          }
+          this.hide()
+        } catch (error) {
+          this.showToast( { type: 'error', message });
+        } finally {
+          this.isBlocked = false
+        }
+      }
+    },
+    validationMessage (field) {
+      const obj = this.$v.tmpReview[field]
+      if (!this.$v.$error) return ''
+      if (!obj.required) {
+        return "Поле обязательно" 
+      }
+      if (field !== 'photo' && !obj.minLength) {
+        return `Введите не меньше ${obj.$params.minLength.min} символов`
       }
     }
   }
 }
 </script>
+
 <style lang="postcss" scoped>
   @import url("../../../styles/mixins.pcss");
 
