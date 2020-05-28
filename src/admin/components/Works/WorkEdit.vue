@@ -1,56 +1,105 @@
 <template lang="pug">
   .work-edit.card
-    form
+    form(
+      @submit.prevent="submit"
+      @reset.prevent="hide"
+    )
       .form__container
         h3.form__header {{formTitle}}
         hr.divider
         .form__content
           .form__content-wrap
             .form__col
-              .form__image(v-if="image")
+              .form__image(v-if="tmpWork.photo")
                 img(:src="image").form__image-pic
                 .form__image-btn-wrap
-                  button(@click="showInputFile").form__image-btn Изменить превью
-              .form__load-area(v-else)
+                  button(
+                    type="button"
+                    @click="showInputFile"
+                  ).form__image-btn Изменить превью
+              .form__load-area(
+                v-else
+                :class="[photoError, {'is-dragover': isDragged}]"
+                ref="fileForm"
+                @drop="loadImage($event.dataTransfer.files[0])"
+              )
           
                 .form__load-text Перетащите либо загрузите изображение
                 .form__load-btn
-                  button(@click="showInputFile").form__btn Загрузить
+                  button(
+                    type="button"
+                    @click="showInputFile"
+                  ).form__btn Загрузить
+                .form__error-tooltip
+                  InputTooltip(
+                    :errorText="validationMessage('photo')"
+                  )
+
               input(
                 type="file"
-                @change="appendFileAndRenderPhoto"
+                accept=".png, .jpg, .jpeg"
+                @change="loadImage($event.target.files[0])"
               )#upload-pic.form__load-file    
             .form__col
               .form__block 
-                CustomInput(title="Название")
+                CustomInput(
+                  title="Название"
+                  v-model="tmpWork.title"
+                  :errorText="validationMessage('title')"
+
+                )
                  
               .form__block
-                CustomInput(title="Ссылка")
+                CustomInput(
+                  title="Ссылка"
+                  v-model="tmpWork.link"
+                  :errorText="validationMessage('link')"
+
+                )
               .form__block
                 CustomInput(
                   title="Описание"
                   field-type="textarea"
+                  v-model="tmpWork.description"
+                  :errorText="validationMessage('description')"
                 )
               .form__block
-                CustomInput(title="Добавление тэга")
+                CustomInput(
+                  title="Добавление тэга"
+                  v-model="tmpWork.techs"
+                  :errorText="validationMessage('techs')"
+                  )
               ul.tags__list
                 li.tags__item(
                   v-for="(tag, ndx) in tags"
                   :key="ndx")
                   .tag
                     span {{ tag }}
-                    button(type="button" ).tag__remove-btn
+                    button(
+                      type="button"
+                      @click="delTag(ndx)"
+                    ).tag__remove-btn
                       Icon(
                         iconName="cross"
                         className="tag__remove-icon"
                       )
-        .form__btns
-          button(type="reset").form__btn.form__btn--plain Отмена          
-          button.form__btn.form__btn--big Загрузить          
+        .form__btns(:class="{ 'blocked': isBlocked }")
+          button(
+            type="reset"
+            :disabled="isBlocked"
+          ).form__btn.form__btn--plain Отмена          
+          button(
+            type="submit"
+            :disabled="isBlocked" 
+
+          ).form__btn.form__btn--big {{btnTitle}}          
 </template>
 <script>
+import { mapActions, mapMutations } from 'vuex'
 import Icon from "../Icon"
 import CustomInput from "../CustomInput"
+import InputTooltip  from '../InputTooltip'
+import { required, minLength, url } from 'vuelidate/lib/validators'
 export default {
   props: {
     work: {
@@ -63,47 +112,185 @@ export default {
 
   components: {
     Icon,
-    CustomInput
+    CustomInput,
+    InputTooltip
   },
 
   data() {
     return {
-      tags: ['html', 'css', 'javascript'],
-      image: ''
+      tags: [],
+      image: null,
+      tmpWork: {
+        link: "",
+        title: "",
+        techs: "",
+        photo: "",
+        description: ""
+      },
+      isBlocked: false,
+      isDragged: false
     }
   },
 
+  validations: {
+    tmpWork:{
+      title: {
+        required,
+        minLength: minLength(6)
+      },
+      link: {
+        required,
+        url
+      },
+      techs: {
+        required,
+        minLength: minLength(2)
+      },
+      photo: {
+        required
+      },
+      description: {
+        required,
+        minLength: minLength(15)
+      }
+    }
+  },
   computed: {
     formTitle() {
       return `${this.work.id ? 'Редактирование' : 'Добавление'} работы`
     },
-
     btnTitle() {
       return this.work.id ? 'Сохранить' : 'Загрузить'
+    },
+    photoError() {
+      return !this.tmpWork.photo && this.validationMessage('photo') ? 'error' : ''
     }
   },
-
+  
+  watch: {
+    'tmpWork.techs'() {
+      this.tags = this.tmpWork.techs.split(',').map(tag =>tag.trim())
+    }
+  },
+  
+  created () {
+    Object.assign(this.tmpWork, this.work)
+    if (this.tmpWork.photo) {
+      this.image = this.tmpWork.photo
+    }
+    if (this.tmpWork.techs.length > 0) {
+      this.tags = this.tmpWork.techs.split(',').map(tag =>tag.trim())
+    }
+  },
+  mounted() {
+    this.dragAndDropCapable = this.determineDragAndDropCapable()
+    if (this.dragAndDropCapable && this.$refs.fileForm) {
+      this.dragAndDropInit()
+    }
+  },
   methods: {
+    ...mapActions('works', ['saveWork', 'updateWork']),
+    ...mapMutations('toast', ['showToast']),
+    
+    determineDragAndDropCapable () {
+      let div = document.createElement('div')
+      return (( 'draggable' in div ) ||
+        ( 'ondragstart' in div && 'ondrop' in div ) ) &&
+        'FormData' in window &&
+        'FileReader' in window
+    },
+    dragAndDropInit () {
+      const dragOn = ['dragover', 'dragenter']
+      const dragOff = ['dragleave', 'drop']
+      const dragAndDropEvents = [
+        ...dragOn,
+        ...dragOff,
+      ]
+      console.log(dragAndDropEvents)
+      dragAndDropEvents.forEach( event => {
+        this.$refs.fileForm.addEventListener(event, evt => {
+          evt.preventDefault()
+          evt.stopPropagation()
+        })
+      })
+      dragOn.forEach(evt => {
+        this.$refs.fileForm.addEventListener(evt, () => {
+          this.isDragged = true
+        })
+      })
+      dragOff.forEach(evt => {
+        this.$refs.fileForm.addEventListener(evt, () => {
+          this.isDragged = false
+        })
+      })
+    },
     showInputFile () {
       document.querySelector("#upload-pic").click()
     },
-
-    appendFileAndRenderPhoto (e) {
-
-     const test = e.target.files[0];
-      const reader = new FileReader();
-
+    delTag (index) {
+      this.tags.splice(index, 1)
+      this.tmpWork.techs = this.tags.join(',')
+    },
+    onDrop (e){
+      console.log(e)
+    },
+    loadImage (image) {
+      this.tmpWork.photo = image
+      const reader = new FileReader()
       try {
-        reader.readAsDataURL(test);
+        reader.readAsDataURL(image)
         reader.onload = () => {
-          this.image = reader.result;
-        };
+          this.image = reader.result
+        }
       } catch (error) {
-        console.log(error)
+        this.showToast(
+          {
+            type: 'error',
+            message: 'Ошибка при чтении файла'
+          }
+        )
+      }
+    },
+    async submit () {
+      this.$v.$touch()
+      if (!this.$v.$error) {
+        try {
+          this.isBlocked = true
+          const isWorkChanged = Object.keys(this.tmpWork).some((key, value) => this.work[key] !== value)
+          if (isWorkChanged) {
+            this.tmpWork.id
+              ? await this.updateWork(this.tmpWork)
+              : await this.saveWork(this.tmpWork)
+          }
+          this.hide()
+        } catch ({message}) {
+          this.showToast( { type: 'error', message });
+        } finally {
+          this.isBlocked = false
+        }
+      }
+    },
+    hide () {
+      this.$emit('hide')
+    },
+    
+    validationMessage (field) {
+      const obj = this.$v.tmpWork[field]
+      if (!this.$v.$error) return ''
+      if (!obj.required) {
+        return "Поле обязательно" 
+      }
+      
+      if (field === 'link' && !obj.url) {
+        return "Введите корректный url" 
+      }
+      if (field !== 'photo' && field !== 'link' && !obj.minLength) {
+        return `Введите не меньше ${obj.$params.minLength.min} символов`
       }
     }
   }
 }
+
 </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
@@ -292,5 +479,19 @@ export default {
     height: 11px;
     width: 11px;
     fill: #414c63;
+  }
+
+  .form__error-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+  }
+  .error {
+    .form__error-tooltip {
+      display: block;
+    }
   }
 </style>

@@ -3,7 +3,7 @@ import formData from '../../utils/formData'
 import generateError from '../../utils/generateError'
 
 export default {
-  namespaced: true,
+ namespaced: true,
   
   state: {
     reviews: []

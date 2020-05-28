@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`На странице есть кнопка  Авторизоваться Ищем кнопку авторизации по классу 1`] = `
+<button
+  class="login__send-data"
+  type="submit"
+>
+  Отправить
+</button>
+`;

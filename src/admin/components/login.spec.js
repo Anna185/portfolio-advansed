@@ -16,7 +16,7 @@ describe('На странице есть кнопка  Авторизовать�
   it ('Ищем кнопку авторизации по слову  Авторизоваться', () => {
 
     const wrapper = shallowMount(login);
-    const button = wrapper.find("button");
+    const button = wrapper.findAll("button").at(2);
 
     expect(button.text()).toBe('Авторизоваться');
 

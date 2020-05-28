@@ -12,18 +12,21 @@
     .about__content
       .container.about__content-container
         ul.skill-group__list
-          li.skill-group__item(v-if="showAddSkillGroup")
-            SkillGroup(:value="emptySkillGroup")
+          li.skill-group__item(v-if="showAddGroup")
+            SkillGroup(
+              :skillGroup="category"
+              @hide="hideAddGroup")
           li(
-            v-for="skillGroup in skillGroups"
-            :key="skillGroup.id"
+            v-for="category in categories"
+            :key="category.id"
           ).skill-group__item
             SkillGroup(
-              :value="skillGroup"
+              :skillGroup="category"
             )
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import AddBtn from "../AddBtn"
 import SkillGroup from "./SkillGroup"
 export default {
@@ -32,72 +35,36 @@ export default {
     SkillGroup
   },
 
-  data () {
+   data () {
     return {
-      skillGroups: [
-        {
-          "id": 1,
-          "title": "Frontend",
-          "skills": [
-            {
-              "id": 1,
-              "title": "HTML5",
-              "percent": 100
-            },
-            {
-              "id": 2,
-              "title": "CSS3",
-              "percent": 50
-            },
-            {
-              "id": 3,
-              "title": "JavaScript",
-              "percent": 25
-            },
-            {
-              "id": 4,
-              "title": "VueJs",
-              "percent": 30
-            }
-      
-          ]
-        },
-        {
-          "id": 2,
-          "title": "Workflow",
-          "skills": [
-            {
-              "id": 1,
-              "title": "GIT",
-              "percent": 45
-            },
-            {
-              "id": 2,
-              "title": "Terminal",
-              "percent": 60
-            },
-            {
-              "id": 3,
-              "title": "Gulp",
-              "percent": 30
-            },
-            {
-              "id": 4,
-              "title": "Webpack",
-              "percent": 75
-            }
-          ]
-        }
-      ],
-emptySkillGroup: {
-        id: '',
-        title: '',
-        skills: []
+      category: {
+        category: ''
       },
-      showAddSkillGroup: false
+      showAddGroup: false
+    }
+  },
+  computed: {
+    ...mapState('categories', ['categories']),
+    ...mapState('auth', ['user'])
+  },
+  
+  beforeRouteLeave (to, from, next) {
+    this.showAddGroup = false
+    next()
+  },
+  created() {
+    this.loadCategories(this.user.id)
+  },
+  methods: {
+    ...mapActions('categories', ['loadCategories']),
+    
+    hideAddGroup () {
+      this.showAddGroup = false
+      this.category = {
+        category: ''
+      }
     }
   }
-  
 }
 </script>
 <style lang="postcss" scoped>

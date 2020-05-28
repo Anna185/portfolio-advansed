@@ -16,7 +16,7 @@
           li.reviews__item
             AddBtn(
               text="Добавить отзыв"
-              size="plain"
+              type="plain"
               @click="showAddReview = true"
             )
           li.reviews__item(
@@ -54,7 +54,10 @@ export default {
 
     computed: {
     ...mapGetters('reviews', ['modifiedReviews']),
-    ...mapState('auth', ['user'])
+    ...mapGetters (['getUser']),
+    load() {
+      this.loadReviews(this.getUser.id)
+    }
   },
   
   beforeRouteLeave (to, from, next) {

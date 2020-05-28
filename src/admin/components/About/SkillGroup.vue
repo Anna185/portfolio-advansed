@@ -2,40 +2,77 @@
   .skill-group.card
     .skill-group__header
       .skill-group__header-value(v-if="!editMode")
-        .skill-group__header-title {{value.title}}
-        CardBtn(icon="edit" @click="switchEdit").btn
+        .skill-group__header-title {{tmpGroup.category}}
+        .skill-group__header-btns
+          CardBtn(
+            icon="edit" 
+            type="button"
+            @click="switchEdit"
+          ).btn
+          CardBtn(
+            icon="trash" 
+            type="button"
+            @click="deleteCategory(tmpGroup.id)"
+          ).btn
       .skill-group__header-form(v-else)
-        form.add__form.add__form--group
+        form(
+          @submit.prevent="saveGroup"
+          @reset.prevent="switchEdit"
+        ).add__form.add__form--group
           .add__form-wrap
-            .add__form-field 
-              input(v-model="value.title" placeholder="Название новой группы").add__form-input
-            .add__form-btns.add__form-btns--colored
-              CardBtn(icon="confirm").btn
-              CardBtn(icon="delete" @click="switchEdit").btn 
+            .add__form-field
+              CustomInput(
+                v-model="tmpGroup.category"
+                :noSidePaddings="true"
+                placeholder="Название новой группы"
+                :errorText="validationMessage('tmpGroup', 'category')"
+              )
+            .add__form-btns.add__form-btns--colored(:class="{ 'blocked': isBlocked }")
+              CardBtn(
+                icon="confirm"
+                type="submit"
+              ).btn
+              CardBtn(
+                icon="delete"
+                type="reset"
+              ).btn 
       hr.divider
     .skill-group__content
       ul.skill-group__list
         li(
-          v-for="skill in value.skills"
+          v-for="skill in skillGroup.skills"
           :key="skill.id"
         ).skill-group__item
           Skill(
             :skill="skill"
           )
-    .skill-group__add-item
-      form.add__form.add__form--skill
+    .skill-group__add-item(:class="blockAdding")
+      form.add__form.add__form--skill(@submit.prevent="addSkill")
         .add__form-wrap
           .add__form-field 
-            input(placeholder="Новый навык").add__form-input
+            CustomInput(
+              v-model="newSkill.title"
+              placeholder="Новый навык"
+              :errorText="validationMessage('newSkill', 'title')"
+            )
           .add__form-field 
-            input(placeholder="100 %").add__form-input
-          AddBtn
+            CustomInput(
+              v-model="newSkill.percent"
+              placeholder="100 %"
+              :errorText="validationMessage('newSkill', 'percent')"
+            )
+          AddBtn(
+            :class="{ 'blocked': isBlocked }"
+            type="submit"
+          )
 </template>
 <script>
 import Skill from "./Skill"
 import AddBtn from "../AddBtn"
 import CardBtn from "../CardBtn"
 import CustomInput from "../CustomInput"
+import { mapActions, mapMutations } from 'vuex'
+import { required, minLength, numeric, maxValue } from 'vuelidate/lib/validators'
 export default {
   components: {
     Skill,
@@ -45,18 +82,136 @@ export default {
   },
 
   props: {
-    value: Object
+    skillGroup: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
   },
 
   data () {
     return {
-      editMode: false
+      editMode: false,
+      tmpGroup: {...this.value},
+      newSkill: {
+        title: '',
+        percent: '',
+        category: 0
+      },
+      isBlocked: false
     }
   },
 
+  validations () {
+    let rules = {
+      tmpGroup:{
+        category: {
+          required,
+          minLength: minLength(6)
+        }
+      }
+    }
+    if (this.tmpGroup.id && !this.editMode) {
+      rules.newSkill = {
+          title: {
+          required,
+          minLength: minLength(2)
+        },
+        percent: {
+          required,
+          numeric,
+          maxValue: maxValue(100)
+        }
+      }
+    }
+    return rules
+  },
+  computed: {
+    blockAdding () {
+      return !this.tmpGroup.id ? 'blocked' : ''
+    }
+  },
+  created() {
+    Object.assign(this.tmpGroup, this.skillGroup)
+    if (!this.tmpGroup.id) {
+      this.editMode=true
+    }
+  },
   methods: {
+    ...mapActions(
+      'categories',
+      [
+        'saveSkill',
+        'saveCategory',
+        'updateCategory',
+        'deleteCategory'
+      ]
+    ),
+    ...mapMutations('toast', ['showToast']),
     switchEdit () {
       this.editMode = !this.editMode
+      this.$emit('hide');
+      this.$v.tmpGroup.$reset()
+    },
+    
+    validationMessage (object, field) {
+      if (!this.$v[object]) return ''
+      const obj = this.$v[object][field]
+      if (!this.$v[object].$error) return ''
+      if (!obj.required) {
+        return "Поле обязательно" 
+      }
+      if (field !== 'percent' && !obj.minLength) {
+        return `Введите не меньше ${obj.$params.minLength.min} символов`
+      }
+      if (field === 'percent') {
+        if (!obj.numeric) {
+          return `Введите только цифры`
+        }
+        
+        if (!obj.maxValue) {
+          return  `Значение не должно быть больше ${obj.$params.maxValue.max}`
+        }
+      }
+    },
+    async saveGroup () {
+      this.$v.tmpGroup.$touch()
+      if (!this.$v.tmpGroup.$error) {
+        try {
+          this.isBlocked = true
+          if (this.tmpGroup.category !== this.skillGroup.category) {
+            this.tmpGroup.id
+              ? await this.updateCategory(this.tmpGroup)
+              : await this.saveCategory(this.tmpGroup.category)
+          }
+          this.switchEdit()
+        } catch ({message}) {
+          this.showToast( { type: 'error', message });
+        } finally {
+          this.isBlocked = false
+        }
+      }
+    },
+    async addSkill () {
+      this.$v.newSkill.$touch()
+      if (!this.$v.newSkill.$error) {
+        this.newSkill.category = this.tmpGroup.id;
+        try {
+          this.isBlocked = true
+          await this.saveSkill(this.newSkill);
+          this.newSkill = {
+            title: '',
+            percent: '',
+            category: 0
+          }
+          this.$v.newSkill.$reset()
+        } catch ({message}) {          
+          this.showToast( { type: 'error', message });
+        } finally {
+          this.isBlocked = false
+        }
+      }
     }
   }
 }
@@ -101,6 +256,12 @@ export default {
     }
   }
 
+  .skill-group__header-btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
   .skill-group__content {
     padding: 30px 10px 10px 10px;
 
@@ -135,117 +296,69 @@ export default {
    
   }
 
-  .add__form {
+  //-.add__form {
+   // &--skill {
+     // width: 79%;
+
+     // @include tablets {
+        //width: 100%;
+      //}
+
+.add__form {
+    &--group {
+      .add__form-field {
+        flex-basis: 60%;
+        @include tablets {
+          flex-basis: 70%;
+        }
+      }
+    }
     &--skill {
       width: 79%;
-
       @include tablets {
         width: 100%;
       }
-
       .add__form-wrap {
         align-items: initial;
         justify-content: initial;
-
-       
-
+        
         .add__form-field {
-          display: flex;
-          border-bottom: 1px solid currentColor;
-          flex: initial;
-          max-width: initial;
-
           &:nth-child(1) {
             margin-right: 10px;
-            width: 58%;
+            flex-basis: 58%;
           }
-
           &:nth-child(2) {
-            width: 20%;
+            flex-basis: 20%;
             margin-right: 30px;
             @include tablets {
               margin-right: 25px;
-            }
-          }
-
-          .add__form-input {
-            margin-bottom: 0;
-            padding-left: 5%;
-
-            &::placeholder {
-              font-weight: 400;
             }
           }
         }
       }
     }
   }
-
   .add__form-wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .add__form-field {
-      max-width: 60%;
-      flex: 1;
-
-      @include tablets {
-        max-width: 70%
-      }
-    }
   }
-
   .add__form-btns {
     display: flex;
-
     &--colored {
       .btn {
         filter: none;
       }
     }
   }
-
   .btn {
     filter: grayscale(1) brightness(2.5);
-
+    transition: filter .3s ease-in;
     &:hover {
       filter: none;
     }
-
     &:first-child  {
-      margin-right: 20px;
-    }
-  }
-
-  .add__form-field {
-    display: flex;
-    border-bottom: 1px solid currentColor;
-
-    &:focus-within {
-      outline: rgb(77, 144, 254) auto 0.0625em;
-    }
-  }
-
-  .add__form-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 18px;
-    font-weight: 600;
-    padding: 10px 0;
-
-    @include phones {
-      font-size: 16px;
-    }
-
-    &::placeholder {
-      padding-bottom: 15px;
-      opacity: .5;
-
-      @include tablets {
-        font-size: 16px;
-      }
+      margin-right: 15px;
     }
   }
 </style>
