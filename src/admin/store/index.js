@@ -20,5 +20,7 @@ export const store = new Vuex.Store({
 		works,
 		reviews, 
 		
+		
+		
 	}
 });

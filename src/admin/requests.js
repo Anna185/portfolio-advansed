@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 axios.defaults.baseURL = 'https://webdev-api.loftschool.com/'
-const token = localStorage.getItem('user-token')
+const token = localStorage.getItem('token')
 if (token) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
@@ -16,7 +16,7 @@ axios.interceptors.response.use(
         .then(response => {
           const token = response.data.token
 
-          localStorage.setItem('user-token', token)
+          localStorage.setItem('token', token)
           axios.defaults.headers["Authorization"] = `Bearer ${token}`
           originRequest.headers["Authorization"] = `Bearer ${token}`
 

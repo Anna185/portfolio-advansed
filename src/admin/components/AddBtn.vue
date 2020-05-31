@@ -1,34 +1,35 @@
 <template lang="pug">
-  button(
-    v-if="type === 'plain'"
-    type="button"
-  ).add-new-btn.add-new-btn--plain
-    .add-new-btn__text {{text.split(' ').join('\n') }}
-  button(
-    v-else
-    :class="smallClass"
-    type="button"
-  ).add-new-btn {{text ? text : ''}}
-</template>
-<script>
-export default {
-  props: {
-    text: {
-      type: String,
-      default: ''
-    },
-    type: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    smallClass () {
-       return this.type ? 'add-new-btn--small' : "";
-    }
-  }
-}
-</script>
+   button(
+     v-if="type === 'plain'"
+     type="button"
+   ).add-new-btn.add-new-btn--plain
+     .add-new-btn__text {{text.split(' ').join('\n') }}
+   button(
+     v-else
+     :class="smallClass"
+     type="button"
+   ).add-new-btn {{text ? text : ''}}
+ </template>
+ <script>
+ export default {
+   props: {
+     text: {
+       type: String,
+       default: ''
+     },
+     type: {
+       type: String,
+       default: ''
+     }
+   },
+
+   computed: {
+     smallClass () {
+        return this.type ? 'add-new-btn--small' : "";
+     }
+   }
+ }
+ </script>
 <style lang="postcss" scoped>
   @import "../../styles/mixins.pcss";
   .add-new-btn {

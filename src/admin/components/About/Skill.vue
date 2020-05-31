@@ -1,133 +1,47 @@
 <template lang="pug">
-  .skill
-    .skill__data(v-if="!editMode")
-      .skill__title {{skill.title}}
-      .skill__percent
-        .skill__percent-value {{skill.percent}}
-      .skill__btns
-        CardBtn(
-          icon="edit"
-          type="button"
-          @click="switchEdit"
-        ).skill__btn
-        CardBtn(
-          icon="trash"
-          type="button"
-          @click="deleteSkill(skill)"
-        ).skill__btn
-    form(
-      v-else 
-      @submit.prevent="saveSkill"
-    )
-      .skill__data
-        .skill__field 
-          CustomInput(
-            v-model="tmpSkill.title"
-            :errorText="validationMessage('title')"
-            :noSidePaddings="true"
-          )
-        .skill__field 
-          CustomInput(
-            v-model="tmpSkill.percent"
-            :errorText="validationMessage('percent')"
-            :noSidePaddings="true"
-          )
-        .skill__btns.skill__btns--colored
-          CardBtn(
-            type="submit"
-            icon="confirm"
-          ).skill__btn
-          CardBtn(
-            icon="delete" 
-            type="button"
-            @click="switchEdit"
-          ).skill__btn
-</template>
-<script>
-import { mapActions } from 'vuex';
-import CardBtn from "../CardBtn"
-import CustomInput from "../CustomInput"
-import { required, minLength, numeric, maxValue } from 'vuelidate/lib/validators'
-export default {
-  components: {
-    CardBtn,
-    CustomInput
-  },
-  
-  props: {
-    skill: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  },
+   .skill
+     .skill__data(v-if="!editMode")
+       .skill__title {{skill.title}}
+       .skill__percent
+         .skill__percent-value {{skill.percent}}
+       .skill__btns
+         CardBtn(icon="edit" @click="switchEdit").skill__btn
+         CardBtn(icon="trash").skill__btn
+     .skill__data.skill__data--underline(v-else)
+       .skill__title
+         .skill__field 
+           input(type="text" v-model="skill.title").skill__field-input
+       .skill__percent
+         .skill__field 
+           input(type="text" v-model="skill.percent").skill__field-input
+       .skill__btns.skill__btns--colored
+         CardBtn(icon="confirm").skill__btn
+         CardBtn(icon="delete" @click="switchEdit").skill__btn
+ </template>
+ <script>
+ import CardBtn from "../CardBtn"
+ export default {
+   components: {
+     CardBtn
+   },
+   
+   props: {
+     skill: Object
+   },
 
+   data () {
+     return {
+       editMode: false
+     }
+   },
 
-  data () {
-    return {
-      editMode: false,
-      tmpSkill: {...this.skill}
-    }
-  },
-
-  validations: {
-    tmpSkill: {
-      title: {
-        required,
-        minLength: minLength(2)
-      },
-      percent: {
-        required,
-        numeric,
-        maxValue: maxValue(100)
-      }
-    }
-  },
-
-  methods: {
-    ...mapActions(
-      'categories',
-      ['deleteSkill', 'updateSkill']
-    ),
-    switchEdit () {
-      this.editMode = !this.editMode
-      if (this.editMode) {
-        this.tmpSkill = {...this.skill}
-        this.$v.tmpSkill.$reset()
-      }
-    },
-    validationMessage (field) {
-      if (!this.$v.tmpSkill) return ''
-      const obj = this.$v.tmpSkill[field]
-      if (!this.$v.tmpSkill.$error) return ''
-      if (!obj.required) {
-        return "Поле обязательно" 
-      }
-      if (field !== 'percent' && !obj.minLength) {
-        return `Введите не меньше ${obj.$params.minLength.min} символов`
-      }
-      if (field === 'percent') {
-        if (!obj.numeric) {
-          return `Введите только цифры`
-        }
-        
-        if (!obj.maxValue) {
-          return  `Значение не должно быть больше ${obj.$params.maxValue.max}`
-        }
-      }
-    },
-    async saveSkill () {
-      this.$v.tmpSkill.$touch()
-      if (!this.$v.tmpSkill.$error) {
-        await this.updateSkill(this.tmpSkill);
-        this.switchEdit()
-      }
-    }
-  }
-}
-</script>
-</script>
+   methods: {
+     switchEdit () {
+       this.editMode = !this.editMode
+     }
+   }
+ }
+ </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
 
@@ -138,6 +52,7 @@ export default {
   .skill__data {
     display: flex;
     justify-content: space-between;
+  
 
     &--underline {
       .skill__title,

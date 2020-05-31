@@ -16,7 +16,7 @@
 import { mapActions } from 'vuex'
 export default {
   methods: {
-    ...mapActions('auth', ['logoutUser']),
+    ...mapActions('login', ['logoutUser']),
     async logout() {
       await this.logoutUser()
       await this.$router.replace('/login')

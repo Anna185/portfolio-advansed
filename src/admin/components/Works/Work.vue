@@ -1,64 +1,43 @@
 <template lang="pug">
-  .work.card
-    .work__preview
-      .work__image-wrap
-        img(:src="work.photo").work__image
-      .work__tags
-        ul.work__tags-list
-          li.work__tag(
-            v-for="tag in tags"
-            :key="tag"
-          )
-            .tag {{tag}}
-    .work__info
-      h3.work__title {{work.title}}
-      .work__decs
-        p {{work.description}}
-      a(:href="work.link").work__link {{work.link}}
-    .work__btns
-      CardBtn(
-        title="Править"
-        icon="edit"
-        @click="editWork"
-      )
-      CardBtn(
-        title="Удалить" 
-        icon="delete"
-        @click="deleteWork(work.id)"
-      )
-</template>
-<script>
-import { mapActions } from 'vuex'
-import CardBtn from "../CardBtn"
-export default {
-  props: {
-    work: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  },
+   .work.card
+     .work__preview
+       .work__image-wrap
+         img(:src="value.image").work__image
+       .work__tags
+         ul.work__tags-list
+           li.work__tag(
+             v-for="tag in tags"
+             :key="tag"
+           )
+             .tag {{tag}}
+     .work__info
+       h3.work__title {{value.title}}
+       .work__decs
+         p {{value.desc}}
+       a(:href="value.link").work__link http:{{value.link}}
+     .work__btns
+       CardBtn(title="Править" icon="edit")
+       CardBtn(title="Удалить" icon="delete")
+ </template>
+ <script>
+ import CardBtn from "../CardBtn"
+ export default {
+   props: {
+     value: Object
+   },
 
-  components: {
-    CardBtn
-  },
+   components: {
+     CardBtn
+   },
 
-  computed: {
-    tags () {
-      if (!this.work) return []
-      return this.work.techs.split(",").map(tag =>tag.trim())
-  }
-},
-
-methods: {
-    ...mapActions('works', ['deleteWork']),
-    editWork () {
-      this.$emit('edit', this.work)
-    }
-  }
-}
-</script>
+   computed: {
+     tags () {
+       if (!this.value) return []
+       return this.value.skills.split(", ");
+     }
+   }
+ }
+ </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
 

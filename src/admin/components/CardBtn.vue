@@ -1,25 +1,27 @@
 <template lang="pug">
-  button(
-    :class="[className, noMargin]"
-    v-on="$listeners"
-  ).btn {{title}}
-</template>
-<script>
-export default {
-  props: {
-    title: String,
-    icon: String
-  },
-  computed: {
-    className() {
-      return `btn--${this.icon}`
-    },
-    noMargin() {
-      return  this.title ? "" : "btn--empty-after-margin"
-    }
-  }
-}
-</script>
+   button(
+     :class="[className, noMargin]"
+     v-on="$listeners"
+   ).btn {{title}}
+ </template>
+ <script>
+ export default {
+   props: {
+     title: String,
+     icon: String
+   },
+
+   computed: {
+     className() {
+       return `btn--${this.icon}`
+     },
+
+     noMargin() {
+       return  this.title ? "" : "btn--empty-after-margin"
+     }
+   }
+ }
+ </script>
 <style lang="postcss" scoped>
   .btn {
     color: rgba(#414c63, .7);

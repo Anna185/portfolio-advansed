@@ -18,13 +18,11 @@ export default {
       default: ''
     },
   },
-
   data() {
     return {
       icon: null,
     };
   },
-
   computed: {
     src() {
       return this.icon.url;
@@ -33,7 +31,6 @@ export default {
       return this.icon.viewBox;
     },
   },
-
   created() {
     this.icon = require(`../../images/icons/${this.iconName}.svg`).default;
   }

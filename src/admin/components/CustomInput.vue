@@ -1,59 +1,59 @@
 <template lang="pug">
-  label.input(
-    v-if="fieldType === 'input'" 
-    :class="[{'input_labeled' : !!title, 'no-side-paddings' : noSidePaddings}, iconClass]"
-  )
-    .input__title(v-if="title") {{title}}
-    .input__wrap
-      Icon(
-        v-if="icon"
-        className="input__icon",
-        :iconName="icon")
-      input(
-        v-bind="$attrs"
-        :value="value" 
-      ).input__elem.field__elem
+   label.input(
+     v-if="fieldType === 'input'" 
+     :class="[{'input_labeled' : !!title, 'no-side-paddings' : noSidePaddings}, iconClass]"
+   )
+     .input__title(v-if="title") {{title}}
+     .input__wrap
+       Icon(
+         v-if="icon"
+         className="input__icon",
+         :iconName="icon")
+       input(
+         v-bind="$attrs"
+         :value="value" 
+       ).input__elem.field__elem
 
-  label.textarea(
-    v-else-if="fieldType === 'textarea'"
-  )
-    .input__title(v-if="title") {{title}} 
-    textarea.textarea__elem.field__elem(
-      v-bind="$attrs"
-      :value="value"
-    )
-</template>
+   label.textarea(
+     v-else-if="fieldType === 'textarea'"
+   )
+     .input__title(v-if="title") {{title}} 
+     textarea.textarea__elem.field__elem(
+       v-bind="$attrs"
+       :value="value"
+     )
+ </template>
 
-<script>
-import Icon from "./Icon"
-export default {
-  inheritAttrs: false,
-  props: {
-    title: String,
-    noSidePaddings: Boolean,
-    fieldType: {
-      type: String,
-      default: "input"
-    },
-    value: String | Number,
-    icon: {
-      type: String,
-      default: ""
-    }
-  },
+ <script>
+ import Icon from "./Icon"
+ export default {
+   inheritAttrs: false,
+   props: {
+     title: String,
+     noSidePaddings: Boolean,
+     fieldType: {
+       type: String,
+       default: "input"
+     },
+     value: String | Number,
+     icon: {
+       type: String,
+       default: ""
+     }
+   },
 
-  components: {
-    Icon
-  },
+   components: {
+     Icon
+   },
 
-  computed: {
-    iconClass() {
-      const iconName = this.icon;
-      return iconName.length ? ` input_iconed input_icon-${iconName}` : "";
-    }
-  }
-};
-</script>
+   computed: {
+     iconClass() {
+       const iconName = this.icon;
+       return iconName.length ? ` input_iconed input_icon-${iconName}` : "";
+     }
+   }
+ };
+ </script>
 
 <style lang="postcss" scoped>
   @import url("../../styles/mixins.pcss");

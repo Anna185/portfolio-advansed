@@ -3,43 +3,29 @@
     .review__author
       .author
         .author__avatar
-            img(:src="review.photo").author__avatar-img
+            img(:src="value.photo").author__avatar-img
         .author__data
-          h3.author__name {{review.author}}
-          h4.author__desc {{review.occ}}
+          h3.author__name {{value.author}}
+          h4.author__desc {{value.occ}}
       hr.divider
     .review__content
       .review__text
-        p {{review.text}}
+        p {{value.text}}
     .review__btns
-      CardBtn(title="Править" icon="edit" @click="editReview")
-      CardBtn(title="Удалить" icon="delete" @click="deleteReview(review.id)")
+      CardBtn(title="Править" icon="edit")
+      CardBtn(title="Удалить" icon="delete")
 </template>
 <script>
-import { mapActions } from 'vuex'
 import CardBtn from "../CardBtn"
 export default {
   props: {
-    review: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
+    value: Object
   },
 
   components: {
     CardBtn
-  },
-
-  methods: {
-    ...mapActions('reviews', ['deleteReview']),
-    editReview () {
-      this.$emit('edit', this.review)
-    }
   }
 }
-
 </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
