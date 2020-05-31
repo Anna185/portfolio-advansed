@@ -29,7 +29,7 @@
              input(placeholder="Новый навык").add__form-input
            .add__form-field 
              input(placeholder="100 %").add__form-input
-           AddBtn
+           AddBtn(type="submit")
  </template>
  <script>
  import Skill from "./Skill"

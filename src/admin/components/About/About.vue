@@ -3,92 +3,77 @@
      .about__header
        .container.about__header-container
          h1.page-title.about__title Блок «Обо мне»
-         .about__header-btn
-           AddBtn(text="Добавить группу" type="small")
+         button(type="button" @click.prevent="toggleAddForm" v-if="!isShowNewBlock").about__header-btn Добавить группу
+          
      .about__content
        .container.about__content-container
          ul.skill-group__list
-           li(
-             v-for="skillGroup in skillGroups"
-             :key="skillGroup.id"
-           ).skill-group__item
+           li.skill-group__item(v-if="isShowNewBlock")
+             AddBtn(@toggleAddForm="toggleAddForm")
+           li.skill-group__item(v-for="category in categories" :key="category.id")
              SkillGroup(
-               :value="skillGroup"
+               :category="category"
+               
+               :skills="filterCategorySkills(category.id)"
              )
  </template>
 
 <script>
-//import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import AddBtn from "../AddBtn"
 import SkillGroup from "./SkillGroup"
 export default {
    components: {
-     AddBtn,
-     SkillGroup
+     SkillGroup,
+		  AddBtn
    },
 
-   data () {
-     return {
-       skillGroups: [
-         {
-           "id": 1,
-           "title": "Frontend",
-           "skills": [
-             {
-               "id": 1,
-               "title": "HTML5",
-               "percent": 100
-             },
-             {
-               "id": 2,
-               "title": "CSS3",
-               "percent": 50
-             },
-             {
-               "id": 3,
-               "title": "JavaScript",
-               "percent": 25
-             },
-             {
-               "id": 4,
-               "title": "VueJs",
-               "percent": 30
-             }
-       
-           ]
-         },
-         {
-           "id": 2,
-           "title": "Workflow",
-           "skills": [
-             {
-               "id": 1,
-               "title": "GIT",
-               "percent": 45
-             },
-             {
-               "id": 2,
-               "title": "Terminal",
-               "percent": 60
-             },
-             {
-               "id": 3,
-               "title": "Gulp",
-               "percent": 30
-             },
-             {
-               "id": 4,
-               "title": "Webpack",
-               "percent": 75
-             }
-           ]
-         }
-       ]
-     }
-   }
-   
- }
- </script>
+   data() {
+			return{
+			isShowNewBlock:false,
+						
+			}
+		}, 
+		
+		computed: {
+			 ...mapState('about', {
+			categories: state => state.categories
+			}),
+    		...mapState('skills', {
+      		skills: state => state.skills
+			})
+		
+			
+		} ,
+		
+		methods: {
+			...mapActions('about', ['getCategories']),
+			...mapActions('skills', ['getSkills']),			
+			
+			filterCategorySkills(catid) {
+		  		return this.skills.filter(skill => skill.category === catid);
+		},
+		toggleAddForm() {
+				this.isShowNewBlock = !this.isShowNewBlock
+			}		
+			
+		}, 
+		async created() {
+			
+			try {
+			await this.getCategories();
+    		} catch (e) {
+			}
+			
+			try {
+      			await this.getSkills();
+    		} catch (e) {
+      
+				}
+    		}
+		}
+	
+</script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
 

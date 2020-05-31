@@ -7,7 +7,9 @@ import login from "./login.js"
 import toast from './modules/toast';
 import reviews from ".//modules/reviews";
 import categories from "./modules/categories";
-import works from './modules/works'
+import works from './modules/works';
+import about from './modules/about';
+import skills from './modules/skills';
 
 
 Vue.use(Vuex);
@@ -19,6 +21,8 @@ export const store = new Vuex.Store({
 		categories,
 		works,
 		reviews, 
+		about,
+		skills,
 		
 		
 		
