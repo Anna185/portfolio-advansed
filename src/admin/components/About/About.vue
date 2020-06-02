@@ -27,7 +27,6 @@ export default {
      SkillGroup,
 		  AddBtn
    },
-
    data() {
 			return{
 			isShowNewBlock:false,
@@ -76,33 +75,25 @@ export default {
 </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
-
   .about__header {
     margin-bottom: 60px;
   }
-
   
-
   .about__header-container {
     display: flex;
   }
-
    
-
   .about__title {
     margin-right: 60px;
     margin-bottom: 0;
-
    
   }
-
   .about__header-btn {
     display: flex;
     background-color: transparent;
 		color: #383bcf;
 		border: none;
 		font-size: 18px;
-
 		&:before {
 			content: '+';
 			color: #fff;
@@ -119,22 +110,18 @@ export default {
 		
 	
   }
-
  
-
   .skill-group__list {
     display: flex;
     margin-left: -30px;
     flex-wrap: wrap;
   }
-
   .skill-group__item {
     width: calc(100% / 2 - 30px);
     margin-left: 30px;
     margin-bottom: 30px;
     display: flex;
   }
-
    .add-new-btn {
     display: flex;
     align-items: center;

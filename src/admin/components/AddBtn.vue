@@ -49,22 +49,23 @@
       font-size: 14px;
     }
     &:before {
-      content: "";
-      display: block;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: svg-load('cross.svg', fill=$white, width=15px, height=15px, transform='rotate(45deg)') center center no-repeat, linear-gradient(to right, #006aed, #3f35cb);
-      color: $white;
-      flex-shrink: 0;
-      flex-basis: 40px;
-      font-size: 30px;
-      line-height: 40px;
-    } 
+      
+			content: '+';
+			color: #fff;
+			width: 21px;
+			height: 21px;
+			border-radius: 50%;
+			background: linear-gradient(to right, #1d51dd, #3f35cb);
+			display: flex;
+			justify-content: center;
+			
+			margin-right: 10px;
+		}
+    
     &--small {
       &:before {
-        content: "";
-        background: svg-load('cross.svg', fill=$white, width=8px, height=8px, transform='rotate(45deg)') center center no-repeat, linear-gradient(to right, #006aed, #3f35cb);
+        content: "+";
+        background: linear-gradient(to right, #1d51dd, #3f35cb);
         width: 20px;
         height: 20px;
         flex-basis: 20px;

@@ -8,18 +8,12 @@
         )
       form.login__form(@submit.prevent="toLogin")
         .login__form-title Авторизация
-        .login__row
-          CustomInput(
-            type="text" v-model="user.name" required
-            title="Логин"
-            icon="user"
-          )
-        .login__row
-          CustomInput(
-            title="Пароль"
-            icon="key"
-            type="password" v-model="user.password" required
-          )
+        label.login__row
+          span.login__input-title Логин
+            input(type="text" v-model="user.name" required).login__input.login__input--login
+        label.login__row
+          span.login__input-title Пароль
+            input(type="password" v-model="user.password" required).login__input.login__input--password
         .login__btn
           button(
             type="submit"
@@ -106,6 +100,9 @@ export default {
     width: 563px;
     padding: 50px 77px 60px;
     background: $white;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 
     
     @include phones {
@@ -119,7 +116,7 @@ export default {
     }
   }
 
-  .login__form-title {
+  .login__form-title{
     font-size: 36px;
     text-align: center;
     font-weight: 600;
@@ -137,6 +134,7 @@ export default {
 
   .login__row {
     margin-bottom: 35px;
+    display: flex;
   }
 
   .login__btn {
@@ -187,4 +185,27 @@ export default {
   .login__btn.login__send-data {
     position: relative;
   }
+
+  .login__input-title {
+    margin-bottom: 10px;
+		padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+.login__input {
+		border: none;
+		border-bottom: 1px solid  $text-color;
+		padding-bottom: 10px;
+		width: 22rem;
+    padding-left: 10%;
+	}
+	
+	.login__input--login {
+		background: svg-load('user.svg', fill='$text-color', width=20, height=20) no-repeat; 
+	}
+
+  .login__input--password {
+		background: svg-load('key.svg', fill='$text-color', width=20, height=20) no-repeat; 
+	}
 </style>
