@@ -1,6 +1,5 @@
-import axios from "../../requests"
+import axios from '../../requests'
 import formData from '../../utils/formData'
-
 
 export default {
   namespaced: true,

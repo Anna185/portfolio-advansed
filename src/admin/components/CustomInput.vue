@@ -55,6 +55,7 @@
  };
  </script>
 
+
 <style lang="postcss" scoped>
   @import url("../../styles/mixins.pcss");
 

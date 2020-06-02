@@ -6,6 +6,7 @@
       Navigation
     main.content-container
       router-view
+    
 
 </template>
 <script>

@@ -43,8 +43,8 @@
                          className="tag__remove-icon"
                        )
          .form__btns
-           button(type="reset").form__btn.form__btn--plain Отмена          
-           button.form__btn.form__btn--big Загрузить          
+           button(type="reset" :disabled="isBlocked").form__btn.form__btn--plain Отмена          
+           button(type="submit" :disabled="isBlocked").form__btn.form__btn--big Загрузить          
  </template>
  <script>
  import Icon from "../Icon"
@@ -103,6 +103,7 @@
    }
  }
  </script>
+
 <style lang="postcss" scoped>
    @import "../../../styles/mixins.pcss";
 

@@ -61,7 +61,6 @@ export default {
           catch (error) {
             console.log(error.message)
           }
-
         }
       },
       validForm() {
@@ -73,7 +72,6 @@ export default {
         }
       }
   }
-
 }
 </script>
 <style lang="postcss" scoped>

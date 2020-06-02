@@ -21,7 +21,6 @@ export default {
   props: {
     value: Object
   },
-
   components: {
     CardBtn
   }

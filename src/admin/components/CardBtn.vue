@@ -2,26 +2,27 @@
    button(
      :class="[className, noMargin]"
      v-on="$listeners"
+     v-bind="$attrs"
    ).btn {{title}}
  </template>
  <script>
  export default {
-   props: {
-     title: String,
-     icon: String
-   },
-
-   computed: {
-     className() {
-       return `btn--${this.icon}`
-     },
-
-     noMargin() {
-       return  this.title ? "" : "btn--empty-after-margin"
-     }
-   }
- }
+  inheritAttrs: false,
+  props: {
+    title: String,
+    icon: String
+  },
+  computed: {
+    className() {
+      return `btn--${this.icon}`
+    },
+    noMargin() {
+      return  this.title ? "" : "btn--empty-after-margin"
+    }
+  }
+}
  </script>
+ 
 <style lang="postcss" scoped>
   .btn {
     color: rgba(#414c63, .7);

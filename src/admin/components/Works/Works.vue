@@ -5,24 +5,33 @@
          h1.page-title.works__title Блок «Работы»
      .works__content
        .container.works__container
-         WorkEdit()
+         WorkEdit(
+           v-if="showAddWork"
+           :work="work"
+
+         )
 
          ul.works__list
            li.works__item
              AddBtn(
                text="Добавить работу"
-               type="plain")
+               type="plain"
+               @click="showAddWork = true"
+            )
            li.works__item(
-             v-for="work in works"
+             v-for="work in modifiedWorks"
              :key="work.id"
            )
              work(
-             :value="work")
+             :work="work"
+             @edit="editWork"
+          )
  </template>
  <script>
  import Work from "./Work"
  import AddBtn from "../AddBtn"
  import WorkEdit from "./WorkEdit"
+ import { mapState, mapActions, mapGetters } from 'vuex'
  export default {
    components: {
      Work,
@@ -30,53 +39,49 @@
      WorkEdit
    },
 
-   created() {
-     this.works = this.makeArrWithRequireImages(this.works)
-   },
-
    data () {
-     return {
-       works: [
-         {
-           "id": 1,
-           "title": "Сайт школы образования",
-           "skills": "Html, Css, JavaScript",
-           "image": "slider-one.jpg",
-           "link": "//google.com",
-           "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
-         },
-         {
-           "id": 2,
-           "title": "Сайт школы образованияа",
-           "skills": "Html, Css, JavaScript",
-           "image": "slider-two.jpg",
-           "link": "//yandex.ru",
-           "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
-         },
-         {
-           "id": 3,
-           "title": "Сайт школы образования",
-           "skills": "Html, Css, JavaScript",
-           "image": "slider-three.jpg",
-           "link": "//rambler.ru",
-           "desc": "Этот парень проходил обучение веб-разработке не где-то, а в LoftSchool! 2 месяца только самых тяжелых испытаний и бессонных ночей!"
-         }
-       ]
-     }
-   },
-
-    methods: {
-     makeArrWithRequireImages(array) {
-       return array.map((item) => {
-         const requirePic = require(`../../../images/content/works/${item.image}`);
-         item.image = requirePic;
-         return item;
-       });
-     }
-   }
-   
- }
- </script>
+    return {
+      showAddWork: false,
+      work: {
+        title: '',
+        link: '',
+        description: '',
+        techs: '',
+        photo: null
+      }
+    }
+  },
+  computed: {
+    ...mapGetters('works', ['modifiedWorks']),
+    ...mapState('login', ['user'])
+  },
+  beforeRouteLeave (to, from, next) {
+    this.showAddWork = false
+    next()
+  },
+  created() {
+    this.loadWorks(this.user.id)
+  },
+  methods: {
+    ...mapActions('works', ['loadWorks']),
+    hideAddWork () {
+      this.showAddWork = false
+      this.work = {
+        title: '',
+        link: '',
+        description: '',
+        techs: '',
+        photo: null
+      }
+    },
+    editWork (work) {
+      Object.assign(this.work, work)
+      this.showAddWork = true
+    }
+  }
+  
+}
+</script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
 
