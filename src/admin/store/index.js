@@ -3,9 +3,9 @@ import Vuex from "vuex";
 
 
 
-import login from "./login.js"
+import login from './modules/login';
 import toast from './modules/toast';
-import reviews from ".//modules/reviews";
+import reviews from "./modules/reviews";
 import categories from "./modules/categories";
 import works from './modules/works';
 import about from './modules/about';

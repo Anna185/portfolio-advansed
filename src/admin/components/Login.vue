@@ -25,7 +25,7 @@
 import Icon from "./Icon"
 import CustomInput from "./CustomInput"
 import {mapActions, mapGetters} from "vuex";
-import $axios from "../requests"
+import axios from "../requests"
 
 export default {
   components: {
@@ -44,13 +44,13 @@ export default {
 
   },
   methods: {
-  ...mapActions(["loginUser"]),
+  ...mapActions('login',['loginUser']),
       async toLogin() {
         if (this.validForm()) {
           try {
             const {data: {token}} = await this.loginUser(this.user);
             localStorage.setItem("token", token);
-            this.$router.replace("/About");
+            this.$router.replace("/");
           }
           catch (error) {
             console.log(error.message)
