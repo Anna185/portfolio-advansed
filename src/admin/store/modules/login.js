@@ -20,6 +20,17 @@ export default {
     logout({ commit }) {
       commit("CLEAR_USER");
       localStorage.clear();
+    },
+    async loginUser({commit}, user) {
+      try {
+       const response = await this.$axios.post('/login', user);
+        commit('SET_USER', user)
+        return response
+    }   catch (error) {
+        console.log(error)
     }
+    
   }
+}
 };
+

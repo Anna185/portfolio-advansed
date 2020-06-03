@@ -9,7 +9,7 @@
        .container.about__content-container
          ul.skill-group__list
            li.skill-group__item(v-if="isShowNewBlock")
-             AddBtn(@toggleAddForm="toggleAddForm")
+             AddCategory(@toggleAddForm="toggleAddForm")
            li.skill-group__item(v-for="category in categories" :key="category.id")
              SkillGroup(
                :value="category"
@@ -20,58 +20,58 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import AddBtn from "../AddBtn"
+import  AddCategory from "./AddCategory"
 import SkillGroup from "./SkillGroup"
 export default {
    components: {
      SkillGroup,
-		  AddBtn
+      AddCategory
    },
    data() {
-			return{
-			isShowNewBlock:false,
-						
-			}
-		}, 
-		
-		computed: {
-			 ...mapState('about', {
-			categories: state => state.categories
-			}),
-    		...mapState('skills', {
-      		skills: state => state.skills
-			})
-		
-			
-		} ,
-		
-		methods: {
-			...mapActions('about', ['getCategories']),
-			...mapActions('skills', ['getSkills']),			
-			
-			filterCategorySkills(catid) {
-		  		return this.skills.filter(skill => skill.category === catid);
-		},
-		toggleAddForm() {
-				this.isShowNewBlock = !this.isShowNewBlock
-			}		
-			
-		}, 
-		async created() {
-			
-			try {
-			await this.getCategories();
-    		} catch (e) {
-			}
-			
-			try {
-      			await this.getSkills();
-    		} catch (e) {
+      return{
+      isShowNewBlock:false,
+            
+      }
+    }, 
+    
+    computed: {
+       ...mapState('about', {
+      categories: state => state.categories
+      }),
+        ...mapState('skills', {
+          skills: state => state.skills
+      })
+    
       
-				}
-    		}
-		}
-	
+    } ,
+    
+    methods: {
+      ...mapActions('about', ['getCategories']),
+      ...mapActions('skills', ['getSkills']),     
+      
+      filterCategorySkills(catid) {
+          return this.skills.filter(skill => skill.category === catid);
+    },
+    toggleAddForm() {
+        this.isShowNewBlock = !this.isShowNewBlock
+      }   
+      
+    }, 
+    async created() {
+      
+      try {
+      await this.getCategories();
+        } catch (e) {
+      }
+      
+      try {
+            await this.getSkills();
+        } catch (e) {
+      
+        }
+        }
+    }
+  
 </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";

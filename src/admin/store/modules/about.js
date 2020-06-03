@@ -35,7 +35,7 @@ export default {
     },
     async getCategories({commit}) {
       try {
-        const response = await this.$axios.get("/categories/303");
+        const response = await this.$axios.get("/categories/333");
         commit('GET_CATEGORIES', response.data);
         return response
       } catch(e) {
