@@ -21,7 +21,7 @@
             v-for="review in modifiedReviews"
             :key="review.id"
           )
-            review(
+            Review(
               :review="review"
               @edit="editReview"
             )

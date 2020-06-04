@@ -1,12 +1,26 @@
 <template lang="pug">
-.skill-group__add-item
-  form.add__form.add__form--skill
-    .add__form-wrap
-      .add__form-field 
-        input(type="text" placeholder="Новый навык" v-model='category').add__form-input
-      .add__form-field 
-        input(type="text" placeholder="100 %").add__form-input
-      AddBtn(type="submit" @click.prevent='addCat').add__form-btn +
+  .skill-group.card
+    .skill-group__header
+      .skill-group__header-value
+        .skill-group__header-title 
+        CardBtn(icon="edit" @click="switchEdit").btn
+      .skill-group__header-form
+        form.add__form.add__form--group
+          .add__form-wrap
+            .add__form-field 
+              input(v-model="title" placeholder="Название новой группы").add__form-input
+            .add__form-btns.add__form-btns--colored
+              CardBtn(icon="confirm").btn
+              CardBtn(icon="delete" @click="switchEdit").btn 
+      
+      .skill-group__add-item
+          form.add__form.add__form--skill
+            .add__form-wrap
+              .add__form-field 
+                input(type="text" placeholder="Новый навык" v-model='category').add__form-input
+            .add__form-field 
+              input(type="text" placeholder="100 %").add__form-input
+            AddBtn(type="submit" @click.prevent='addCat').add__form-btn +
 </template>
  <script>
  import Skill from "./Skill"
@@ -18,14 +32,24 @@
  import {mapActions} from "vuex"
 
  export default {
+   components: {
+     Skill,
+     AddBtn,
+     CardBtn,
+     CustomInput
+   },
+
 
     data() {
       return {
-        category: ''
+        category: '',
+        title:'',
+        editMode: false
       }
     },
    props: {
      inheritAttrs: false,
+      
      text: {
        type: String,
        default: ''
@@ -33,14 +57,20 @@
      type: {
        type: String,
        default: ''
-     }
+     },
+     value: Object,
    },
+   
+ 
   
    methods: {
      ...mapActions('categories', ['saveCategory']),
     async addCat() {
       await this.saveCategory(this.category)
-    }
+    },
+    //switchEdit () {
+     // this.editMode = !this.editMode
+     //}
    }
  }
 </script>
@@ -127,5 +157,117 @@
 		//	display: flex;
 		//	justify-content: center;
   //}
+
+  .skill-group {
+    width: 100%;
+    min-height: 390px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    
+  }
+
+  .skill-group__header-value {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 10px 10px 0 10px;
+    justify-content: space-between;
+
+    
+  }
+
+  .skill-group__header-form {
+    padding: 0 10px;
+    margin-bottom: 15px;
+
+    
+  }
+
+  .skill-group__header-title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    @include phones {
+      font-size: 16px;
+    }
+  }
+
+  .skill-group__header-btns {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .skill-group__content {
+    padding: 30px 10px 10px 10px;
+
+    
+  }
+
+  .skill-group__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .skill-group__item {
+    display: flex;
+    margin-bottom: 25px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .skill-group__add-item {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    margin-bottom: 10px;
+    padding-right: 10px;
+
+    @include tablets {
+      padding-left: 10px;
+    }
+
+   
+  }
+
+  .add__form {
+    &--group {
+      .add__form-field {
+        flex-basis: 60%;
+        @include tablets {
+          flex-basis: 70%;
+        }
+      }
+    }
+    &--skill {
+      width: 79%;
+      @include tablets {
+        width: 100%;
+      }
+      .add__form-wrap {
+        align-items: initial;
+        justify-content: initial;
+        
+        .add__form-field {
+          &:nth-child(1) {
+            margin-right: 10px;
+            flex-basis: 58%;
+          }
+          &:nth-child(2) {
+            flex-basis: 20%;
+            margin-right: 30px;
+            @include tablets {
+              margin-right: 25px;
+            }
+          }
+        }
+      }
+    }
+  }
 </style>
 

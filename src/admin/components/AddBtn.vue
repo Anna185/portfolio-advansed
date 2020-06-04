@@ -62,8 +62,8 @@
 			
 			margin-right: 10px;
 		}
-    
-    &--small {
+  }
+    .add-new-btn--small {
       &:before {
         content: "+";
         background: linear-gradient(to right, #1d51dd, #3f35cb);
@@ -71,19 +71,19 @@
         height: 20px;
         flex-basis: 20px;
         font-size: 18px;
-        margin-right: 13px;
+        //margin-right: 13px;
         line-height: 1;
       }
     }
-    &--plain {
+    .add-new-btn--plain {
       flex: 1;
-      background-image: linear-gradient(to right, #006aed 0%, #3f35cb 100%);
-    }
+     background-image: linear-gradient(to right, #006aed 0%, #3f35cb 100%);
+   }
       &:before {
-        display: none;
+       display: none;
       }
     
-  }
+  //}
   .add-new-btn__text {
     color: $white;
     font-size: 18px;
