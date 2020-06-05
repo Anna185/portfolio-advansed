@@ -43,7 +43,8 @@
       };
     },
    props: {
-     toggleAddForm:Boolean
+     toggleAddForm:Boolean,
+     
    },
    
  
@@ -295,6 +296,8 @@
   .add__form-input {
     width: 100%;
     border: none;
+  
   }
+  
 </style>
 

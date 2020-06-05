@@ -24,26 +24,25 @@
              :skill="skill"
            )
      .skill-group__add-item
-       form.add__form.add__form--skill
-         .add__form-wrap
-           .add__form-field 
-             input(placeholder="Новый навык").add__form-input
-           .add__form-field 
-             input(placeholder="100 %").add__form-input
-           AddBtn(type="button")
+       AddInput(
+         :value="value"
+       )
  </template>
  <script>
  import Skill from "./Skill"
  import AddBtn from "../AddBtn"
  import CardBtn from "../CardBtn"
  import CustomInput from "../CustomInput"
+ import AddInput from "./AddInput"
  import { mapActions } from 'vuex';
  export default {
    components: {
      Skill,
      AddBtn,
      CardBtn,
-     CustomInput
+     CustomInput,
+     AddInput
+     
    },
 
    props: {
@@ -250,4 +249,9 @@
     height: 0.9375rem;
     background: svg-load('pencil.svg', fill=$links-color, width=100%, height=100%) center center no-repeat;
   }
+
+  //.add__form-input {
+   // border-bottom: 1px solid #dedee0;
+    //border:none;
+  //}
 </style>

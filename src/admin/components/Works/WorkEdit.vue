@@ -49,6 +49,7 @@
  <script>
  import Icon from "../Icon"
  import CustomInput from "../CustomInput"
+ //import WorksTagComp from "./WorksTag"
  export default {
    props: {
      work: {

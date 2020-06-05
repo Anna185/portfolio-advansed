@@ -8,7 +8,7 @@
         ReviewEdit(
           v-if="showAddReview"
           :review="review"
-          @hide="hideAddReview"
+          
         )
 
         ul.reviews__list
@@ -21,7 +21,7 @@
             v-for="review in modifiedReviews"
             :key="review.id"
           )
-            Review(
+            review(
               :review="review"
               @edit="editReview"
             )

@@ -22,6 +22,7 @@
 import { mapState, mapActions } from 'vuex'
 import  AddCategory from "./AddCategory"
 import SkillGroup from "./SkillGroup"
+
 export default {
    components: {
      SkillGroup,

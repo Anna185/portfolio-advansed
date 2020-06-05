@@ -38,8 +38,8 @@
                     field-type="textarea"
                   )
         .form__btns
-          button(type="reset").form__btn.form__btn--plain Отмена          
-          button.form__btn.form__btn--big Загрузить          
+          button(type="button").form__btn.form__btn--plain Отмена          
+          button(type="submit").form__btn.form__btn--big Загрузить          
 </template>
 <script>
 import Icon from "../Icon"
