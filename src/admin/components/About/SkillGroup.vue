@@ -159,7 +159,7 @@
       }
     }
     &--skill {
-      width: 79%;
+     // width: 79%;
       @include tablets {
         width: 100%;
       }

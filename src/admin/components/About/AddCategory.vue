@@ -3,24 +3,19 @@
     .skill-group__header
       .skill-group__header-value
         .skill-group__header-title 
-        CardBtn(icon="edit" @click="switchEdit").btn
+        
       .skill-group__header-form
         form.add__form.add__form--group
           .add__form-wrap
             .add__form-field 
               input(v-model="title" placeholder="Название новой группы").add__form-input
+              hr.divider
             .add__form-btns.add__form-btns--colored
-              CardBtn(icon="confirm").btn
-              CardBtn(icon="delete" @click="switchEdit").btn 
+              button(type="submit").btn-confirm
+              button(type="button").btn-delete
+             
       
-      .skill-group__add-item
-          form.add__form.add__form--skill
-            .add__form-wrap
-              .add__form-field 
-                input(type="text" placeholder="Новый навык" v-model='category').add__form-input
-            .add__form-field 
-              input(type="text" placeholder="100 %").add__form-input
-            AddBtn(type="submit" @click.prevent='addCat').add__form-btn +
+      
 </template>
  <script>
  import Skill from "./Skill"
@@ -29,7 +24,7 @@
  import CardBtn from "../CardBtn"
  
 
- import {mapActions} from "vuex"
+ import {mapActions, mapState} from "vuex"
 
  export default {
    components: {
@@ -49,6 +44,8 @@
     },
    props: {
      inheritAttrs: false,
+     
+   
       
      text: {
        type: String,
@@ -66,11 +63,14 @@
    methods: {
      ...mapActions('categories', ['saveCategory']),
     async addCat() {
-      await this.saveCategory(this.category)
+      await this.saveCategory(this.category);
+      
+      
+      
     },
     //switchEdit () {
-     // this.editMode = !this.editMode
-     //}
+     //this.editMode = !this.editMode
+    // }
    }
  }
 </script>
@@ -90,7 +90,37 @@
    
   }
 
+  .btn-confirm {
+    color: rgba(#414c63, .7);
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    background: svg-load('tick.svg', fill=#00d70a, width=100%, height=100%) center center no-repeat;
+      
+
+  }
+
+  .btn-delete {
+    color: rgba(#414c63, .7);
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    background: svg-load('cross.svg', fill=#bf2929, width=100%, height=100%) center center no-repeat;
+    margin-left: 1rem;
+  }
+
   .add__form {
+    //display: flex;
     &--group {
       .add__form-field {
         flex-basis: 60%;
@@ -245,7 +275,7 @@
       }
     }
     &--skill {
-      width: 79%;
+     // width: 79%;
       @include tablets {
         width: 100%;
       }
@@ -268,6 +298,11 @@
         }
       }
     }
+  }
+
+  .add__form-input {
+    width: 100%;
+    border: none;
   }
 </style>
 
