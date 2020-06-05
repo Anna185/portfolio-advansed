@@ -62,9 +62,7 @@
       
       
     }
-    //switchEdit () {
-     //this.editMode = !this.editMode
-    // }
+    
    }
  };
 </script>

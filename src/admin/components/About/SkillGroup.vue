@@ -3,8 +3,8 @@
      .skill-group__header
        .skill-group__header-value(v-if="!editMode")
          .skill-group__header-title {{value.title}}
-         button(type="submit" @click="switchEdit").btn.btn-edit
-         button(type="button" @click="switchEdit").btn.btn-trash
+         button(type="button" @click="switchEdit").btn.btn-edit
+         button(type="button" @click.prevent="removeSkillCategory").btn.btn-trash
        .skill-group__header-form(v-else)
          form.add__form.add__form--group
            .add__form-wrap
@@ -12,7 +12,7 @@
                input(v-model="value.title" placeholder="Название новой группы").add__form-input
              .add__form-btns.add__form-btns--colored
                CardBtn(icon="confirm").btn
-               CardBtn(icon="delete" @click="switchEdit").btn 
+               CardBtn(icon="delete" @click.prevent="removeSkillCategory").btn 
        hr.divider
      .skill-group__content
        ul.skill-group__list
@@ -30,13 +30,14 @@
              input(placeholder="Новый навык").add__form-input
            .add__form-field 
              input(placeholder="100 %").add__form-input
-           AddBtn(type="submit")
+           AddBtn(type="button")
  </template>
  <script>
  import Skill from "./Skill"
  import AddBtn from "../AddBtn"
  import CardBtn from "../CardBtn"
  import CustomInput from "../CustomInput"
+ import { mapActions } from 'vuex';
  export default {
    components: {
      Skill,
@@ -46,21 +47,36 @@
    },
 
    props: {
-     value: Object
+     value: Object,
+    //skills: Array
    },
 
    data () {
      return {
-       editMode: false
+       editMode: false,
+       //addSkill: true,
+     // skill: {
+		//	value: this.value.id,
+		//	title: "",
+		//	percent: ""
+		//}
      }
    },
 
    methods: {
      switchEdit () {
        this.editMode = !this.editMode
-     }
-   }
- }
+     },
+    ...mapActions('about', ['removeCategory']),
+    
+    async removeSkillCategory() {
+	
+			const { response} = await this.removeCategory(this.value.id);
+   
+   }}};
+    
+ 
+
  </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
