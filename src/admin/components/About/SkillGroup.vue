@@ -3,7 +3,8 @@
      .skill-group__header
        .skill-group__header-value(v-if="!editMode")
          .skill-group__header-title {{value.title}}
-         CardBtn(icon="edit" @click="switchEdit").btn
+         button(type="submit" @click="switchEdit").btn.btn-edit
+         button(type="button" @click="switchEdit").btn.btn-trash
        .skill-group__header-form(v-else)
          form.add__form.add__form--group
            .add__form-wrap
@@ -79,7 +80,7 @@
     align-items: center;
     margin-bottom: 25px;
     padding: 10px 10px 0 10px;
-    justify-content: space-between;
+    justify-content: flex-end;
 
     
   }
@@ -205,5 +206,32 @@
     &:first-child  {
       margin-right: 15px;
     }
+  }
+
+  .btn-trash {
+    color: rgba(#414c63, .7);
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    background: svg-load('trash.svg', fill=#bf2929, width=100%, height=100%) center center no-repeat;
+    margin-left: 1rem;
+  }
+
+  .btn-edit {
+    color: rgba(#414c63, .7);
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    background: svg-load('pencil.svg', fill=$links-color, width=100%, height=100%) center center no-repeat;
   }
 </style>

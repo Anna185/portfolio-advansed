@@ -8,11 +8,11 @@
         form.add__form.add__form--group
           .add__form-wrap
             .add__form-field 
-              input(v-model="title" placeholder="Название новой группы").add__form-input
+              input(type="text" v-model="categoryTitle" placeholder="Название новой группы").add__form-input
               hr.divider
             .add__form-btns.add__form-btns--colored
-              button(type="submit").btn-confirm
-              button(type="button").btn-delete
+              button(type="button" @click.prevent="addSkillCategory").btn-confirm
+              button(type="button" @click.prevent="$emit('toggleAddForm')").btn-delete
              
       
       
@@ -37,42 +37,36 @@
 
     data() {
       return {
-        category: '',
-        title:'',
-        editMode: false
-      }
+        categoryTitle: []
+       
+      
+      };
     },
    props: {
-     inheritAttrs: false,
-     
-   
-      
-     text: {
-       type: String,
-       default: ''
-     },
-     type: {
-       type: String,
-       default: ''
-     },
-     value: Object,
+     toggleAddForm:Boolean
    },
    
  
   
    methods: {
-     ...mapActions('categories', ['saveCategory']),
-    async addCat() {
-      await this.saveCategory(this.category);
+     ...mapActions('about', ['addCategory']),
+    async addSkillCategory() {
+      try {
+      await this.addCategory(this.categoryTitle);
+      this.categoryTitle = "";
+      this.$emit('toggleAddForm');
+      } catch (error) {
+        
+      }
       
       
       
-    },
+    }
     //switchEdit () {
      //this.editMode = !this.editMode
     // }
    }
- }
+ };
 </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
