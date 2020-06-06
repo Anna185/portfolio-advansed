@@ -6,20 +6,20 @@
       iconName="cross"
       className="tag__remove-icon"
     )
+</template>
 <script>
+import {mapActions, mapState, mapGetters  } from "vuex";
+
 export default {
-  components: {
+	props: {
+		tag: String
+	},
+	data() {
+		return {
 
-		},
-		props: {
-			tag: String
-		},
-		data() {
-			return {
-
-			}
 		}
 	}
+};
 
 </script>
 <style lang="postcss" scoped>

@@ -34,13 +34,17 @@ export default {
 
     removeWork (state, workId) {
       state.works = state.works.filter(work => work.id !== workId)
-    }
+    },
+
+    EDIT_MODE(state, mode) {
+		  state.editMode = mode
+	  }
   },
 
   actions: {
     async loadWorks ({ commit }, userId) {
       try {
-        const { data } = await axios.get(`/works/${userId}`)
+        const { data } = await axios.get(`/works/333`)
         commit('setWorks', data)
       } catch (error) {
         generateError(error)
@@ -92,6 +96,16 @@ export default {
       } catch (error) {
         generateError(error)
       }
-    }
+    },
+    toggleEditMode({commit}, mode) {
+		  mode = !mode;
+		  commit('EDIT_MODE', mode)
+	  }
+  },
+  getters: {
+    getEditModeState: state =>  state.editMode,
+    
+    
+    
   }
 }

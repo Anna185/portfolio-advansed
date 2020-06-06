@@ -1,55 +1,59 @@
 <template lang="pug">
    .work-edit.card
-     form
+     form(@submit="addNewWork")
        .form__container
          h3.form__header {{formTitle}}
          hr.divider
          .form__content
            .form__content-wrap
              .form__col
-               .form__image(v-if="image")
+               .form__imageimg(v-if="image")
                  img(:src="image").form__image-pic
                  .form__image-btn-wrap
                    button(@click="showInputFile").form__image-btn Изменить превью
                .form__load-area(v-else)
-                 .form__load-text Перетащите либо загрузите изображение
+                 .form__load-text(ref="inputFileText") Перетащите либо загрузите изображение
                  .form__load-btn
                    button(@click="showInputFile").form__btn Загрузить
                input(
                  type="file"
+                 @input='handleFile'
                  @change="appendFileAndRenderPhoto"
                )#upload-pic.form__load-file    
              .form__col
                .form__block
-                 CustomInput(title="Название")
+                 CustomInput(title="Название" v-model="work.title")
                .form__block
-                 CustomInput(title="Ссылка")
+                 CustomInput(title="Ссылка" v-model="work.link")
                .form__block
                  CustomInput(
                    title="Описание"
                    field-type="textarea"
+                   v-model="work.description"
                  )
-               .form__block
-                 CustomInput(title="Добавление тэга")
+               .form__block Добавление тэга
+                 input(type="text" v-model="work.techs" @input="addTag").input__elem
+    
                ul.tags__list
                  li.tags__item(
                    v-for="(tag, ndx) in tags"
                    :key="ndx")
                    .tag
-                     span {{ tag }}
-                     button(type="button" ).tag__remove-btn
-                       Icon(
-                         iconName="cross"
-                         className="tag__remove-icon"
-                       )
+                    span {{ tag }}
+                    button(type="button" @click="removeTag(tag)").tag__remove-btn
+                      Icon(
+                        iconName="cross"
+                        className="tag__remove-icon"
+                      )
+                   
          .form__btns
-           button(type="reset" :disabled="isBlocked").form__btn.form__btn--plain Отмена          
-           button(type="submit" :disabled="isBlocked").form__btn.form__btn--big Загрузить          
+           button(type="button").form__btn.form__btn--plain Отмена          
+           button(type="submit").form__btn.form__btn--big Загрузить          
  </template>
  <script>
  import Icon from "../Icon"
  import CustomInput from "../CustomInput"
- //import WorksTagComp from "./WorksTag"
+ import {mapActions} from "vuex"
  export default {
    props: {
      work: {
@@ -62,13 +66,19 @@
 
    components: {
      Icon,
-     CustomInput
+     CustomInput,
+     
    },
 
    data() {
      return {
-       tags: ['html', 'css', 'javascript'],
-       image: ''
+       tags: [],
+       image: '',
+       title: '',
+       photo: {},
+       link: '',
+       description: ''
+
      }
    },
 
@@ -83,6 +93,40 @@
    },
 
    methods: {
+     ...mapActions('works',['saveWork']),
+     validForm() {
+				for (let key in this.work) {
+					if (!this.work[key])
+						return false
+				}		
+		
+		if(!this.work.photo.name) {
+			return false
+	}
+					
+				return true
+      },
+      handleFile(e) {
+				const file = e.target.files[0];
+			  this.work.photo = file;
+			  const img = this.$refs.inputFile;
+				const text = this.$refs.inputFileText;
+				text.textContent = file.name;
+				
+			  		const reader = new FileReader();
+					return new Promise((resolve, reject) => {
+					try {
+						reader.readAsDataURL(file);
+      					reader.onloadend = () => {
+        					resolve(reader.result);
+      				};
+    				} catch (error) {
+					      throw new Error("Ошибка при чтении файла");
+    					}
+  			})
+				.then(result => img.style.background = `url(${result})`)	
+				},
+     
      showInputFile () {
        document.querySelector("#upload-pic").click()
      },
@@ -100,7 +144,32 @@
        } catch (error) {
          console.log(error)
        }
-     }
+     },
+     async addNewWork () {
+       if(this.validForm() ) {
+					 const formData = new FormData();
+					formData.set('title', this.work.title);
+					formData.set('techs', this.work.techs);
+					formData.set('photo', this.work.photo);
+					formData.set('link', this.work.link);
+					formData.set('description', this.work.description);
+					
+					await this.addWork(formData);
+					
+				//	this.$emit('toggleAdddMode')
+				} else {alert('empty form')}
+			},
+
+    
+     addTag (){
+       this.tags = this.work.techs.split(',')
+     },
+    
+		removeTag(tag) {
+		  let index = parseInt(this.tags.indexOf(tag))
+			this.tags.splice(index, 1);
+			this.work.techs = this.tags.join(',')
+			}
    }
  }
  </script>
@@ -309,5 +378,15 @@
     .form__error-tooltip {
       display: block;
     }
+  }
+
+  .input__elem {
+    width: 100%;
+    padding: 10px 8%;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    color: $admin-font;
+    border-bottom: 1px solid #414c63;
   }
 </style>

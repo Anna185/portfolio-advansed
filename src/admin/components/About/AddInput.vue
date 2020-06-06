@@ -1,11 +1,11 @@
 <template lang="pug">
-  form.add__form.add__form--skill(@submit.prevent="addNewSkill")
+  form.add__form.add__form--skill
     .add__form-wrap
       .add__form-field 
         input(placeholder="Новый навык" type="text" required v-model="skill.title").add__form-input
       .add__form-field 
         input(type="text"  required placeholder="100 %" v-model="skill.percent").add__form-input
-      AddBtn(type="submit")
+      AddBtn(type="button" @click.prevent="addNewSkill")
   
 </template>
 <script>
@@ -13,13 +13,15 @@ import AddBtn from "../AddBtn"
 import { mapActions } from "vuex";
 export default {
   props: {
-    value: Object
+    value: Object,
+    
   },
   data() {
     return {
       skill: {
         title: "",
-        percent: ""
+        percent: "",
+        
       }
     };
   },

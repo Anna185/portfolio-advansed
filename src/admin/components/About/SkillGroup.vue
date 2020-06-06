@@ -2,7 +2,7 @@
    .skill-group.card
      .skill-group__header
        .skill-group__header-value(v-if="!editMode")
-         .skill-group__header-title {{value.title}}
+         .skill-group__header-title {{value.category}}
          button(type="button" @click="switchEdit").btn.btn-edit
          button(type="button" @click.prevent="removeSkillCategory").btn.btn-trash
        .skill-group__header-form(v-else)
