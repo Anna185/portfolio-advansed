@@ -24,7 +24,7 @@
 			...mapActions('rew', ['toggleEditMode']),
 			toggleEditItem() {
 		
-//				this.toggleEditMode(this.getEditModeState);
+
 				this.$emit('toggleAddMode');
 
 			}

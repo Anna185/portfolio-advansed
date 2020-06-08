@@ -3,48 +3,68 @@
     .review__author
       .author
         .author__avatar
-            img(:src="review.photo").author__avatar-img
+            img(:src="baseURL+rew.photo" alt ="").author__avatar-img
         .author__data
-          h4.author__name {{review.author}}
-          h4.author__desc {{review.occ}}
+          h4.author__name {{rew.author}}
+          h4.author__desc {{rew.occ}}
       hr.divider
     .review__content
       .review__text
-        p {{review.text}}
+        p {{rew.text}}
     .review__btns
-      CardBtn(
-        title="Править"
-        icon="edit"
-        @click="editReview"
-      )
-      CardBtn(
-        title="Удалить"
-        icon="delete"
-        @click="deleteReview(review.id)"
-      )
+      button(type="button" @click.prevent="toggleEditItem" :disabled="getEditModeState || addMode" ).btn__edit Править
+      button(type="button" :disabled="getEditModeState" @click.prevent="deleteItem").btn-delete Удалить
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions,mapGetters, } from 'vuex'
 import CardBtn from '../CardBtn'
-export default {
-  props: {
-    review: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
-  },
-  components: {
-    CardBtn
-  },
-  methods: {
-    ...mapActions('reviews', ['deleteReview']),
-    editReview () {
-      this.$emit('edit', this.review)
-    }
-  }
-}
+import {pictures} from '../../helpers/pictures.js'
+	
+	
+	export default {
+		components: {
+      CardBtn
+		},
+		
+		props: {
+			addMode: Boolean,
+			rew: Object,
+			rewId: Number
+		},
+		data() {
+			return {
+				baseURL: "https://webdev-api.loftschool.com/",
+				imgUrl: ''
+				
+			}
+		},
+		methods: {
+			...mapActions('rew', ['toggleEditMode', 'removeRew']),
+			toggleEditItem() {
+				
+				this.toggleEditMode(this.getEditModeState);
+				this.rewId = this.rew.id
+				this.$emit('rewIdGet', this.rew.id);
+			},
+		async deleteItem() {
+			try {
+				await this.removeRew(this.rew.id);
+			} catch (e) {
+				alert('error')
+			}
+		}
+		},
+		
+		computed: {
+			...mapGetters('rew', ['getEditModeState']),
+			photoWatch() {
+			this.imgUrl = this.rew.photo
+		}
+		},
+		async created() {
+      				this.imgUrl = this.rew.photo
+			}
+	}
 </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
@@ -125,5 +145,41 @@ export default {
     @include phones {
       padding: 0 20px;
     }
+  }
+
+  .btn__edit {
+    color: rgba(#414c63, .7);
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    &:after {
+      width: 15px;
+      height: 15px;
+      content: "";
+      margin-left: 10px;
+      display: inline-block;
+      background: svg-load('pencil.svg', fill=$links-color, width=100%, height=100%) center center no-repeat;
+  }
+  }
+
+  .btn-delete {
+    color: rgba(#414c63, .7);
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    &:after {
+      width: 15px;
+      height: 15px;
+      content: "";
+      margin-left: 10px;
+      display: inline-block;
+      background: svg-load('cross.svg', fill=#bf2929, width=100%, height=100%) center center no-repeat;
+  }
   }
 </style>
