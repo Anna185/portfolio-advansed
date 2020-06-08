@@ -5,80 +5,63 @@
          h1.page-title.works__title Блок «Работы»
      .works__content
        .container.works__container
-         WorkEdit(
-           v-if="showAddWork"
-           :work="work"
-
-         )
-
+         WorkAdd(
+           v-if="addMode"
+           @toggleAddMode="toggleAddMode"
+          )
+          WorkEdit(v-if="getEditModeState" :workToEdit="workToEdit")
          ul.works__list
-           li.works__item
-             AddBtn(
-               text="Добавить работу"
-               type="plain"
-               @click="showAddWork = true"
-            )
+           li.works__item(v-if="!addMode")
+             addItemComp(@toggleAddMode='toggleAddMode')
            li.works__item(
-             v-for="work in modifiedWorks"
+             v-for="work in works"
              :key="work.id"
            )
-             work(
-             :work="work"
-             @edit="editWork"
-          )
+            worksItemComp(:addMode="addMode" :work="work" @getCurrentWork="getCurrentWork")
  </template>
  <script>
- import Work from "./Work"
+ 
  import AddBtn from "../AddBtn"
- import WorkEdit from "./WorkEdit"
+ import WorkAdd from "./WorkAdd"
+ import  WorkEdit from "./WorkEdit"
+ import worksItemComp from "./Work"
+ import addItemComp from './WorksItemAdd'
  import { mapState, mapActions, mapGetters } from 'vuex'
  export default {
    components: {
-     Work,
+     
      AddBtn,
+     WorkAdd,
+     worksItemComp,
+     addItemComp,
      WorkEdit
    },
 
    data () {
     return {
-      showAddWork: false,
-      work: {
-        title: '',
-        link: '',
-        description: '',
-        techs: '',
-        photo: null
-      }
+      addMode: false,
+      workToEdit: {}
     }
   },
   computed: {
-    ...mapGetters('works', ['modifiedWorks']),
-    ...mapState('login', ['user'])
+    ...mapGetters('works', ['getEditModeState']),
+		...mapState('works', {works: state => state.works})
   },
-  beforeRouteLeave (to, from, next) {
-    this.showAddWork = false
-    next()
-  },
-  created() {
-    this.loadWorks(this.user.id)
-  },
+  
   methods: {
-    ...mapActions('works', ['loadWorks']),
-    hideAddWork () {
-      this.showAddWork = false
-      this.work = {
-        title: '',
-        link: '',
-        description: '',
-        techs: '',
-        photo: null
-      }
-    },
-    editWork (work) {
-      Object.assign(this.work, work)
-      this.showAddWork = true
-    }
-  }
+    ...mapActions('works', ['getWork']),
+    toggleAddMode() {
+			this.addMode = !this.addMode
+		},
+    
+   getCurrentWork(work) {
+			this.workToEdit = this.works.find(item => item.id === work.id)
+		},
+  },
+  async created() {
+			await this.getWork();
+		},
+
   
 }
 </script>

@@ -1,14 +1,14 @@
 <template lang="pug">
    .work-edit.card
-     form(@submit.prevent="editCurrentWork")
+     form(@submit="addNewWork")
        .form__container
-         h3.form__header Редактирование работы
+         h3.form__header {{formTitle}}
          hr.divider
          .form__content
            .form__content-wrap
              .form__col
                .form__image(v-if="image")
-                 img(:src="image").form__image-pic(ref='inputFile')
+                 img(:src="image").form__image-pic(ref="inputFile")
                  .form__image-btn-wrap
                    button(@click="showInputFile").form__image-btn Изменить превью
                .form__load-area(v-else)
@@ -22,17 +22,17 @@
                )#upload-pic.form__load-file    
              .form__col
                .form__block
-                 CustomInput(title="Название" v-model="workCurrent.title")
+                 CustomInput(title="Название" v-model="work.title")
                .form__block
-                 CustomInput(title="Ссылка" v-model="workCurrent.link")
+                 CustomInput(title="Ссылка" v-model="work.link")
                .form__block
                  CustomInput(
                    title="Описание"
                    field-type="textarea"
-                   v-model="workCurrent.description"
+                   v-model="work.description"
                  )
                .form__block Добавление тэга
-                 input(type="text" v-model="workCurrent.techs" @input="addTag").input__elem
+                 input(type="text" v-model="work.techs" @input="addTag").input__elem
     
                ul.tags__list
                  li.tags__item(
@@ -47,60 +47,69 @@
                       )
                    
          .form__btns
-           button(type="button" @click.prevent="toggleEdit").form__btn.form__btn--plain Отмена          
-           button(type="submit").form__btn.form__btn--big Сохранить          
+           button(type="button" @click.prevent="$emit('toggleAddMode')").form__btn.form__btn--plain Отмена          
+           button(type="submit").form__btn.form__btn--big Загрузить          
  </template>
  <script>
  import Icon from "../Icon"
  import CustomInput from "../CustomInput"
- import {mapActions, mapGetters} from "vuex"
+ import {mapActions} from "vuex"
  export default {
- components: {
+   props: {
+     work: {
+       type: Object,
+       default: () => {
+         return {}
+       }
+     }
+   },
+
+   components: {
      Icon,
      CustomInput,
      
    },
+
    data() {
-			return {
-				workCurrent: {},
-				tags: []
-			}
-		},
-		
-		props: {
-			workToEdit: Object
-		},
-			computed: {
-		...mapGetters('works', ['getEditModeState'])
-	} , 
-		methods: {
-		...mapActions('works', ['toggleEditMode', 'editWork']),
-			toggleEdit() {
-			this.toggleEditMode(this.getEditModeState);
-			
-    },
-    addTag() {
-			this.tags = this.workCurrent.techs.split(', ')
-		},
-		removeTag(tag) {
-				let index = parseInt(this.tags.indexOf(tag));
-				
-				this.tags.splice(index, 1);
-				this.work.techs = this.tags.join(', ')
-			},
-		validForm() {
+     return {
+       tags: [],
+       image: '',
+       title: '',
+       photo: {},
+       link: '',
+       description: ''
+
+     }
+   },
+
+   computed: {
+     formTitle() {
+       return `${this.work.id ? 'Редактирование' : 'Добавление'} работы`
+     },
+
+     btnTitle() {
+       return this.work.id ? 'Сохранить' : 'Загрузить'
+     }
+   },
+
+   methods: {
+     ...mapActions('works',['saveWork']),
+     validForm() {
 				for (let key in this.work) {
 					if (!this.work[key])
 						return false
 				}		
-							
+		
+		if(!this.work.photo.name) {
+			return false
+	}
+					
 				return true
-			},
-			
-			handleFile(e) {
+      },
+      handleFile(e) {
 				const file = e.target.files[0];
-			  	this.workCurrent.photo = file;
-			  	const img = this.$refs.inputFile;
+			  this.work.photo = file;
+			  const img = this.$refs.inputFile;
 				const text = this.$refs.inputFileText;
 				text.textContent = file.name;
 				
@@ -117,38 +126,57 @@
   			})
 				.then(result => img.style.background = `url(${result})`)	
 				},
-			async editCurrentWork() {
-				
-				
-				if(this.validForm() ) {
+     
+     showInputFile () {
+       document.querySelector("#upload-pic").click()
+     },
+
+     appendFileAndRenderPhoto (e) {
+
+      const test = e.target.files[0];
+       const reader = new FileReader();
+
+       try {
+         reader.readAsDataURL(test);
+         reader.onload = () => {
+           this.image = reader.result;
+         };
+       } catch (error) {
+         console.log(error)
+       }
+     },
+     async addNewWork () {
+       if(this.validForm() ) {
 					 const formData = new FormData();
-					formData.set('title', this.workCurrent.title);
-					formData.set('techs', this.workCurrent.techs);
-					formData.set('link', this.workCurrent.link);
-					formData.set('description', this.workCurrent.description);
+					formData.set('title', this.work.title);
+					formData.set('techs', this.work.techs);
+					formData.set('photo', this.work.photo);
+					formData.set('link', this.work.link);
+					formData.set('description', this.work.description);
 					
-					if (this.workCurrent.photo.name) {
-						formData.set('photo', this.workCurrent.photo);
-					}
+					await this.saveWork(formData);
 					
-					const sendData = {
-						id: this.workCurrent.id,
-						data: formData
-					}
-					
-					await this.editWork(sendData);
-					this.toggleEdit();
+				  this.$emit('toggleAddMode')
 				} else {alert('empty form')}
 			},
-	},
-		
-		created() {
-		this.workCurrent = this.workToEdit;
-		this.tags = this.workCurrent.techs.split(', ');
-		
-	}
-	}
-</script>
+
+    
+     addTag (){
+       this.tags = this.work.techs.split(',')
+     },
+    
+		removeTag(tag) {
+		  let index = parseInt(this.tags.indexOf(tag))
+			this.tags.splice(index, 1);
+			this.work.techs = this.tags.join(',')
+			}
+   }
+ }
+ </script>
+
+ 
+ 
+
 <style lang="postcss" scoped>
    @import "../../../styles/mixins.pcss";
 

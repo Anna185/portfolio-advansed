@@ -5,36 +5,36 @@ export default {
   namespaced: true,
   
   state: {
-    works: []
+    works: [],
+    editMode: false
   },
 
-  getters: {
-    modifiedWorks (state) {
-      return state.works.map(work => {
-        if (!work.photo.includes('https://webdev-api.loftschool.com/')) {
-          work.photo = `https://webdev-api.loftschool.com/${work.photo}`
-        }
-        return work
-      })
-    }
-  },
+ // getters: {
+  //  modifiedWorks (state) {
+   //   return state.works.map(work => {
+    //    if (!work.photo.includes('https://webdev-api.loftschool.com/')) {
+    //      work.photo = `https://webdev-api.loftschool.com/${work.photo}`
+     //   }
+    //    return work
+    //  })
+    //}
+  //},
 
   mutations: {
-    setWorks (state, works) {
-      state.works = works
-    },
-
-    addWork (state, work) {
-      state.works = [...state.works, work]
-    },
-
-    editWork (state, work) {
-      state.works = state.works.map(item => item.id === work.id ? work : item)
-    },
-
-    removeWork (state, workId) {
-      state.works = state.works.filter(work => work.id !== workId)
-    },
+    SET_WORK: (state, work) => {
+		  state.works = work
+	  },
+	  
+	  ADD_WORK: (state, work) => {
+		  state.works.push(work)
+	  },
+	  
+	  REMOVE_WORK: (state, work) => {
+	  state.works = state.works.filter(item => item.id !== work)
+  },
+	EDIT_WORK: (state, work ) => {
+	state.works = state.works.map(item => item.id === work.id ? work : item)
+}, 
 
     EDIT_MODE(state, mode) {
 		  state.editMode = mode
@@ -42,61 +42,37 @@ export default {
   },
 
   actions: {
-    async loadWorks ({ commit }, userId) {
-      try {
-        const { data } = await axios.get(`/works/333`)
-        commit('setWorks', data)
-      } catch (error) {
-        generateError(error)
-      }
-    },
+    async getWork({commit}) {
+		  const response = await this.$axios.get(`/works/333`);
+		  commit('SET_WORK', response.data)
+		  return response
+	  },
 
     async saveWork ({ commit }, work) {
       try {
-        const { data } = await axios.post(
-          '/works',
-          formData(work),
-          { headers: { 'Content-Type': 'multipart/form-data' } }
-        )
-        commit('addWork', data)
-        commit('toast/showToast',
-          { type: 'success', message: 'Работа успешно добавлена' },
-          { root: true }
-        )
-      } catch (error) {
-        generateError(error)
-      }
-    },
+        const response = await this.$axios.post('/works', work);
+        commit ('ADD_WORK', response.data);
+			  return response;
+		  } catch (e) {
+			  console.log(e);
+		  }
+	  },
 
-    async updateWork ({ commit }, work) {
-      try {
-        const { data } = await axios.post(
-          `/works/${work.id}`,
-          formData(work),
-          { headers: { 'Content-Type': 'multipart/form-data' } }
-        )
-        commit('editWork', data.work)
-        commit('toast/showToast',
-          { type: 'success', message: 'Работа успешно обновлена' },
-          { root: true }
-        )
-      } catch (error) {
-        generateError(error)
-      }
-    },
+    async editWork({commit}, work) {
+		  const response = await this.$axios.post(`/works/${work.id}/`, work.data);
+		  commit('EDIT_WORK', response.data.work)
+		  return response
+	  },
 
-    async deleteWork ({ commit }, workId) {
-      try {
-        await axios.delete(`/works/${workId}`)
-        commit('removeWork', workId)
-        commit('toast/showToast',
-          { type: 'success', message: 'Работа успешно удалена' },
-          { root: true }
-        )
-      } catch (error) {
-        generateError(error)
-      }
-    },
+    async removeWork({commit}, work) {
+		  try {
+			  const response = await this.$axios.delete(`/works/${work}`); 
+			  commit ('REMOVE_WORK', work)
+			  return response;
+		  } catch (e) {
+			  console.log(e);
+		  }
+	  },
     toggleEditMode({commit}, mode) {
 		  mode = !mode;
 		  commit('EDIT_MODE', mode)

@@ -1,53 +1,76 @@
 <template lang="pug">
-   .work.card
+    .work.card
      .work__preview
        .work__image-wrap
-         img(:src="work.img").work__image
+         img(:src="baseURL+dataWork.photo").work__image
        .work__tags
          ul.work__tags-list
            li.work__tag(
              v-for="tag in tags"
              :key="tag"
            )
+           
              .tag {{tag}}
      .work__info
-       h3.work__title {{work.title}}
+       h3.work__title {{dataWork.title}}
        .work__decs
-         p {{work.desc}}
-       a(:href="work.link").work__link {{work.link}}
+         p {{dataWork.description}}
+       a(:href="dataWork.link").work__link {{dataWork.link}}
      .work__btns
-       CardBtn(title="Править" icon="edit" @click="editWork")
-       CardBtn(title="Удалить" icon="delete" @click="deleteWork(work.id)")
+       CardBtn(title="Править" icon="edit" @click.prevent='toggleEdit' :disabled="getEditModeState || addMode")
+       CardBtn(title="Удалить" icon="delete" @click.prevent="removeThisWork")
  </template>
  
 <script>
 import CardBtn from "../CardBtn"
-import { mapActions } from "vuex";
+import { mapActions, mapGetters, mapState } from 'vuex';
 export default {
   props: {
-    work: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    }
+    addMode: Boolean,
+		work: Object
+    
   },
   components: {
-    CardBtn
+   CardBtn,
+    
   },
-  computed: {
-    tags () {
-      if (!this.work) return []
-      return this.work.techs.split(",").map(tag =>tag.trim())
-    }
-  },
-  methods: {
-    ...mapActions('works', ['deleteWork']),
-    editWork () {
-      this.$emit('edit', this.work)
-    }
+  data() {
+			return {
+				baseURL: "https://webdev-api.loftschool.com/",
+				tags: [],
+				dataWork: {}
+				
+			}
+		},
+		async created() {
+			 this.tags = await this.work.techs.split(', ');
+			 this.dataWork = await this.work
+	}, 		
+		 computed: {
+			...mapGetters('works', ['getEditModeState']),
+			 
+      ...mapState('works', {works: state => state.works}),
+     },
+
+		methods: {
+		...mapActions('works', ['toggleEditMode', 'removeWork']),
+			toggleEdit() {
+			this.toggleEditMode(this.getEditModeState);
+			this.$emit(`getCurrentWork`, this.work)
+			
+		},
+		
+		async removeThisWork() {
+			await this.removeWork(this.dataWork.id)
+		},
+			
+		
+	}
   }
-}
+
+
+
+
 
 </script>
 <style lang="postcss" scoped>
