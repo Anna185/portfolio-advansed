@@ -1,13 +1,14 @@
 <template lang="pug">
 	.add-item
-		button(type="button" @click.prevent="$emit('toggleAddMode')" :disabled="getEditModeState").add-item__btn
-		.add-item__text(ref="add-item") Добавить работу
+		button(type="button" @click="toggleEditItem" :disabled="getEditModeState").add-item__btn
+		.add-item__text(ref="add-item") Добавить отзыв
 </template>
 
 
 <script>
-	import {  mapGetters } from 'vuex';
+	import { mapGetters , mapActions} from 'vuex';
 	export default {
+		
 		components: {
 
 		},
@@ -16,10 +17,18 @@
 
 			}
 		},
-		computed: {
-		...mapGetters('works', ['getEditModeState'])
-	}
+			computed: {
+			...mapGetters('rew', ['getEditModeState'])
+		},
+		methods: {
+			...mapActions('rew', ['toggleEditMode']),
+			toggleEditItem() {
 		
+//				this.toggleEditMode(this.getEditModeState);
+				this.$emit('toggleAddMode');
+
+			}
+		}
 	}
 
 </script>

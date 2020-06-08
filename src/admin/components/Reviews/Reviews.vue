@@ -5,86 +5,63 @@
         h1.page-title.reviews__title Блок «Отзывы»
     .reviews__content
       .container.reviews__container
-        ReviewEdit(
-          v-if="showAddReview"
-          :review="review"
-          
-        )
-
+        rewEditComp(v-if="getEditModeState" :rewId="rewId")
+        rewAddComp(v-if="addMode" @toggleAddMode='toggleAddMode')
         ul.reviews__list
-          li.reviews__item
-            AddBtn(
-              text="Добавить отзыв"
-              type="plain"
-              @click="showAddReview = true")
-          li.reviews__item(
-            v-for="review in modifiedReviews"
-            :key="review.id"
-          )
-            review(
-              :review="review"
-              @edit="editReview"
-            )
+          li.reviews__item(v-if="!addMode")
+            rewItemAddComp(@toggleAddMode='toggleAddMode')
+          li.reviews__item(v-for="rew in rews")
+            
+            rewItemComp(:addMode="addMode" :rew="rew" @rewIdGet="rewIdGet")
 </template>
 <script>
-import Review from './Review'
-import ReviewEdit from './ReviewEdit'
+import rewItemComp from './Review'
+import rewAddComp from './ReviewAdd'
+import rewEditComp from './ReviewEdit'
 import AddBtn from '../AddBtn'
+import rewItemAddComp from './rewItemAdd'
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     AddBtn,
-    Review,
-    ReviewEdit
+    rewItemComp,
+    rewEditComp,
+    rewItemAddComp,
+    rewAddComp
   },
 
-  data () {
-    return {
-      review: {
-        author: '',
-        occ: '',
-        text: '',
-        photo: null
-      },
-      showAddReview: false
-    }
-  },
-
-  computed: {
-    ...mapGetters('reviews', ['modifiedReviews']),
-    ...mapState('login', ['user'])
-  },
-  
-  beforeRouteLeave (to, from, next) {
-    this.showAddReview = false
-    next()
-  },
-
-  created() {
-    this.loadReviews(this.user.id)
-  },
-
-  methods: {
-    ...mapActions('reviews', ['loadReviews']),
-    
-    hideAddReview () {
-      this.showAddReview = false
-      this.review = {
-        author: '',
-        occ: '',
-        text: '',
-        photo: null
-      }
-    },
-
-    editReview (review) {
-      Object.assign(this.review, review)
-      this.showAddReview = true
-    }
-  }
-}
-
+  data() {
+			
+			return{
+				addMode: false,
+				rewId: 1				
+			}
+		}, 
+		methods: {
+			...mapActions('rew', ['getRew']),
+			toggleAddMode() {
+				this.addMode = !this.addMode
+			},
+			
+			toggleEditMode() {
+				this.editMode = !this.editMode
+			},
+		rewIdGet(id) {
+			this.rewId = id
+		}
+		}, 
+		computed: {
+			...mapGetters('rew', ['getEditModeState']),
+			...mapState('rew', {
+			rews: state => state.rews
+			}),
+		},
+		async created() {
+			await this.getRew();
+		}
+	}
 </script>
+
 <style lang="postcss" scoped>  
   @import "../../../styles/mixins.pcss";
 

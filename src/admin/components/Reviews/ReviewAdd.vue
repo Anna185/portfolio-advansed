@@ -1,8 +1,8 @@
 <template lang="pug">
   .review-edit.card
-    form(@submit.prevent="editRewSend")
+    form
       .form__container
-        h3.form__header Редактировать отзыв
+        h3.form__header Добавить отзыв
          
         
         hr.divider
@@ -12,68 +12,57 @@
               label.form__avatar-upload
                 input(
                   type="file"
-                  ref="imgFile"
                   @input="handleFile"
+                  ref="inputFile"
+                  
                 ).form__avatar-file
                 .form__avatar-wrap
-                
-                  .form__avatar-img
                   
-                .form__load-text(ref="inputFileText") Изменить фото
+                    
+                  .form__avatar-img
+                   
+                .form__load-text(ref='inputFileText') Добавить фото
             .form__review
               .form__row
                 .form__block
-                  CustomInput(type="text" title="Имя автора" v-model="rew.author" ref="inputName")
+                  CustomInput(type="text" title="Имя автора" v-model='rew.author')
                 .form__block  
-                  CustomInput(type="text" title="Титул автора" v-model="rew.occ")
+                  CustomInput(type="text" title="Титул автора" v-model='rew.occ')
               .form__row    
                 .form__block
                   CustomInput(
-                    type="text"
                     title="Отзыв"
                     field-type="textarea"
-                    v-model="rew.text"
+                    type="text"
+                    v-model='rew.text' 
                   )
         .form__btns
-          button(type="button" @click="CancelEditMode").form__btn.form__btn--plain Отмена          
-          button(type="submit").form__btn.form__btn--big Сохранить          
+          button(type="button" @click="$emit('toggleAddMode')").form__btn.form__btn--plain Отмена          
+          button(type="submit" @click.prevent="saveRew").form__btn.form__btn--big Загрузить          
 </template>
 <script>
 import Icon from "../Icon"
 import CustomInput from "../CustomInput"
-import { mapGetters, mapActions, mapState } from 'vuex';
-export default {
+import { mapActions } from 'vuex';
+	export default {
 		components: {
       Icon,
-      CustomInput
-
-		},
-		props: {
-			rewId: Number
+      CustomInput,
 		},
 		data() {
 			return {
 				rew: {
-					
+					photo: {},
+					author: '',
+					occ: '',
+					text: '',
+
 				}
 			}
 		},
-		computed: {
-			...mapGetters('rew', ['getEditModeState']),
-			...mapState('rew', {
-			rews: state => state.rews
-			}),
-
-		}, 
+		
 		methods: {
-			...mapActions('rew', ['toggleEditMode']),
-			...mapActions('rew', [ 'editRew']),
-			CancelEditMode() {
-				this.toggleEditMode(this.getEditModeState);
-				const img = this.$refs.imgFile;
-				
-
-			},
+			...mapActions('rew', ['addRew']),
 			validForm() {
 				for (let key in this.rew) {
 					if (!this.rew[key]) {
@@ -86,7 +75,7 @@ export default {
 			handleFile(e) {
 			  const file = e.target.files[0];
 			  this.rew.photo = file;
-			  const img = this.$refs.imgFile;
+			  const img = this.$refs.inputFile;
 				const text = this.$refs.inputFileText;
 				text.textContent = file.name;
 				
@@ -106,44 +95,32 @@ export default {
 				
 			  
     		},
-			async editRewSend() {	
-			  
-				
-				const formData = new FormData();
-
-				formData.set("author", this.rew.author);
-				formData.set("occ", this.rew.occ);
-				formData.set("text", this.rew.text);
-				if(this.rew.photo) {
-					formData.set("photo", this.rew.photo);
-				}
-				
-				const sendData = {
-					id: this.rew.id,
-					data: formData
-				}
+			async saveRew() {
+			
+			  const formData = new FormData();
+			  formData.append("photo", this.rew.photo);
+			  formData.append("author", this.rew.author);
+			  formData.append("occ", this.rew.occ);
+			  formData.append("text", this.rew.text);
+			
 				
 				if (this.validForm()) {
-						try {
-					await this.editRew(sendData);
-					this.$emit('toggleAddMode');
-					this.toggleEditMode(this.getEditModeState);
-						} catch (e) {
-						alert(e.message)
-						}
-					} else { alert('Заполните все поля')}
-				}
-			
-		}, 
-			created() {
-				this.rew = this.rews.find(item => item.id === this.rewId);
-				this.rew.photo = {}
+					try {
+						await this.addRew(formData);
+						this.$emit('toggleAddMode');
+					} catch (e) {
+					alert('something wrong')
+					}
+        } else { alert('Заполните все поля')}
+        
+				
+				
+				
 			}
-		
+		}
 	}
 
 </script>
-
 <style lang="postcss" scoped>
   @import url("../../../styles/mixins.pcss");
 
@@ -231,6 +208,16 @@ export default {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    margin-bottom: 20px;
+		font-size: 0;
+		background-color: transparent;
+		background: svg-load('user.svg', fill='#fff', width=50%, height=50%);
+		background-position: center center;
+		width: 150px;
+		height: 150px;
+		
+		background-color: #dee4ed;
+		background-size: contain;
   }
 
   .form__avatar-empty-icon {
@@ -288,19 +275,92 @@ export default {
     }
   }
 
-  .form__avatar-img {
-    height: 100%;
+  .input {
+    display: block;
+    position: relative;
+
+   
+
+    &.no-side-paddings {
+      .input__elem {
+        padding-right: 0;
+        padding-left: 0;
+      }
+    }
+
+    &_labeled {
+      .input__elem {
+        padding: 15px 0 18px;
+      }
+    }
+
+    &_iconed {
+      .input__title {
+        margin-left: 45px;
+        margin-bottom: 13px;
+      }
+
+      .input__elem {
+        padding-left: 20px;
+        font-size: 18px;
+        font-weight: 700;
+        padding-top: 17px;
+        padding-bottom: 17px;
+      }
+    }
+  }
+
+  .input__title {
+    color: rgba(65, 76, 99, 0.5);
+    font-weight: 600;
+    opacity: 0.5;
+  }
+
+  .input__elem {
     width: 100%;
-    object-fit: cover;
-    margin-bottom: 20px;
-		font-size: 0;
-		background-color: transparent;
-		background: svg-load('user.svg', fill='#fff', width=50%, height=50%);
-		background-position: center center;
-		width: 150px;
-		height: 150px;
-		
-		background-color: #dee4ed;
-		background-size: contain;
+    padding: 10px 8%;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    color: $admin-font;
+
+    &::placeholder {
+      color: rgba(55, 62, 66, 0.25);
+    }
+  }
+
+  .textarea__elem {
+    height: 115px;
+    padding: 20px;
+    border: 1px solid rgba($text-color, 0.2);
+    resize: none;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 100%;
+    line-height: 30px;
+  }
+  
+  .textarea {
+    position: relative;
+
+   
+  }
+
+  .input__icon {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    opacity: .5;
+    flex-shrink: 0;
+  }
+
+  .input__wrap {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid  #1f232d;
+    
+    &:focus-within {
+      outline: rgb(77, 144, 254) auto 0.0625em;
+    }
   }
 </style>
