@@ -117,6 +117,8 @@
     &--group {
       .add__form-field {
         flex-basis: 60%;
+       
+        
         @include tablets {
           flex-basis: 70%;
         }
@@ -139,6 +141,7 @@
           &:nth-child(2) {
             flex-basis: 20%;
             margin-right: 30px;
+            
             @include tablets {
               margin-right: 25px;
             }
@@ -295,7 +298,7 @@
 
   .add__form-input {
     width: 100%;
-    border: none;
+    
   
   }
   

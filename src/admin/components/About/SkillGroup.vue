@@ -111,6 +111,7 @@
     font-size: 18px;
     font-weight: 600;
     line-height: 1.2;
+    width: 90%;
 
     @include phones {
       font-size: 16px;

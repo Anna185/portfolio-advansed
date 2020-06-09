@@ -133,4 +133,9 @@ export default {
     height: 0.9375rem;
     background: svg-load('pencil.svg', fill=$links-color, width=100%, height=100%) center center no-repeat;
   }
+
+  .add__form-input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+  }
 </style>
