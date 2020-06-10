@@ -52,12 +52,12 @@
  </template>
  <script>
  import Icon from "../Icon"
- import CustomInput from "../CustomInput"
+ //import CustomInput from "../CustomInput"
  import {mapActions, mapGetters} from "vuex"
  export default {
  components: {
      Icon,
-     CustomInput,
+    // CustomInput,
      
    },
    data() {
