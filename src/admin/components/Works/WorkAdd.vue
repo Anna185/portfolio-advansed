@@ -21,16 +21,16 @@
                  @change="appendFileAndRenderPhoto"
                )#upload-pic.form__load-file    
              .form__col
-               .form__block
-                 CustomInput(title="Название" v-model="work.title")
-               .form__block
-                 CustomInput(title="Ссылка" v-model="work.link")
-               .form__block
-                 CustomInput(
-                   title="Описание"
+               .form__block Название
+                 input(type="text"  v-model="work.title").input__elem
+               .form__block Ссылка
+                 input(type="text"  v-model="work.link").input__elem
+               .form__block Описание
+                 input(
+                   type="text" 
                    field-type="textarea"
                    v-model="work.description"
-                 )
+                 ).textarea__elem
                .form__block Добавление тэга
                  input(type="text" v-model="work.techs" @input="addTag").input__elem
     
@@ -52,7 +52,7 @@
  </template>
  <script>
  import Icon from "../Icon"
- import CustomInput from "../CustomInput"
+ //import CustomInput from "../CustomInput"
  import {mapActions} from "vuex"
  export default {
    props: {
@@ -66,7 +66,7 @@
 
    components: {
      Icon,
-     CustomInput,
+    // CustomInput,
      
    },
 
@@ -388,5 +388,16 @@
     font-weight: 600;
     color: $admin-font;
     border-bottom: 1px solid #414c63;
+  }
+
+  .textarea__elem {
+    height: 115px;
+    padding: 20px;
+    border: 1px solid rgba($text-color, 0.2);
+    resize: none;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 100%;
+    line-height: 30px;
   }
 </style>

@@ -5,19 +5,19 @@
          h1.page-title.works__title Блок «Работы»
      .works__content
        .container.works__container
-         WorkAdd(
+          WorkAdd(
            v-if="addMode"
            @toggleAddMode="toggleAddMode"
           )
           WorkEdit(v-if="getEditModeState" :workToEdit="workToEdit")
-         ul.works__list
-           li.works__item(v-if="!addMode")
-             addItemComp(@toggleAddMode='toggleAddMode')
-           li.works__item(
-             v-for="work in works"
-             :key="work.id"
-           )
-            worksItemComp(:addMode="addMode" :work="work" @getCurrentWork="getCurrentWork")
+          ul.works__list
+            li.works__item(v-if="!addMode")
+              addItemComp(@toggleAddMode='toggleAddMode')
+            li.works__item(
+              v-for="work in works"
+              :key="work.id"
+            )
+              worksItemComp(:addMode="addMode" :work="work" @getCurrentWork="getCurrentWork")
  </template>
  <script>
  

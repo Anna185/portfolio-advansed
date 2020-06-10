@@ -20,7 +20,7 @@ const routes = [
     component: Reviews,
     meta:
       {
-        title: "Блок «Работы»"
+        title: "Блок «Отзывы»"
       }
   },
   {
@@ -28,7 +28,7 @@ const routes = [
     component: Works,
     meta:
       {
-        title: "Блок «Отзывы»"
+        title: "Блок «Работы»"
       }
   },
   {

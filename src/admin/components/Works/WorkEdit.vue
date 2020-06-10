@@ -21,16 +21,16 @@
                  @change="appendFileAndRenderPhoto"
                )#upload-pic.form__load-file    
              .form__col
-               .form__block
-                 CustomInput(title="Название" v-model="workCurrent.title")
-               .form__block
-                 CustomInput(title="Ссылка" v-model="workCurrent.link")
-               .form__block
-                 CustomInput(
-                   title="Описание"
+               .form__block Название
+                 input(type="text" v-model="workCurrent.title").input__elem
+               .form__block Ссылка
+                 input(type="text" v-model="workCurrent.link").input__elem
+               .form__block Описание
+                 input(
+                   type="text"
                    field-type="textarea"
                    v-model="workCurrent.description"
-                 )
+                 ).textarea__elem
                .form__block Добавление тэга
                  input(type="text" v-model="workCurrent.techs" @input="addTag").input__elem
     
@@ -360,5 +360,16 @@
     font-weight: 600;
     color: $admin-font;
     border-bottom: 1px solid #414c63;
+  }
+
+  .textarea__elem {
+    height: 115px;
+    padding: 20px;
+    border: 1px solid rgba($text-color, 0.2);
+    resize: none;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 100%;
+    line-height: 30px;
   }
 </style>

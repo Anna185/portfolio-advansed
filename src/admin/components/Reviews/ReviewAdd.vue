@@ -24,18 +24,18 @@
                 .form__load-text(ref='inputFileText') Добавить фото
             .form__review
               .form__row
-                .form__block
-                  CustomInput(type="text" title="Имя автора" v-model='rew.author')
-                .form__block  
-                  CustomInput(type="text" title="Титул автора" v-model='rew.occ')
+                .form__block Имя автора
+                  input(type="text" v-model='rew.author').input__elem
+                .form__block Титул автора
+                  input(type="text" v-model='rew.occ').input__elem
               .form__row    
-                .form__block
-                  CustomInput(
-                    title="Отзыв"
+                .form__block Отзыв
+                  input(
+                    
                     field-type="textarea"
                     type="text"
                     v-model='rew.text' 
-                  )
+                  ).textarea__elem
         .form__btns
           button(type="button" @click="$emit('toggleAddMode')").form__btn.form__btn--plain Отмена          
           button(type="submit" @click.prevent="saveRew").form__btn.form__btn--big Загрузить          
@@ -362,5 +362,26 @@ import { mapActions } from 'vuex';
     &:focus-within {
       outline: rgb(77, 144, 254) auto 0.0625em;
     }
+  }
+
+  .input__elem {
+    width: 100%;
+    padding: 10px 8%;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    color: $admin-font;
+    border-bottom: 1px solid #414c63;
+  }
+
+  .textarea__elem {
+    height: 115px;
+    padding: 20px;
+    border: 1px solid rgba($text-color, 0.2);
+    resize: none;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 100%;
+    line-height: 30px;
   }
 </style>
