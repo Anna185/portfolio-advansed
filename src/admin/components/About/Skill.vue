@@ -6,7 +6,7 @@
          .skill__percent-value {{skill.percent}}
        .skill__btns
          CardBtn(icon="edit" @click="switchEdit").skill__btn
-         CardBtn(icon="trash").skill__btn
+         button(type="button").skill__btn.btn-trash
      .skill__data.skill__data--underline(v-else)
        .skill__title
          .skill__field 
@@ -151,5 +151,17 @@
     }
   }
 
-  
+  .btn-trash {
+    color: rgba(#414c63, .7);
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    background: svg-load('trash.svg', fill=#bf2929, width=100%, height=100%) center center no-repeat;
+    margin-left: 1rem;
+  }
 </style>
