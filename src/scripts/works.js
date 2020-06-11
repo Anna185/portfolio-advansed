@@ -1,4 +1,10 @@
 import Vue from "vue";
+import axios from 'axios'
+
+const request = axios.create({
+  baseURL: "https://webdev-api.loftschool.com/",
+});
+
 
 
 const tags = {
@@ -98,18 +104,18 @@ new Vue({
 			currentslide: {}
 		}
 	},
-	created() {
-		fetch('https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/data/works.json')
-			.then(resp => resp.json())
-			.then(resp => {
+	//created() {
+	//	fetch('https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/data/works.json')
+		//	.then(resp => resp.json())
+		//	.then(resp => {
 
-				this.dataWorks = resp;
+		//		this.dataWorks = resp;
 
-				this.currentslide = this.dataWorks[this.currentItem]
+		//		this.currentslide = this.dataWorks[this.currentItem]
 
-			})
+		//	})
 
-	},
+//	},
 	computed: {
 		watchCurItem() {
 
@@ -141,9 +147,41 @@ new Vue({
 			} else if (direction == 'prev' && this.currentItem != 0) {
 				items.insertBefore(items.lastElementChild, items.firstElementChild);
 			}
-		}
+		},
+		makeInfiniteLoopForIndex(value) {
+      const worksAmountFromZero = this.works.length - 1;
+    
+      if (value > worksAmountFromZero) this.currentItem = worksAmountFromZero;
+      if (value < 0) this.currentItem = 0;
+    },
+    handleSlide(direction) {
+      switch (direction) {
+        case "next":
+          this.currentItem++;
+          break;
+        case "prev":
+          this.currentItem--;
+          break;
+      }
+    
+    },
+    
+    makeArrWithUploadedImages(array) {
+      return array.map((item) => {
+
+				const linkToPic = `https://webdev-api.loftschool.com/${item.photo}`;
+				item.photo = linkToPic;
+        return item;
+      });
+    },
+  },
+  async created() {
+    const { data } = await request.get("/works/333");
+    this.works = this.makeArrWithUploadedImages(data);
+  },
+});
 
 
 
-	}
-})
+
+

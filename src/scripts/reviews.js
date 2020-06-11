@@ -1,4 +1,9 @@
 import Vue from "vue";
+import axios from 'axios'
+
+const request = axios.create({
+  baseURL: "https://webdev-api.loftschool.com/",
+});
 
 const rewSlide = {
 	template: "#rew-slide",
@@ -44,15 +49,15 @@ new Vue({
 		}
 	},
 
-	created() {
-		fetch("https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/data/reviews.json")
-			.then(resp => resp.json())
-			.then(resp => {
+//	created() {
+	//	fetch("https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/data/reviews.json")
+		//	.then(resp => resp.json())
+		//	.then(resp => {
 
-				this.slidesInfo = resp;
+		//		this.slidesInfo = resp;
 
-			})
-	},
+		//	})
+//	},
 
 	computed: {
 
@@ -114,13 +119,20 @@ new Vue({
 				
 				
 			}
+		},
 
-
-
-
+			makeArrayWithLinkToImages(array) {
+				return array.map((item) => {
+					const linkToPic = `https://webdev-api.loftschool.com/${item.photo}`;
+					item.photo = linkToPic;
+	
+					return item;
+				});
+			},
+		},
+		async created() {
+			const {data} = await request.get("/reviews/333");
+			this.reviews = this.makeArrayWithLinkToImages(data);
 
 		}
-	}
-
-
 });
