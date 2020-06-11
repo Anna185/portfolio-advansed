@@ -12,6 +12,7 @@ section.values-section
       #skills-component
 script(type="text/x-template")#skills-list
       .skills__values-container
+        //-pre {{skills}}
         ul.skills__list
           li.skills__item(
             v-for="category in skills"
@@ -22,7 +23,8 @@ script(type="text/x-template")#skills-list
         
 script(type="text/x-template")#skills-row
       .skills-row
-        h3.skills-row__title {{category.title}}
+        h3.skills-row__title {{category.category}} 
+        //-category.title
         ul.skills-row__list
           li.skills-row__item(
             v-for="skill in category.skills"

@@ -33,12 +33,12 @@ export default {
     async addNewSkill() {
         const skillData = {
           ...this.skill,
-          category: this.category.id
+          category: this.value.id
         };
         try {
           await this.addSkill(skillData);
-          this.category.title = "";
-          this.category.percent = "";
+          this.value.title = "";
+          this.value.percent = "";
         } catch (error) {
           console.log(error);
         }

@@ -12,7 +12,7 @@ Vue.use(VueRouter)
 Vue.router = router
 
 new Vue({
-  el: "#app-root",
+ el: "#app-root",
   render: h => h(App),
   router,
   store,
@@ -21,3 +21,4 @@ new Vue({
   render: h => h(App)
 
 });
+

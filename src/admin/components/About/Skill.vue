@@ -6,7 +6,7 @@
          .skill__percent-value {{skill.percent}}
        .skill__btns
          CardBtn(icon="edit" @click="switchEdit").skill__btn
-         button(type="button").skill__btn.btn-trash
+         button(type="button" @click.prevent="removeThisSkill").skill__btn.btn-trash
      .skill__data.skill__data--underline(v-else)
        .skill__title
          .skill__field 
@@ -20,6 +20,7 @@
  </template>
  <script>
  import CardBtn from "../CardBtn"
+ import {mapActions} from 'vuex';
  export default {
    components: {
      CardBtn
@@ -38,9 +39,18 @@
    methods: {
      switchEdit () {
        this.editMode = !this.editMode
-     }
-   }
- }
+     },
+     ...mapActions('skills', ['removeSkill']),
+     async removeThisSkill() {
+       try {
+          await this.removeSkill(this.skill.id);
+         } catch (e) {
+        }
+         
+
+
+     },
+   }}
  </script>
 <style lang="postcss" scoped>
   @import "../../../styles/mixins.pcss";
