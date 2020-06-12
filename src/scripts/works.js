@@ -74,7 +74,8 @@ const sideRight = {
 		tags
 	},
 	props: {
-		currentInfo: Object
+		currentInfo: Object,
+		number: Number
 	},
 
 
@@ -121,6 +122,10 @@ new Vue({
 
 			return this.currentslide = this.dataWorks[this.currentItem];
 
+		},
+
+		watchNumber() {
+			return this.dataWorks.indexOf(this.currentslide) + 1;
 		}
 
 
@@ -178,7 +183,8 @@ new Vue({
   async created() {
 		const { data } = await request.get("/works/333");
 		console.log(data)
-    this.dataWorks = data;
+		this.dataWorks = data;
+		this.currentslide = this.dataWorks[this.currentItem];
   },
 });
 

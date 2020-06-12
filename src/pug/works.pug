@@ -13,7 +13,8 @@ script(type="text/x-template")#works__content
 			@slide="btnSlide"
 		)
     side-right(
-			:currentInfo="currentslide"
+			:currentInfo="currentslide",
+      :number="watchNumber"
 		)
 
 script(type="text/x-template")#works__left
@@ -35,14 +36,14 @@ script(type="text/x-template")#works__left
 
 script(type="text/x-template")#works__right
   .works__col-right
-    .works__right-number {{currentInfo.id}}
+    .works__right-number {{number}}
     .works__right-row
       tags(
 			  :tags="tagsArray"
 			)
       .works__right-content
         h3 {{currentInfo.title}}
-        p {{currentInfo.desc}}
+        p {{currentInfo.description}}
         a.works__right-link(:href="currentInfo.link") Посмотреть сайт
 
 script(type="text/x-template")#works__image
