@@ -33,7 +33,7 @@ const pagination = {
 	},
 	data() {
 		return {
-			dataUrl: 'https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/images/content/works/',
+			dataUrl: "https://webdev-api.loftschool.com/"
 
 		}
 	}
@@ -48,7 +48,7 @@ const bigImg = {
 	},
 	data() {
 		return {
-			dataUrl: 'https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/images/content/works/',
+			dataUrl: "https://webdev-api.loftschool.com/"
 		}
 	}
 }
@@ -81,7 +81,7 @@ const sideRight = {
 	computed: {
 
 		tagsArray() {
-			return this.currentInfo.skills.split(',');
+			return this.currentInfo.techs.split(',');
 		}
 
 
@@ -176,8 +176,9 @@ new Vue({
     },
   },
   async created() {
-    const { data } = await request.get("/works/333");
-    this.works = this.makeArrWithUploadedImages(data);
+		const { data } = await request.get("/works/333");
+		console.log(data)
+    this.dataWorks = data;
   },
 });
 

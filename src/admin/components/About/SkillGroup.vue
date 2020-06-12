@@ -17,7 +17,7 @@
      .skill-group__content
        ul.skill-group__list
          li(
-           v-for="skill in value.skills"
+           v-for="skill in skills"
            :key="skill.id"
          ).skill-group__item
            Skill(
@@ -47,7 +47,7 @@
 
    props: {
      value: Object,
-    //skills: Array
+    skills: Array
    },
 
    data () {

@@ -9,7 +9,7 @@ const rewSlide = {
 	template: "#rew-slide",
 	data() {
 		return {
-			dataUrl: "https://raw.githubusercontent.com/Anna185/portfolio-advansed/week1/src/images/content/"
+			dataUrl: "https://webdev-api.loftschool.com/"
 			
 		}
 	},
@@ -132,7 +132,7 @@ new Vue({
 		},
 		async created() {
 			const {data} = await request.get("/reviews/333");
-			this.reviews = this.makeArrayWithLinkToImages(data);
+			this.slidesInfo = data;
 
 		}
 });
