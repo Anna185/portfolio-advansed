@@ -41,7 +41,7 @@ function createOverlay(template) {
 
   const overlayElement = fragment.querySelector(".overlay");
   const contentElement = fragment.querySelector(".content");
-  const closeElement = fragment.querySelector(".close");
+  const closeElement = fragment.querySelector(".overlay-close");
 
   overlayElement.addEventListener("click", e => {
     if (e.target === overlayElement) {

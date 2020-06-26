@@ -16,6 +16,11 @@
   "tag": "#859ec2",
   "admin-font": "#414c63",
   "errors-color": "#cd1515",
-  "errors-color-message": "#cd1515"
+  "errors-color-message": "#cd1515",
+  "bg-overlay-color": "rgba(45, 60, 78, 0.9)",
+  "bg-overlay-message-green-color": "#4bb133",
+  "bg-overlay-message-orange-color": "#b18333",
+  "bg-overlay-message-red-color": "#b13333",
+  "main-color": "#5500f3"
 }
 
