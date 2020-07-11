@@ -46,7 +46,7 @@ mixin menu(className)
         li.nav__item
           a(href=`#${item[1]}`).nav__link #{item[0]}
 
-mixin socials(modifyClass)
+//-mixin socials(modifyClass)
   - var icons = ['inst', 'vk', 'github'];
     .social(class=modifyClass)
       ul.social__list
@@ -54,3 +54,4 @@ mixin socials(modifyClass)
           li.social__item
             a(href="#" target="_blank").social__link
               +icon(item, 'social__icon')
+

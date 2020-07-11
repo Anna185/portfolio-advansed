@@ -19,10 +19,10 @@ section.footer-section
                     .footer__socials
                       - var icons=["vk", "insta", "github",]
                         ul.socials.socials--footer
-                          each item in icons
+                          each value, key in {vk:"https://vk.com/venediktova_am", github:"https://github.com/Anna185/", insta:"https://www.instagram.com/anna.ven/"}
                             li.socials__item.socials__item--circle
-                              a(href="").social__link.social__link-icon--small
-                                +icon(item, "socials__icon socials__icon--footer")
+                              a(class="social__link-icon--small" href=`${value}`)
+                                +icon(`${key}`, "socials__icon--footer")
                   .footer__desc-right
                     blockquote.footer__qoute Всегда пишите код так, будто сопровождать его будет склонный к насилию психопат, который знает, где вы живете
                     cite.footer__qoute-name Martin Golding
